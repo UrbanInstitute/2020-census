@@ -1,0 +1,365 @@
+@media (max-width: 1170px){
+  .headerimage{
+    height: 440px !important;
+  }
+  .container{
+    margin-left: auto;
+    width: 100%;
+  }
+  #isMobile{
+    display: block;
+  }
+  #topText, #bottomContent{
+    font-size: 18px;
+  }
+}
+@media (max-width: 930px){
+  .headerimage {
+    height: 350px !important;
+  }
+  #topTitle {
+    font-size: 25px;
+  }
+}
+@media (max-width: 768px){
+  .step {
+    margin-bottom: 1200px;
+  }
+}
+@media (max-width: 350px){
+  #sections{
+    /*width: 300px;*/
+    left: -20px;
+    /*pointer-events: none;*/
+  }
+}
+
+@media (max-width: 500px){
+  .headerimage {
+    height: 180px !important;
+    top: 20px;
+  }
+  #topText, #bottomContent{
+    margin-top: -90px;
+    padding: 20px;
+  }
+  #sections{
+    width: 300px;
+    /*left: -20px;*/
+    pointer-events: none;
+  }
+}
+@media (max-width: 2000px) {
+  .headerimage{ height:600px;}
+}
+
+@media (max-width: 1400px) {
+  .headerimage{ height:500px;}
+}
+
+/*browser windows smaller than 850px*/
+@media (max-width: 600px) {
+   .headerimage{ height:300px;}
+   .div-title-block {
+    font-size: 1.6em !important;
+   }
+}
+@media  (max-width: 480px) {
+   .container {margin-bottom: 40px; padding:0px 4px;}
+   .headerimage{width: 100%; height: 300px;}
+   .headerwrapper{padding-top:80px;}
+   h1 { font-size:24px;}
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#breakpoint1200, #breakpoint1000, #breakpoint900, #isMobile, #isPhone, #isSmallPhone, #isVerySmallPhone{
+	position: fixed;
+	width: 0px;
+	height: 0px;
+	top: 0px;
+	left: 0px;
+	pointer-events: none;
+	display: none;
+}
+
+@media(max-width: 1200px){
+/* home */
+	body.noPrint #breakpoint1200{
+		display: block;
+	}
+	body.noPrint #mainContent,#smallFooter div, #controlsContainer{
+		width: 900px;
+	}
+	body.noPrint #controlsContainer{
+		width: 900px
+	}
+	body.noPrint .inputContainer{
+		width: 220px;
+	}
+	body.noPrint .avgContainer, .costSubcontainer {
+		width: 294px;
+	}
+	body.noPrint .avgContainer {
+	    margin-left: 20px;
+	    width: 275px;
+	}
+	body.noPrint .chartContainer{
+		width: 590px;
+	}
+	body.noPrint .inputContainer{
+		margin-top: 2px;
+	}
+	body.noPrint .scenarioContainer.hidden{
+		top: 147px;
+	}
+	body.noPrint .chartHeader{
+		font-size: 22px;
+	}
+	input[type=range] {
+	    width: 220px;
+	}
+
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	  input[type=range] {
+	    width: 220px;
+	  }
+	}
+	body.noPrint .sliderMax.a{
+		left: 191px;
+	}
+	body.noPrint .sliderMax.b, .sliderMax.c{
+		left: 206px
+	}
+
+
+}
+/**/
+@media(max-width: 1000px){
+/* home */
+	body.noPrint #breakpoint1000{
+		display: block;
+	}
+	body.noPrint #homeCopy{
+		width: 100%;
+	}
+	body.noPrint #mainContent,#approachesContainer,#smallFooter div{
+		width: calc(100% - 100px);
+	}
+	body.noPrint #controlsContainer, .chartContainer{
+		width: 100%;
+	}
+	body.noPrint .barContainer {
+	    width: calc(50% - 50px);
+	    float: none;
+	    margin-right: 45px;
+    	/*margin-right: 40px;*/
+    }
+	body.noPrint #scenarioTabs{
+		/*display: none;*/
+	}
+	body.noPrint .scenarioContainer.hidden {
+	    top: 109px;
+	    width: 100%;
+	}
+	body.noPrint .inputContainer{
+		width: 100%;
+		padding-right: 0px;
+	}
+		body.noPrint .chartContainer{
+		width: 100%;
+	}
+	body.noPrint .avgContainer{
+		width: 273px;
+    	margin-left: 55px;
+	}
+
+	body.noPrint .introText{
+		font-size: 16px;
+	}
+	body.noPrint .p1{
+		font-size: 14px;
+		line-height: 21px;
+		width: 100%;
+	}
+	body.noPrint .p1.top{
+		margin-bottom: 10px;
+	}
+	body.noPrint .h1.colorText{
+		font-size: 16px;
+		margin-bottom: 10px;
+	}
+	body.noPrint .largeText{
+		font-size: 26px;
+    	margin-bottom: 3px;
+    }
+	body.noPrint .oneYear .chartHeader, .radioRow .chartHeader{
+		font-weight: normal !important;
+    	font-size: 18px !important;
+    }
+    body.noPrint .radioRow span.radio::before {
+    	top: -2px;
+	}
+	body.noPrint .radioRow span.radio::after {
+    	top: -2px;
+	}
+	body.noPrint .tt{
+		top: 5px;
+	}
+	body.noPrint .baselineText{
+		font-size: 14px;
+    	margin-top: 1px;
+    }
+	body.noPrint .costSubcontainer .chartLabel {
+	    font-size: 16px;
+	    font-weight: normal;
+	}
+	body.noPrint .medText{
+		font-size: 20px;
+	}
+
+
+	input[type=range] {
+	    width: 500px;
+	}
+
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	  input[type=range] {
+	    width: 500px;
+	  }
+	}
+	body.noPrint .sliderContainer{
+		width: 500px;
+	}
+	body.noPrint .sliderMax.a{
+    	right: -24px;
+    	left: auto;
+	}
+	body.noPrint .sliderMax.b, .sliderMax.c{
+		left: auto;
+		right: -20px;
+	}
+	body.noPrint .sliderMin.b{
+		left: -3px;
+	}
+	body.noPrint .sliderMin.c{
+		left: -12px;
+	}
+	body.noPrint .chartContainer{
+		margin-top: 40px;
+	}
+}
+@media(max-width: 810px){
+	body.noPrint #footerContent{
+		width: 100%;
+	}
+}
+@media(max-width: 769px){
+/* home */
+
+	.tooltip.left{
+		left: -131px;
+	}
+	.tooltip.left::after{
+		margin-left: 45px;
+	}
+
+	.tooltip.right{
+		left: -8px;
+	}
+	.tooltip.right::after{
+		margin-left: -75px;
+	}
+
+
+
+	body.noPrint #isMobile{
+		display: block;
+	}
+	body.noPrint .suppressedContainer {
+    	left: 120px;
+    }
+
+	body.noPrint #homeCopy{
+		margin-top: 670px
+	}
+	body.noPrint .tickLabel.chartLabel {
+	    font-size: 14px;
+	    width: 120px;
+	}
+	body.noPrint #titleContainer{
+		border-bottom: 1px solid #D2D2D2;
+		margin-bottom: 40px;
+		padding-bottom: 20px;
+	}
+	body.noPrint #scenarioTabs{
+		display: none;
+	}
+	body.noPrint #mobileScenario{
+		display: block;
+	}
+	body.noPrint #mainContent, #approachesContainer, #smallFooter div {
+	    width: calc(100% - 40px);
+	}
+	body.noPrint #barCharts{
+		width: 100%;
+	}
+	body.noPrint .avgContainer{
+		margin-top: 20px;
+    	margin-bottom: 10px;
+    	margin-left: 22px;
+    	display: block;
+    	clear: both;
+
+	}
+	body.noPrint #aboutNavbar{
+		display: block;
+	}
+	body.noPrint #title{
+		font-size: 35px;
+	}
+	input[type=range] {
+	    width: 100%;
+	}
+
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	  input[type=range] {
+	    width: 100%;
+	  }
+	}
+	body.noPrint .sliderContainer {
+	    width: 100%;
+	}
+	body.noPrint .sliderMin {
+	    left: 0px !important;
+	}
+	body.noPrint .sliderMax {
+	    right: 0px !important;
+	    left: auto !important;
+	}
+	body.noPrint .barContainer {
+	    width: 100%;
+	    /* margin-right: 40px; */
+	    margin: 0;
+	}
+	body.noPrint #loadingContainer{
+		top: -50px;
+	}
+	body.noPrint #loadingText{
+		font-size: 16px;
+	}
+}

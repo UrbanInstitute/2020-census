@@ -1,0 +1,365 @@
+body{
+	font-family: Lato;
+	color: #353535;
+h}
+body.print, body.noPrint{
+    display: block;
+}
+#mainContent{
+	width: 1120px;
+	margin: 0 auto;	
+}
+
+a{
+	color: #1696d2;
+	text-decoration: none;
+}
+
+/*********************************************************************************/
+/************************       ABOUT NAV BAR     ********************************/
+/*********************************************************************************/
+
+
+#aboutNavbar{
+    display: none;
+    position: absolute;
+    top: 50px;
+    height: 50px;
+    background: #EFEFEF;
+    color: #696969;
+    text-transform: uppercase;
+    font-size: 18px;
+    width: 100%;
+    cursor: pointer;
+}
+#aboutNavTitle{
+    width: 100%;
+    text-align: center;
+    padding-top: 13px;
+}
+
+
+
+/*********************************************************************************/
+/***************************       HOME TITLE     ********************************/
+/*********************************************************************************/
+#titleContainer{
+	width: 100%;
+}
+#title, #subtitle{
+	display: block;
+	font-size: 40px;
+	width: 100%;
+	text-align: center;
+}
+#title{
+	margin-top: -30px;
+	font-weight: bold;
+}
+#subtitle{
+	font-weight: 300;
+	margin-bottom: 50px;
+}
+.introText{
+	font-size: 24px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.5;
+    text-align: left;
+}
+#datePublished{
+	font-style: italic;
+    font-weight: lighter;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+/*********************************************************************************/
+/***************************       HEADER IMAGE     ******************************/
+/*********************************************************************************/
+
+.headerimage{
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 720px;
+  z-index:-1;
+}
+
+.headerwrapper{
+  padding-top:120px;
+}
+
+#heroimage{
+  background-image: url(../images/header.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  background-position: bottom;
+}
+
+/*********************************************************************************/
+/*****************************       BODY COPY      ******************************/
+/*********************************************************************************/
+/*#homeCopy{
+    display: block;
+    margin-top: 900px;
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.copyHeader{
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 35px;
+}
+.copyP, .copyUl{
+    font-size: 16px;
+    line-height: 26px;
+    margin-bottom: 22px;
+}
+.copyUl{
+	padding-left: 21px;
+	width: calc(100% - 21px);
+}
+.copyUl li{
+	text-align: left;
+    list-style: initial;
+    padding-left: 20px;
+    padding-bottom: 30px;
+}
+
+.colorText.s1Type{
+	color: #1696d2;
+}
+.colorText.s2Type{
+	color: #408941;
+}
+
+#controlsContainer{
+	display: inline-block;
+	position: relative;
+	width: 1120px;
+}
+*/
+
+/*********************************************************************************/
+/**************************      DEMOGRAPHIC MENU      ***************************/
+/*********************************************************************************/
+.head, .body{
+    stroke-width: 3px;
+    fill: #fff;
+    cursor: pointer;
+}
+.demographicMenu{
+    stroke: #c4c4c4;  
+}
+.demographicMenu.active.total{
+    stroke: #FDD870;
+}
+.demographicMenu.active.race{
+    stroke: #EC8B88;
+}
+.demographicMenu.active.latinx{
+    stroke: #1696d2;
+}
+.demographicMenu.active.age{
+    stroke: #98CF90;
+}
+
+.demographicMenuContainer{
+    position: relative;
+    width: 770px;
+}
+.demographicSubmenuContainer{
+    position: absolute;
+    top: 13px;
+    opacity: 0;
+    z-index: 1;
+}
+.demographicSubmenuContainer.active{
+    opacity: 1;
+    z-index: 1;
+}
+.demographicSubmenuContainer.age{
+    right: 0px;
+}
+
+.state.menuItem{
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #C4C4C4;
+    cursor: pointer;
+}
+.top.state.menuItem{
+    display: inline-block;
+    margin-right: 68.5px;
+    text-align: center;
+}
+.sub.state.race.menuItem{
+    max-width: 195px;
+    margin-right: 21px;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 20px;
+    margin-bottom: -40px;
+}
+.sub.state.age.menuItem{
+    max-width: 195px;
+    margin-right: 21px;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 20px;
+    margin-bottom: -40px;
+}
+
+.active.menuItem, .bolded.menuItem{
+    font-weight: bold;
+}
+.active.menuItem.total{
+    color: #FDD870;
+}
+.active.menuItem.race, .bolded.menuItem.race{
+    color: #EC8B88;
+}
+.active.menuItem.latinx{
+    color: #1696d2;
+}
+.active.menuItem.age, .bolded.menuItem.age{
+    color: #98CF90;
+}
+
+
+
+/*********************************************************************************/
+/*****************************      TABLE STYLES      ****************************/
+/*********************************************************************************/
+.tableHeader{
+    font-weight: bold;
+    display: inline-block;
+    height: 40px;
+    margin-top: 97px;
+    cursor: pointer;
+}
+.tableHeader.active{
+    color: red;
+}
+.rowDivider{
+    stroke: #D2D2D2;
+    stroke-width: 2px;
+}
+.rowBg{
+    stroke: none;
+    fill: rgba(255,255,255,.7);
+}
+.standard.tableText{
+    font-size: 16px;
+    fill: #000;
+}
+.axis{
+    stroke: #C4C4C4;
+    fill: none;
+}
+.x.axis{
+    stroke-width: 1px;
+}
+.y.axis{
+    stroke-width: 2px;
+}
+.dot{
+    fill: #fff;
+    stroke-width: 1.5px;
+}
+.low.dot{
+    stroke: #1696d2;
+}
+.medium.dot{
+    stroke: #78C26D;
+}
+.high.dot{
+    stroke: #DB2B27;
+}
+
+
+/*********************************************************************************/
+/*****************************      HOME FOOTER      *****************************/
+/*********************************************************************************/
+
+#footerContainer{
+	margin-top: 45px;
+	border-top: 2px solid #D2D2D2;
+}
+#footerContent{
+	width: 700px;
+	margin: 0 auto;
+}
+.footerHeader{
+	margin-top: 50px;
+	margin-bottom: 8px;
+	font-size: 34px;
+	font-weight: bold;
+	text-transform: uppercase;
+	display: inline-block;
+}
+#topFooterHeader{
+	padding-top: 44px;
+}
+.footerAbout, .footerCredits, .footerSpecialCredit{
+    font-size: 16px;
+    line-height: 26px;
+}
+.footerCredits, .footerSpecialCredit{
+	font-size: 14px;
+	font-style: italic;
+	line-height: 22px;
+}
+#bottomFooterCredits{
+	margin-bottom: 45px;
+}
+.creditsHeader{
+	font-size: 16px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.creditsNames{
+	margin-bottom: 30px;
+	margin-top: 5px;
+	font-size: 16px;
+}
+#copyright{
+	margin-bottom: 100px;
+	display: inline-block;
+}
+#footerContent .button{
+    text-transform: uppercase;
+    width: 198px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+    margin-top: 44px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+#footerContent .button.bottom{
+    margin-top: 10px;
+}
+#footerContent .button{
+    border: 2px solid #353535;
+    color: #353535;
+    display: inline-block;
+    margin-right: 20px;
+    font-weight: normal;
+}
+#footerContent .button:hover{
+    background: #353535;
+    color: #fff;
+}
+
+
+
+

@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <title>Census 2020</title>
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@urbaninstitute">
+        <meta name="twitter:creator" content="@urbaninstitute">
+        <meta name="twitter:title" content="Census 2020 feature">
+        <meta name="twitter:description" content="Census 2020 feature.">
+        <meta name="twitter:image" content="https://apps.urban.org/features/pell-simulator/img/social.jpg">
+        <meta property="og:title" content="Census 2020 feature" />
+        <meta property="og:description" content="Simulate the effects of modifications to the Pell program to see how program costs and grant amounts would change and which students would be affected." />
+        <meta property="og:image" content="https://cdn3-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-5.jpg" />
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:url" content="https://urbn.is/pell">
+
+
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/responsive.css">
+        <link rel="stylesheet" type="text/css" href="css/urban-header.css">
+        <link rel="stylesheet" type="text/css" href="css/vendor/jquery-ui.css">
+        
+        <script type="application/ld+json">
+          {
+            "@context": "http://schema.org",
+            "@type": "NewsArticle",
+            "headline": "Pell Grant Reform Simulator",
+            "url": "https://apps.urban.org/features/pell-simulator/",
+            "thumbnailUrl": "https://apps.urban.org/features/pell-simulator/img/social.jpg",
+            "dateCreated": "2019-02-13T05:00:00.000Z",
+            "articleSection": "Interactive Feature",
+            "creator": ["Matthew Chingos","Victoria Rosenboom","Allison Feldman","Benjamin Chartoff","David Hinson","Serena Lei"],
+            "keywords": ["Education and Training"]
+          }
+
+        </script>
+</head>
+<body>
+<!-- Google Tag Manager -->
+<!-- <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MKBD2W"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MKBD2W');</script> -->
+<!-- End Google Tag Manager -->
+<div id = "breakpoint1200"></div>
+<div id = "breakpoint1000"></div>
+<div id = "breakpoint900"></div>
+<div id = "isMobile"></div>
+<div id = "isPhone"></div>
+<div id = "isSmallPhone"></div>
+<div id = "isVerySmallPhone"></div>
+
+
+  <!-- START HEADER -->
+    <div id="header-pinned" class="no-touch">
+       <a target="_blank" href="http://www.urban.org" title="Home" rel="home" class="site-logo"></a>
+    <div class="title"><span class="feature-link"><a href="http://www.urban.org/features" class="title-linkback" alt="Urban Institute logo">Features</a></div>
+    <div class="share-icons">
+        <div class="shareThisP">
+            <span onclick="toggle_visibility('shareBox');">
+                    <div class="shareThisB"></div>
+                </span>
+            <div class="shareThisW" id="shareBox">
+
+                <div class="addthis_toolbox addthis_default_style  "addthis:title="" addthis:url="">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//urbn.is/pell" target="_blank" class="addthis_button_facebook at300b" title="Facebook" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-facebook" style="background-color: rgb(48, 88, 145);"><span class="at_a11y">Share on facebook</span></span></a>
+
+                    <a href="https://twitter.com/intent/tweet?text=.%40urbaninstitute%20tool" target="_blank" class="addthis_button_twitter at300b" title="Tweet" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-twitter" style="background-color: rgb(44, 168, 210);"><span class="at_a11y">Share on twitter</span></span></a>
+
+                    <a href="mailto:%20?Subject=New tool from the Urban Institute" target="_blank" title="Email" onclick="toggle_visibility('shareBox');"><span class="at4-icon aticon-email addthis_button_email" ><span class="at_a11y">Share on email</span></span></a>
+                    <div class="atclear"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="headerimage" id="heroimage">
+      <div class="wrapper headerwrapper">
+      </div>
+    </div>
+  <!-- END HEADER -->
+
+
+  <div id = "aboutNavbar">
+    <div id = "aboutNavTitle">About this project</div>
+  </div>
+
+
+  <!-- MAIN CONTENT -->
+  <div id = "mainContent">
+    <!-- TITLE BLOCK -->
+    <div id = "titleContainer" class = "s1Type">
+      <div id = "title">Who&rsquo;s at risk of being miscounted in the 2020 Census?</div>
+      <div id = "datePublished">Month DD, 2019</div>
+
+      <p class = "introText">The decennial census, which aims to count every US resident every 10 years, is critical to a democratic society. It affects federal funding allocations, congressional redistricting, state and local budgets, and data-driven business and research decisions. </p>
+      <p class = "introText">But the 2020 Census faces unprecedented threats to its accuracy. Demographic and structural changes over the last decade will make the population harder to count in 2020. And additional factors of under funding, operational changes that remain undertested, and the last-minute introduction of a citizenship question to the 2020 Census could result inan even greater miscount.</p>
+      <p class = "introText">To understand how these factors could affect the 2020 Census counts among states and demographic groups, we created projections for three scenarios&mdash;designating the miscount risk as low, medium, or high, depending on the factors at play.</p>
+      <p class = "introText">We find the national undercount could reach 1.31 percent in the high-risk scenario. But we see a more complicated story at the state and demographic level, as some states (such as California and Texas) and groups (such as people who are black or Latinx, and children younger than 5) face a much greater undercount risk in the 2020 Census. These discrepancies imperil the accuracy and fairness of the census, and they risk diminishing underrepresented communities&rsquo; rightful political voice and share of funding.</p>
+      <p class = "introText">Below, explore the 2020 Census’s potential miscount by state and by demographic group.</p>
+    </div>
+    <!-- END TITLE BLOCK -->
+
+
+    <div id = "chart"></div>
+
+  </div>
+
+
+
+  <!-- START FOOTER -->
+  <div id = "footerContainer">
+    <div id = "footerContent">
+
+      <div class = "footerHeader" id = "topFooterHeader">About the data</div>
+      <p class = "footerAbout">We use XX data to inform our estimates. See more about our methodology in the technical appendix.
+      </p>
+      <p class = "footerAbout">In the low-risk scenario, we assume there are no other changes to the census process beyond the effect of demographic change in the last decade. We assume US age patterns, race and ethnic distribution, and the proportion of renters will all have changed by 2020, but the accuracy for each group is exactly what it was in the 2010 Census. The 2010 Census was considered one of the most accurate in history.
+      </p>
+      <p class = "footerAbout">In the medium-risk scenario, we assume that, in addition to demographic changes, the Census Bureau is accurate in its prediction that the internet self-response mode will produce most of the initial self-responses from households. We also assume that non-response follow up cases are resolved following the 2020 Operational Plan, and that all operations will happen as the Census Bureau expects.
+      </p>
+      <p class = "footerAbout">In the high-risk scenario, we use the baseline assumptions about 2020 Census operations from the medium risk scenario (demographic change and operational changes), with one important exception. We assume that self-response rates will be lower than the 60.5 percent rate the Census Bureau predicts. Instead, we use the Census Bureau’s lowest stated value for its projected range of self-response: 55.5 percent. This means that the remaining 44.5 percent of addresses would be handled through non-response follow up. We also assume that response rates will be further suppressed by the adverse policy climate regarding immigration and the potential addition of the citizenship question.
+      </p>
+
+
+<a href = "" class = "footerButtonLink"><div class = "button">Download data</div></a>
+<a href = "" target = "_blank" class = "footerButtonLink"><div class = "button bottom">Technical appendix</div></a>
+
+      <div class = "footerHeader">PROJECT CREDITS</div>
+      <p class = "footerCredits">This feature was funded by the Gates Foundation. We are grateful to them and to all our funders, who make it possible for Urban to advance its mission. The views expressed are those of the authors and should not be attributed to the Urban Institute, its trustees, or its funders. Funders do not determine research findings or the insights and recommendations of our experts. More information on our funding principles is available <a href = "https://www.urban.org/support/funding-principles" target = "_blank">here</a>. Read our terms of service <a href = "https://www.urban.org/terms-service" target = "_blank">here</a>.</p>
+
+
+      <div class = "creditsHeader">RESEARCH</div>
+      <div class = "creditsNames">Diana Elliott, Robert Santos, Steven Martin, and Charmaine Runes</div>
+
+      <div class = "creditsHeader">DESIGN</div>
+      <div class = "creditsNames">Allison Feldman</div>
+
+      <div class = "creditsHeader">DEVELOPMENT</div>
+      <div class = "creditsNames">Ben Chartoff and Dan Wood</div>
+
+      <div class = "creditsHeader">EDITING</div>
+      <div class = "creditsNames">Liza Hagerman</div>
+
+      <div class = "creditsHeader">WRITING</div>
+      <div class = "creditsNames">Emily Peiffer</div>
+
+      <div id = "copyright"><a href = "" target = "_blank">View this project on GitHub</a>.</div>
+
+    </div>
+  </div>
+  <!-- END FOOTER -->
+
+
+
+  </div>
+  <!-- END MAIN CONTENT -->
+
+
+
+
+  <script src="js/vendor/d3.v4.min.js"></script>
+  <script src="js/vendor/jquery.1.8.min.js"></script>
+  <script src="js/vendor/jquery-ui.min.js"></script>
+  <script src = "js/globals.js"></script>
+  <script src = "js/main.js"></script>
+  <script src = "js/header.js"></script>
+  <script>
+  (function (i, s, o, g, r, a, m) {
+  i['GoogleAnalyticsObject'] = r;
+  i[r] = i[r] || function () { 
+  (i[r].q = i[r].q || []).push(arguments)
+  }, i[r].l = 1 * new Date();
+  a = s.createElement(o),  m = s.getElementsByTagName(o)[0];
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m) 
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'); 
+  ga('create', 'UA-57529944-1', 'auto'); 
+  ga('send', 'pageview');
+  </script>
+
+  <!-- START Parse.ly Include: Standard -->
+  <div id="parsely-root" style="display: none">
+  <span id="parsely-cfg" data-parsely-site="urban.org"></span>
+  </div>
+  <script>
+  (function(s, p, d) {
+  var h=d.location.protocol, i=p+"-"+s,
+  e=d.getElementById(i), r=d.getElementById(p+"-root"),
+  u=h==="https:"?"d1z2jf7jlzjs58.cloudfront.net"
+  :"static."+p+".com";
+  if (e) return;
+  e = d.createElement(s); e.id = i; e.async = true;
+  e.src = h+"//"+u+"/p.js"; r.appendChild(e);
+  })("script", "parsely", document);
+  </script>
+  <!-- END Parse.ly Include: Standard -->
+</body>
+</html>
