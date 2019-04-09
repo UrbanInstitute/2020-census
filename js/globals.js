@@ -6,6 +6,9 @@ var GET_TABLE_WIDTH = function(){
 var POPULATION = function(number){
 	return d3.format(",.0f")(number)
 }
+var PERCENT = function(number){
+	return d3.format(".0%")(number)
+}
 
 var PERCENT_MIN = -.08;
 var PERCENT_MAX = .03;
@@ -14,6 +17,9 @@ var DOT_RADIUS = 6.5;
 
 var BODY_RADIUS = 60;
 var HEAD_RADIUS = 40;
+
+var CHART_WIDTH = 53;
+var CHART_MARGIN = 5;
 
 var DURATION = 500;
 

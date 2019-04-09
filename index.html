@@ -113,7 +113,74 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- END TITLE BLOCK -->
 
 
-    <div id = "chart"></div>
+ <!-- COLUMN CONTAINER -->
+ 
+ <!-- LEFT COLUMN -->
+<div id = "leftColumn">
+  <div id = "filterContainer">
+    <div class = "colHeader filter">Filter by</div>
+
+    <div class = "customRadioRow state">
+      <div class = "customRadio state"><span></span></div>
+      <div class = "customRadioLabel state">State</div>
+    </div>
+
+    <div class = "customRadioRow demographics">
+      <div class = "customRadio demographics active"><span></span></div>
+      <div class = "customRadioLabel demographics">Demographics</div>
+    </div>
+
+  </div>
+
+
+  <div id = "legendContainer">
+    <div class = "colHeader legend">Miscount risk scenarios</div>
+
+    <div class = "legendItemContainer low">
+      <div class = "legendItemTopRow low">
+        <div class = "legendMarker low"><span></span></div>
+        <div class = "legendLabel low">Low</div>
+      </div>
+      <div class = "legendItemBottomRow low">
+        <div class = "legendItemDescription low">What would happen if the 2020 Census performed as well as the 2010 Census?</div>
+        <div class = "infoIcon low"></div>
+      </div>
+    </div>
+
+    <div class = "legendItemContainer medium">
+      <div class = "legendItemTopRow medium">
+        <div class = "legendMarker medium"><span></span></div>
+        <div class = "legendLabel medium">Medium</div>
+      </div>
+      <div class = "legendItemBottomRow medium">
+        <div class = "legendItemDescription medium">What would happen if operational changes to the census process perform as the Census Bureau expects?</div>
+        <div class = "infoIcon medium"></div>
+      </div>
+    </div>
+
+    <div class = "legendItemContainer high">
+      <div class = "legendItemTopRow high">
+        <div class = "legendMarker high"><span></span></div>
+        <div class = "legendLabel high">High</div>
+      </div>
+      <div class = "legendItemBottomRow high">
+        <div class = "legendItemDescription high">What would happen if 2020 Census operational changes perform below expectations and discourse surrounding immigration and the citizenship question suppresses participation?</div>
+        <div class = "infoIcon high"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+ <!-- END LEFT COLUMN -->
+
+<!-- RIGHT COLUMN -->
+    <div id = "stateContainer" class = "rightColumnContainer"></div>
+    <div id = "demographicsContainer" class = "rightColumnContainer active"></div>
+
+<!-- END RIGHT COLUMN -->
+
+ <!-- END COLUMN CONTAINER -->
+
 
   </div>
 
@@ -174,6 +241,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <script src="js/vendor/jquery.1.8.min.js"></script>
   <script src="js/vendor/jquery-ui.min.js"></script>
   <script src = "js/globals.js"></script>
+  <script src = "js/stateData.js"></script>
   <script src = "js/main.js"></script>
   <script src = "js/header.js"></script>
   <script>

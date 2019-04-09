@@ -45,6 +45,9 @@ a{
 /*********************************************************************************/
 #titleContainer{
 	width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #D2D2D2;
+    margin-bottom: 30px;
 }
 #title, #subtitle{
 	display: block;
@@ -100,6 +103,143 @@ a{
   background-position: bottom;
 }
 
+
+/*********************************************************************************/
+/*****************************      LEFT COLUMN      *****************************/
+/*********************************************************************************/
+#leftColumn{
+    display: inline-block;
+    width: 400px;
+    vertical-align: top;
+}
+.colHeader{
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.customRadioRow{
+    margin-bottom: 7px;
+    cursor: pointer;
+}
+.customRadio{
+    display: inline-block;
+    border: 2px solid #4F4F4F;
+    width: 17px;
+    height: 17px;
+    border-radius: 100px;
+    background: white;
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    margin-right: 6px;
+}
+.customRadio span{
+    width: 10.5px;
+    height: 10.5px;
+    border-radius: 100px;
+    background: transparent;
+    display: block;
+    margin-left: 3px;
+    margin-top: 3px;
+}
+.customRadio.active span{
+    background: #4F4F4F 
+}
+.customRadioLabel{
+    font-weight: bold;
+    font-size: 18px;
+    display: inline-block;
+}
+.colHeader.legend{
+    margin-top: 55px;
+}
+.legendItemContainer{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.legendMarker{
+    width: 35px;
+    border-bottom: 1px solid #C4C4C4;
+    position: relative;
+    display: inline-block;
+}
+.legendMarker span{
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 2px solid;
+    border-radius: 100px;
+    display: block;
+    position: absolute;
+    top: -8px;
+    left: 9px;
+}
+.legendMarker.low span{
+    border-color: #1696d2;
+}
+.legendMarker.medium span{
+    border-color: #78C26D;
+}
+.legendMarker.high span{
+    border-color: #DB2B27;
+}
+
+
+.legendLabel{
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-left: 5px;
+    top: 5px;
+    position: relative;
+}
+
+
+/*********************************************************************************/
+/****************************      RIGHT COLUMN      *****************************/
+/*********************************************************************************/
+.rightColumnContainer{
+    display: none;
+    width: 700px;
+}
+.rightColumnContainer.active{
+    display: inline-block;
+}
+
+/*********************************************************************************/
+/********************************      MAP      **********************************/
+/*********************************************************************************/
+.state{
+    cursor: pointer;
+}
+.smallAxis{
+    stroke: #353535;
+}
+.barBg{
+    fill: #E6E6E6;
+    stroke: none;
+}
+.barBg.active{
+    stroke: #000;
+    stroke-width: 2px;
+}
+.low.bar{
+    fill: #1696d2;
+}
+.medium.bar{
+    fill: #78C26D;
+}
+.high.bar{
+    fill: #DB2B27;
+}
+.mapLabel{
+    font-size: 12px;
+    font-weight: bold;
+    fill: #696969;
+}
 /*********************************************************************************/
 /*****************************       BODY COPY      ******************************/
 /*********************************************************************************/
@@ -116,7 +256,7 @@ a{
 	margin-bottom: 35px;
 }
 .copyP, .copyUl{
-    font-size: 16px;
+    font-size: 16px;6
     line-height: 26px;
     margin-bottom: 22px;
 }
@@ -256,6 +396,9 @@ a{
     stroke: none;
     fill: rgba(255,255,255,.7);
 }
+.row.active .rowBg{
+    fill: #F8F8F8;
+}
 .standard.tableText{
     font-size: 16px;
     fill: #000;
@@ -283,6 +426,38 @@ a{
 .high.dot{
     stroke: #DB2B27;
 }
+.axisLabel{
+    font-size: 12px;
+    color: #696969;
+}
+.dotLabel{
+    font-size: 12px;
+    font-weight: bold;
+}
+.low.dotLabel{
+    fill: #1696d2;
+}
+.medium.dotLabel{
+    fill: #78C26D;
+}
+.high.dotLabel{
+    fill: #DB2B27;
+}
+
+/*********************************************************************************/
+/***********************     DEMOGRAPHIC TABLE STYLES      ***********************/
+/*********************************************************************************/
+.demographic.row{
+    cursor: pointer;
+}
+.demographic.spacer.row{
+    cursor: auto;
+}
+
+.demographic.header.tableText{
+    font-weight: bold;
+}
+
 
 
 /*********************************************************************************/
