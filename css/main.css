@@ -126,7 +126,7 @@ a{
     border: 2px solid #4F4F4F;
     width: 17px;
     height: 17px;
-    border-radius: 100px;
+    border-radius: 17px;
     background: white;
     cursor: pointer;
     position: relative;
@@ -136,7 +136,7 @@ a{
 .customRadio span{
     width: 10.5px;
     height: 10.5px;
-    border-radius: 100px;
+    border-radius: 10.5px;
     background: transparent;
     display: block;
     margin-left: 3px;
