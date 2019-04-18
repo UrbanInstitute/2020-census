@@ -109,7 +109,8 @@ a{
 /*********************************************************************************/
 #leftColumn{
     display: inline-block;
-    width: 400px;
+    width: 350px;
+    padding-right: 50px;
     vertical-align: top;
 }
 .colHeader{
@@ -431,6 +432,10 @@ a{
     color: #696969;
 }
 .dotLabel{
+    font-size: 12px;
+    font-weight: bold;
+}
+.dotLegendText{
     font-size: 12px;
     font-weight: bold;
 }

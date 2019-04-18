@@ -3,9 +3,9 @@ import csv
 import json
 
 source = xlrd.open_workbook('data/source/summary undercounts.xlsx')
-lowSheet = source.sheet_by_name('low')
-mediumSheet = source.sheet_by_name('medium')
-highSheet = source.sheet_by_name('high')
+lowSheet = source.sheet_by_name('low risk')
+mediumSheet = source.sheet_by_name('medium risk')
+highSheet = source.sheet_by_name('high risk')
 
 lowFile = open('data/low.csv', 'w')
 lowWriter = csv.writer(lowFile, quoting=csv.QUOTE_ALL)
@@ -195,9 +195,6 @@ for state in data:
 	obj["state"] = state
 	dataOut.append(obj)
 	
-
-
-
 
 
 #write a pretty printed json for human readability

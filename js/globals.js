@@ -1,4 +1,5 @@
 var ROW_HEIGHT = 48;
+var ROW_EXPAND = 35;
 var GET_TABLE_WIDTH = function(){
 	return 700;
 }
@@ -9,9 +10,12 @@ var POPULATION = function(number){
 var PERCENT = function(number){
 	return d3.format(".0%")(number)
 }
+var PERCENT_LONG = function(number){
+	return d3.format(".2%")(number)
+}
 
-var PERCENT_MIN = -.08;
-var PERCENT_MAX = .03;
+var PERCENT_MIN = -.07;
+var PERCENT_MAX = .02;
 
 var DOT_RADIUS = 6.5;
 
