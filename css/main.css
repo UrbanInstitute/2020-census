@@ -203,8 +203,10 @@ a{
 /****************************      RIGHT COLUMN      *****************************/
 /*********************************************************************************/
 .rightColumnContainer{
+    position: relative;
     display: none;
     width: 700px;
+    background: white;
 }
 .rightColumnContainer.active{
     display: inline-block;
@@ -463,7 +465,52 @@ a{
     font-weight: bold;
 }
 
+/*********************************************************************************/
+/*****************************      TABLE TOOLTIP      ***************************/
+/*********************************************************************************/
+.tableTooltip{
+    position: absolute;
+    background: #F8F8F8;
+    padding: 20px;
+    left: -349px;
+    width: 280px;
+    font-size: 14px;
+}
+.tableTooltip:after{
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: #F8F8F8;
+    border-width: 20px;
+    margin-top: -80px;
 
+}
+.table-tt-header{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.table-tt-row{
+    margin-bottom: 20px;
+}
+.table-tt-risk{
+    font-weight: bold;
+    margin-right: 5px;
+}
+.table-tt-row.low .table-tt-risk{
+    color: #1696d2;
+}
+.table-tt-row.medium .table-tt-risk{
+    color: #78C26D;
+}
+.table-tt-row.high .table-tt-risk{
+    color: #DB2B27;
+}
 
 /*********************************************************************************/
 /*****************************      HOME FOOTER      *****************************/
