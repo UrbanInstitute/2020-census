@@ -466,49 +466,89 @@ function buildDemographicMenu(){
 }
 
 function buildStateTableHeaders(container){
-	container.append("div")
-		.text("State")
-		.attr("class", "state tableHeader tableText active alphabetical")
+	var c1 = container.append("div")
+		.attr("class", "state tableHeader tableText active alphabetical ascending")
 		.style("width", getColumnWidth("state",1) + "px")
 		.on("click", function(){ sortStateTable("alphabetical") })
 		.datum("alphabetical")
 
-	container.append("div")
-		.text("2020 Projection ")
+	c1.append("span")
+		.attr("class", "tableHeaderName")
+		.text("State")
+
+	c1.append("img")
+		.attr("src", "images/sort_asc.png")
+
+	var c2 = container.append("div")
 		.attr("class", "state tableHeader tableText projection")
 		.style("width", getColumnWidth("state",2) + "px")
 		.on("click", function(){ sortStateTable("projection") })
 		.datum("projection")
 
-	container.append("div")
-		.text("Potential miscount")
+	c2.append("span")
+		.attr("class", "tableHeaderName")
+		.text("2020 Projection")
+
+	c2.append("img")
+		.attr("src", "images/sort.png")
+
+	var c3 = container.append("div")
 		.attr("class", "state tableHeader tableText miscount")
 		.style("width", getColumnWidth("state",3) + "px")
 		.on("click", function(){ sortStateTable("miscount") })
 		.datum("miscount")
 
+	c3.append("span")
+		.attr("class", "tableHeaderName")
+		.text("Potential miscount")
+
+	c3.append("img")
+		.attr("src", "images/sort.png")
+
+
+
 }
 function buildDemographicsTableHeaders(container){
-	container.append("div")
-		.text("Demographic")
-		.attr("class", "demographic tableHeader tableText active alphabetical")
+
+
+	var c1 = container.append("div")
+		.attr("class", "demographic tableHeader tableText active alphabetical ascending")
 		.style("width", getColumnWidth("state",1) + "px")
 		.on("click", function(){ sortDemographicTable("alphabetical") })
 		.datum("alphabetical")
 
-	container.append("div")
-		.text("2020 Projection ")
+	c1.append("span")
+		.attr("class", "tableHeaderName")
+		.text("Demographic")
+
+	c1.append("img")
+		.attr("src", "images/sort_asc.png")
+
+	var c2 = container.append("div")
 		.attr("class", "demographic tableHeader tableText projection")
 		.style("width", getColumnWidth("state",2) + "px")
 		.on("click", function(){ sortDemographicTable("projection") })
 		.datum("projection")
 
-	container.append("div")
-		.text("Potential miscount")
+	c2.append("span")
+		.attr("class", "tableHeaderName")
+		.text("2020 Projection")
+
+	c2.append("img")
+		.attr("src", "images/sort.png")
+
+	var c3 = container.append("div")
 		.attr("class", "demographic tableHeader tableText miscount")
 		.style("width", getColumnWidth("state",3) + "px")
 		.on("click", function(){ sortDemographicTable("miscount") })
 		.datum("miscount")
+
+	c3.append("span")
+		.attr("class", "tableHeaderName")
+		.text("Potential miscount")
+
+	c3.append("img")
+		.attr("src", "images/sort.png")
 
 }
 
@@ -1102,11 +1142,39 @@ function sortStateTable(sorting){
 	var data = d3.selectAll(".state.row").data()
 
 	d3.selectAll(".state.tableHeader.active").classed("active", false);
-	d3.select(".state.tableHeader." + sorting).classed("active", true)
+	var header = d3.select(".state.tableHeader." + sorting)
+	var sortOrder;
+
+	header.classed("active", true)
+
+	if(header.classed("ascending")){
+		sortOrder = "descending"
+	}
+	else if(header.classed("descending")){
+		sortOrder = "ascending"
+	}else{
+		sortOrder = "ascending"
+	}
+
+	d3.selectAll(".state.tableHeader.ascending").classed("ascending", false)
+	d3.selectAll(".state.tableHeader.descending").classed("descending", false)
+	d3.selectAll(".state.tableHeader img").attr("src", "images/sort.png")
+
+	if(sortOrder == "ascending"){
+		header.classed("ascending", true)
+		header.select("img").attr("src", "images/sort_asc.png")
+	}else{
+		header.classed("descending", true)
+		header.select("img").attr("src", "images/sort_desc.png")
+	}
+
+
+
+
 
 	if(sorting == "miscount"){
 		data.sort(function(a, b) {
-		    return a[demographic + "PercentHigh"] - b[demographic + "PercentHigh"]
+		    return(sortOrder == "ascending") ? a[demographic + "PercentHigh"] - b[demographic + "PercentHigh"] : b[demographic + "PercentHigh"] - a[demographic + "PercentHigh"];
 		});
 	}
 	else if(sorting == "alphabetical"){
@@ -1114,12 +1182,18 @@ function sortStateTable(sorting){
 		    var textA = (a.state == "US total") ? "AAA" : a.state.toUpperCase();
 		    var textB = (b.state == "US total") ? "AAA" : b.state.toUpperCase();
 
-	    	return (textA < textB || textA == "US TOTAL") ? -1 : (textA > textB) ? 1 : 0;
+		    if(sortOrder == "ascending"){
+		    	return (textA < textB || textA == "US TOTAL") ? -1 : (textA > textB) ? 1 : 0;	
+		    }else{
+		    	return (textA > textB ) ? -1 : (textA < textB ) ? 1 : 0;	
+		    }
+
+	    	
 		});
 	}
 	else if(sorting == "projection"){
 		data.sort(function(a, b) {
-		    return b[demographic + "Pop"] - a[demographic + "Pop"]
+		    return (sortOrder == "ascending") ? b[demographic + "Pop"] - a[demographic + "Pop"] : a[demographic + "Pop"] - b[demographic + "Pop"]
 		});
 	}
 
@@ -1142,43 +1216,34 @@ function sortStateTable(sorting){
 
 
 function sortDemographicTable(sorting){
-	// var state = getActiveDemographic()
-	// var data = d3.selectAll(".state.row").data()
-
-	// d3.selectAll(".tableHeader.active").classed("active", false);
-	// d3.select(".tableHeader." + sorting).classed("active", true)
-
-	// if(sorting == "miscount"){
-	// 	data.sort(function(a, b) {
-	// 	    return a[demographic + "PercentHigh"] - b[demographic + "PercentHigh"]
-	// 	});
-	// }
-	// else if(sorting == "alphabetical"){
-	// 	data.sort(function(a, b) {
-	// 	    var textA = (a.state == "US total") ? "AAA" : a.state.toUpperCase();
-	// 	    var textB = (b.state == "US total") ? "AAA" : b.state.toUpperCase();
-
-	//     	return (textA < textB || textA == "US TOTAL") ? -1 : (textA > textB) ? 1 : 0;
-	// 	});
-	// }
-	// else if(sorting == "projection"){
-	// 	data.sort(function(a, b) {
-	// 	    return b[demographic + "Pop"] - a[demographic + "Pop"]
-	// 	});
-	// }
-
-
-	// var fips = data.map(function(o){ return o.fips })
-	// for(var i = 0; i < fips.length; i++){
-	// 	d3.select(".state.row.fips_" + fips[i])
-	// 		.transition()
-	// 		.duration(DURATION)
-	// 		.delay(i * 20)
-	// 		.attr("transform", "translate(0," + (1+ i * ROW_HEIGHT) + ")")
-	// }
-
 	d3.selectAll(".demographic.tableHeader.active").classed("active", false);
-	d3.select(".demographic.tableHeader." + sorting).classed("active", true)
+	var header = d3.select(".demographic.tableHeader." + sorting)
+	var sortOrder;
+
+	header.classed("active", true)
+
+	if(header.classed("ascending")){
+		sortOrder = "descending"
+	}
+	else if(header.classed("descending")){
+		sortOrder = "ascending"
+	}else{
+		sortOrder = "ascending"
+	}
+
+	d3.selectAll(".demographic.tableHeader.ascending").classed("ascending", false)
+	d3.selectAll(".demographic.tableHeader.descending").classed("descending", false)
+	d3.selectAll(".demographic.tableHeader img").attr("src", "images/sort.png")
+
+	if(sortOrder == "ascending"){
+		header.classed("ascending", true)
+		header.select("img").attr("src", "images/sort_asc.png")
+	}else{
+		header.classed("descending", true)
+		header.select("img").attr("src", "images/sort_desc.png")
+	}
+
+
 
 	var data = d3.selectAll("#demographicsContainer .row").data()
 	var datum = data.filter(function(o){
@@ -1193,12 +1258,12 @@ function sortDemographicTable(sorting){
 			var subData;
 
 			if(sorting == "alphabetical"){
-				sortedKeys = keys;
+				sortedKeys = (sortOrder == "ascending") ? keys : keys.reverse();
 			}
 			else if(sorting == "projection"){
 				subData = keys.map(function(k){ return {"key": k, "val": datum[k + "Pop"]} })
 				subData.sort(function(a, b) {
-		    		return b.val - a.val
+		    		return (sortOrder == "ascending") ? b.val - a.val : a.val - b.val
 				});
 				sortedKeys = subData.map(function(o){ return o.key })
 
@@ -1207,7 +1272,7 @@ function sortDemographicTable(sorting){
 			else if(sorting == "miscount"){
 				subData = keys.map(function(k){ return {"key": k, "val": datum[k + "PercentHigh"]} })
 				subData.sort(function(a, b) {
-		    		return a.val - b.val
+		    		return (sortOrder == "ascending") ? a.val - b.val : b.val - a.val
 				});
 				sortedKeys = subData.map(function(o){ return o.key })
 
