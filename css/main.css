@@ -51,16 +51,17 @@ a{
 }
 #title, #subtitle{
 	display: block;
-	font-size: 40px;
 	width: 100%;
 	text-align: center;
 }
 #title{
 	margin-top: -30px;
+    font-size: 60px;
 	font-weight: bold;
 }
 #subtitle{
 	font-weight: 300;
+    font-size: 38px;
 	margin-bottom: 50px;
 }
 .introText{
@@ -178,10 +179,10 @@ a{
     left: 9px;
 }
 .legendMarker.low span{
-    border-color: #1696d2;
+    border-color: #FDD870;
 }
 .legendMarker.medium span{
-    border-color: #78C26D;
+    border-color: #E88E2D;
 }
 .legendMarker.high span{
     border-color: #DB2B27;
@@ -196,6 +197,35 @@ a{
     margin-left: 5px;
     top: 5px;
     position: relative;
+}
+.readMore{
+    margin-top: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-style: italic;
+}
+.readMore img{
+    width: 13px;
+    margin-left: 5px;
+}
+.readMore.close{
+    color: #ADABAC;
+}
+.readMore.open{
+    color: #1696d2;
+    font-weight: bold;
+}
+.legendItemDescription{
+    line-height: 22px;
+}
+.legendMoreText{
+    color: #ADABAC;
+    line-height: 22px;
+    font-size: 14px;
+    font-style: italic;
+    overflow: hidden;
+    height: 0px;
 }
 
 
@@ -215,6 +245,10 @@ a{
 /*********************************************************************************/
 /********************************      MAP      **********************************/
 /*********************************************************************************/
+#mapBg{
+    fill: #fff;
+    stroke: none;
+}
 .state{
     cursor: pointer;
 }
@@ -225,23 +259,35 @@ a{
     fill: #E6E6E6;
     stroke: none;
 }
+
 .barBg.active{
+    stroke: #d2d2d2;
+    stroke-width: 3.5px;
+}
+.barBg.clicked{
     stroke: #000;
     stroke-width: 2px;
 }
+.state.fips_99 .barBg{
+    fill: #A2D4EC;
+}
 .low.bar{
-    fill: #1696d2;
+    fill: #FDD870;
 }
 .medium.bar{
-    fill: #78C26D;
+    fill: #E88E2D;
 }
 .high.bar{
-    fill: #DB2B27;
+    fill: #E25552;
 }
 .mapLabel{
     font-size: 12px;
     font-weight: bold;
     fill: #696969;
+}
+.mapAxisLabel{
+    fill: #ADABAC;
+    font-size: 12px;
 }
 /*********************************************************************************/
 /*****************************       BODY COPY      ******************************/
@@ -388,6 +434,13 @@ a{
     margin-top: 97px;
     cursor: pointer;
 }
+.tableHeader.projection span, .tableHeader.miscount span{
+    padding-bottom: 4px;
+    border-bottom: 2px dotted #D2D2D2;
+}
+.tableHeader.projection span:hover, .tableHeader.miscount span:hover{
+    border-bottom: 2px dotted #CFE8F3;
+}
 .tableHeader.active{
     color: #1696d2;
 }
@@ -400,9 +453,15 @@ a{
 .rowDivider{
     stroke: #D2D2D2;
     stroke-width: 2px;
+    display: none;
+}
+.demographic.row.total .rowBg, .state.row.fips_99 .rowBg{
+    stroke: #1696d2;
+    stroke-width: 3px;
 }
 .rowBg{
-    stroke: none;
+    stroke: #D2D2D2;
+    stroke-width: 2px;
     fill: rgba(255,255,255,.7);
 }
 .row.active .rowBg{
@@ -412,6 +471,16 @@ a{
     font-size: 16px;
     fill: #000;
 }
+
+
+/*********************************************************************************/
+/**************************      DOT PLOT STYLES      ****************************/
+/*********************************************************************************/
+
+.demographic.row.total .axis, .state.row.fips_99 .axis{
+    stroke: #353535;
+}
+
 .axis{
     stroke: #C4C4C4;
     fill: none;
@@ -422,18 +491,22 @@ a{
 .y.axis{
     stroke-width: 2px;
 }
+
+.row.active .dot{
+    fill: #F8F8F8;
+}
 .dot{
     fill: #fff;
     stroke-width: 1.5px;
 }
 .low.dot{
-    stroke: #1696d2;
+    stroke: #FDD870;
 }
 .medium.dot{
-    stroke: #78C26D;
+    stroke: #E88E2D;
 }
 .high.dot{
-    stroke: #DB2B27;
+    stroke: #E25552;
 }
 .axisLabel{
     font-size: 12px;
@@ -441,21 +514,24 @@ a{
 }
 .dotLabel{
     font-size: 12px;
-    font-weight: bold;
 }
 .dotLegendText{
     font-size: 12px;
     font-weight: bold;
 }
-.low.dotLabel{
-    fill: #1696d2;
+.dotLegendUnderline{
+    stroke-width: 1.5px;
 }
-.medium.dotLabel{
-    fill: #78C26D;
+.low.dotLegendUnderline{
+    stroke: #FDD870;
 }
-.high.dotLabel{
-    fill: #DB2B27;
+.medium.dotLegendUnderline{
+    stroke: #E88E2D;
 }
+.high.dotLegendUnderline{
+    stroke: #E25552;
+}
+
 
 /*********************************************************************************/
 /***********************     DEMOGRAPHIC TABLE STYLES      ***********************/
@@ -469,6 +545,9 @@ a{
 
 .demographic.header.tableText{
     font-weight: bold;
+}
+.demographic.row.total .tableText, .state.row.fips_99 .tableText {
+    fill: #1696d2;
 }
 
 /*********************************************************************************/
@@ -509,14 +588,15 @@ a{
     margin-right: 5px;
 }
 .table-tt-row.low .table-tt-risk{
-    color: #1696d2;
+    border-bottom: 2px solid #FDD870;
 }
 .table-tt-row.medium .table-tt-risk{
-    color: #78C26D;
+    border-bottom: 2px solid #E88E2D;
 }
 .table-tt-row.high .table-tt-risk{
-    color: #DB2B27;
+    border-bottom: 2px solid #E25552;
 }
+
 
 /*********************************************************************************/
 /*****************************      HOME FOOTER      *****************************/

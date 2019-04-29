@@ -1,4 +1,11 @@
-var ROW_HEIGHT = 48;
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+
+
+var ROW_HEIGHT = 54;
 var ROW_EXPAND = 35;
 var GET_TABLE_WIDTH = function(){
 	return 700;
@@ -37,15 +44,19 @@ var categories = [
 		"top" : "Race",
 		"key" : "race",
 		"sub": [
-			{"label": "Nonhispanic white", "key": "white"},
+			{"label": "White, non-Hispanic/Latinx", "key": "white"},
 			{"label": "Black", "key": "black"},
-			{"label": "American Indian/ Alaska Native", "key": "native"},
-			{"label": "Asian American/ Native Hawaiian/ Pacific Islander", "key": "asian"}
+			{"label": "American Indian/Alaska Native", "key": "native"},
+			{"label": "Asian American/Native Hawaiian/Pacific Islander", "key": "asian"}
 		]
 	},
 	{
-		"top": "Latinx",
-		"key": "latinx"
+		"top": "Ethnicity",
+		"key": "ethnicity",
+		"sub": [
+			{"label": "Hispanic/Latinx", "key": "latinx"},
+		]
+
 	},
 	{
 		"top" : "Age",
