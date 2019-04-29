@@ -394,7 +394,7 @@ function buildDemographicMenu(){
 		.attr("height", 150)
 
 	svg.selectAll(".head")
-		.data(categories)
+		.data(temp_categories)
 		.enter()
 		.append("circle")
 		.attr("cx", function(d,i){ return (BODY_RADIUS + 3) + i*(BODY_RADIUS*2 + 3 + 69) })
@@ -413,7 +413,7 @@ function buildDemographicMenu(){
 
 
 	svg.selectAll(".body")
-		.data(categories)
+		.data(temp_categories)
 		.enter()
 		.append("circle")
 		.attr("cx", function(d,i){ return (BODY_RADIUS + 3) + i*(BODY_RADIUS*2 + 3 + 69) })
@@ -433,7 +433,7 @@ function buildDemographicMenu(){
 		.attr("class", "demographicMenuContainer")
 
 	topMenu.selectAll(".top.state.menuItem")
-		.data(categories)
+		.data(temp_categories)
 		.enter()
 		.append("div")
 		.attr("class", function(d){
@@ -462,7 +462,7 @@ function buildDemographicMenu(){
 		.attr("class", "demographicSubmenuContainer race")
 
 	raceMenu.selectAll(".sub.state.menuItem")
-		.data(categories[1]["sub"])
+		.data(temp_categories[1]["sub"])
 		.enter()
 		.append("div")
 		.attr("class", function(d){
@@ -478,7 +478,7 @@ function buildDemographicMenu(){
 
 
 	ageMenu.selectAll(".sub.state.menuItem")
-		.data(categories[3]["sub"])
+		.data(temp_categories[3]["sub"])
 		.enter()
 		.append("div")
 		.attr("class", function(d){
@@ -532,6 +532,14 @@ function buildStateTableHeaders(container){
 	c3.append("img")
 		.attr("src", "images/sort.png")
 
+	c2.append("div")
+		.attr("class", "tableHeaderTooltip projection")
+		.html(headerTooltips["projection"])
+
+	c3.append("div")
+		.attr("class", "tableHeaderTooltip miscount")
+		.html(headerTooltips["miscount"])
+
 
 
 }
@@ -574,12 +582,19 @@ function buildDemographicsTableHeaders(container){
 		.attr("class", "tableHeaderName")
 		.text("Potential miscounts")
 
+
 	c3.append("img")
 		.attr("src", "images/sort.png")
 
 
 	c2.append("div")
-		.attr("class", "tableHeaderTooltip")
+		.attr("class", "tableHeaderTooltip projection")
+		.html(headerTooltips["projection"])
+
+	c3.append("div")
+		.attr("class", "tableHeaderTooltip miscount")
+		.html(headerTooltips["miscount"])
+
 
 }
 
@@ -1382,17 +1397,16 @@ function bindListeners(){
 		}
 	})
 
-	d3.selectAll(".tableHeader.projection span").on("mouseover", function(d){
-		console.log(d)
-	})
+	d3.selectAll(".tableHeader span")
+		.on("mouseover", function(){
+			d3.select(this.parentNode).select(".tableHeaderTooltip")
+				.style("display", "block")
+		})
+		.on("mouseout", function(){
+			d3.select(this.parentNode).select(".tableHeaderTooltip")
+				.style("display", "none")
+		})
 
-	// d3.select("#leftColumn")
-	// 	.on("mouseover", function(){
-	// 		d3.selectAll(".tableTooltip").transition().style("opacity", 0)
-	// 	})
-	// 	.on("mouseout", function(){
-	// 		d3.selectAll(".tableTooltip").transition().style("opacity", 1)
-	// 	})
 }
 
 
