@@ -381,7 +381,7 @@ function buildMap(data){
 
 function getColumnWidth(section, colNum){
 	if(section == "state"){
-		widths = [false, 285, 170, 220]
+		widths = [false, 295, 150, 220]
 		return widths[colNum]
 	}
 }
@@ -496,7 +496,7 @@ function buildStateTableHeaders(container){
 	var c1 = container.append("div")
 		.attr("class", "state tableHeader tableText active alphabetical ascending")
 		.style("width", getColumnWidth("state",1) + "px")
-		.on("click", function(){ sortStateTable("alphabetical") })
+		.on("click", function(){ sortStateTable("alphabetical", true) })
 		.datum("alphabetical")
 
 	c1.append("span")
@@ -509,7 +509,7 @@ function buildStateTableHeaders(container){
 	var c2 = container.append("div")
 		.attr("class", "state tableHeader tableText projection")
 		.style("width", getColumnWidth("state",2) + "px")
-		.on("click", function(){ sortStateTable("projection") })
+		.on("click", function(){ sortStateTable("projection", true) })
 		.datum("projection")
 
 	c2.append("span")
@@ -522,7 +522,7 @@ function buildStateTableHeaders(container){
 	var c3 = container.append("div")
 		.attr("class", "state tableHeader tableText miscount")
 		.style("width", getColumnWidth("state",3) + "px")
-		.on("click", function(){ sortStateTable("miscount") })
+		.on("click", function(){ sortStateTable("miscount", true) })
 		.datum("miscount")
 
 	c3.append("span")
@@ -1172,7 +1172,7 @@ function updateStateTable(demographic){
 			return x(d[demographic + "Percent" + "High"])
 		})
 		.on("end", function(){
-			sortStateTable(sorting)
+			sortStateTable(sorting, false)
 		})
 
 	d3.selectAll(".state.dotLabel.low")
@@ -1195,7 +1195,7 @@ function updateStateTable(demographic){
 
 }
 
-function sortStateTable(sorting){
+function sortStateTable(sorting, isClick){
 	var demographic = getActiveDemographic()
 	var data = d3.selectAll(".state.row").data()
 
@@ -1206,12 +1206,12 @@ function sortStateTable(sorting){
 	header.classed("active", true)
 
 	if(header.classed("ascending")){
-		sortOrder = "descending"
+		sortOrder = (isClick) ? "descending" : "ascending";
 	}
 	else if(header.classed("descending")){
-		sortOrder = "ascending"
+		sortOrder = (isClick) ? "ascending" : "descending";
 	}else{
-		sortOrder = "ascending"
+		sortOrder = (isClick) ? "ascending" : "descending";
 	}
 
 	d3.selectAll(".state.tableHeader.ascending").classed("ascending", false)

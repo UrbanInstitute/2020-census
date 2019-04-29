@@ -37,7 +37,7 @@ var GET_TABLE_WIDTH = function(){
 }
 
 var POPULATION = function(number){
-	return d3.format(",.0f")(number)
+	return d3.format(",.0f")(number/1000) + " k"
 }
 var PERCENT = function(number){
 	return d3.format(".0%")(number)
