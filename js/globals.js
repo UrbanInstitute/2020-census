@@ -40,7 +40,9 @@ var POPULATION = function(number){
 	// return d3.format(",.0f")(number/1000) + " k"
 
 
-	return (Math.abs(number) < 500) ? "<500" : d3.format(",.0f")(number/1000) + ",000"
+	// return (Math.abs(number) < 500) ? "<500" : d3.format(",.0f")(number/1000) + ",000"
+
+	return d3.format(",.0f")(number)
 }
 var PERCENT = function(number){
 	return d3.format(".0%")(number)
