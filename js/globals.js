@@ -46,7 +46,7 @@ var PERCENT = function(number){
 	return d3.format(".0%")(number)
 }
 var PERCENT_LONG = function(number){
-	return d3.format(".1%")(number)
+	return d3.format(".2%")(number)
 }
 
 var PERCENT_MIN = -.07;
