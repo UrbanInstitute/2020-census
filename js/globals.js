@@ -42,13 +42,15 @@ var POPULATION = function(number){
 
 	// return (Math.abs(number) < 500) ? "<500" : d3.format(",.0f")(number/1000) + ",000"
 
-	return d3.format(",.0f")(number)
+	return (Math.abs(number) < 50) ? "<50" : d3.format(",.0f")(number)
+
+	// return d3.format(",.0f")(number)
 }
 var PERCENT = function(number){
 	return d3.format(".0%")(number)
 }
 var PERCENT_LONG = function(number){
-	return d3.format(".2%")(number)
+	return d3.format(".1%")(number)
 }
 
 var PERCENT_MIN = -.07;
