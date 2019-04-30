@@ -37,13 +37,14 @@ var GET_TABLE_WIDTH = function(){
 }
 
 var POPULATION = function(number){
-	return d3.format(",.0f")(number/1000) + " k"
+	// return d3.format(",.0f")(number/1000) + " k"
+	return d3.format(",.0f")(number)
 }
 var PERCENT = function(number){
 	return d3.format(".0%")(number)
 }
 var PERCENT_LONG = function(number){
-	return d3.format(".2%")(number)
+	return d3.format(".1%")(number)
 }
 
 var PERCENT_MIN = -.07;
