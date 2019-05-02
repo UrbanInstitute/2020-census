@@ -685,9 +685,9 @@ function updateTableTooltips(state, demographic){
 	d3.selectAll(".table-tt-row.medium .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentMedium"] ))
 	d3.selectAll(".table-tt-row.high .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentHigh"] ))
 
-	d3.selectAll(".table-tt-row.low .table-tt-number").text(" (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)")
-	d3.selectAll(".table-tt-row.medium .table-tt-number").text(" (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)")
-	d3.selectAll(".table-tt-row.high .table-tt-number").text(" (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)")
+	d3.selectAll(".table-tt-row.low .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)")
+	d3.selectAll(".table-tt-row.medium .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)")
+	d3.selectAll(".table-tt-row.high .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)")
 
 }
 
@@ -907,7 +907,7 @@ function updateDemographicTable(state){
 
 }
 
-function buildDemographicTable(data){
+function buildDemographicTable(data, defaultDemographic){
 	var container = d3.select("#stateContainer")
 	buildDemographicsTableHeaders(container)
 	buildTableTooltip("demographic", container, data)
@@ -954,10 +954,10 @@ function buildDemographicTable(data){
 				var subDemographic = sub.key
 
 				var big = (subDemographic == "asian")
-
+				var active = (subDemographic == defaultDemographic) ? " active" : ""
 				var rowSub = svg
 					.append("g")
-					.attr("class", "demographic rowSub row " + subDemographic + " " + category.key)
+					.attr("class", "demographic rowSub row " + subDemographic + " " + category.key + active)
 					.attr("data-demographic", subDemographic)
 					.attr("transform", "translate(0," + (asianBump + 4+ rowCount * ROW_HEIGHT) + ")")
 
@@ -1019,7 +1019,7 @@ function buildDemographicTable(data){
 
 		}else{
 			var demographic = category.key
-			var active = (demographic == "total") ? " active" : ""
+			var active = (demographic == defaultDemographic) ? " active" : ""
 			var row = svg
 				.append("g")
 				.attr("class", "demographic row " + demographic + active + " " + category.key)
@@ -1068,13 +1068,14 @@ function buildDemographicTable(data){
 		console.log("DANCE")
 		setActiveDemographic(d3.select(".demographic.row.clicked").attr("data-demographic"), false, false)
 	})
-	setActiveDemographic("total", true, true)
+	console.log("default", defaultDemographic)
+	setActiveDemographic(defaultDemographic, true, true)
 	d3.select(".demographic.row.total").moveToFront()
 
 
 }
 
-function buildStateTable(data){
+function buildStateTable(data, state){
 	
 
 	var container = d3.select("#demographicsContainer")
@@ -1092,7 +1093,7 @@ function buildStateTable(data){
 		.enter()
 		.append("g")
 		.attr("class", function(d){
-			var active = (d.fips == 99) ? " active" : "";
+			var active = (d.fips == +state) ? " active" : "";
 			return "state row fips_" + d.fips + active;
 		})
 		.attr("data-state", function(d){ return d.fips })
@@ -1135,7 +1136,7 @@ function buildStateTable(data){
 		setActiveState(d3.select(".state.row.clicked").datum().fips, false, false)
 	})
 
-	setActiveState("99", true, true)
+	setActiveState(state, true, true)
 	d3.select(".state.row.fips_99").moveToFront()
 
 
@@ -1407,6 +1408,14 @@ function bindListeners(){
 				.style("display", "none")
 		})
 
+	d3.selectAll(".customRadioRow")
+		.on("click", function(){
+			if(d3.select(this).classed("state")){
+				showSection("state")
+			}else{ showSection("demographics") }
+
+		})
+
 }
 
 
@@ -1420,20 +1429,19 @@ d3.json("data/data.json", function(data){
 	    return (textA < textB ) ? -1 : (textA > textB) ? 1 : 0;
 	});
 
+	var section = (getQueryString("section") == "") ? "state" : getQueryString("section"),
+		state = (getQueryString("state") == "") ? "99" : getQueryString("state"),
+		demographic = (getQueryString("demographic") == "") ? "total" : getQueryString("demographic");
+
 	buildDemographicMenu();
-	buildStateTable(data);
+	buildStateTable(data, state);
 	buildMap(data)
-	buildDemographicTable(data)
-	updateTableTooltips("99","total")
+	buildDemographicTable(data, demographic)
+	updateTableTooltips(state,demographic)
 	bindListeners();
+	showSection(section)
 
-	d3.selectAll(".customRadioRow")
-		.on("click", function(){
-			if(d3.select(this).classed("state")){
-				showSection("state")
-			}else{ showSection("demographics") }
 
-		})
 
 })
 

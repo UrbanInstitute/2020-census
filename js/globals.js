@@ -29,6 +29,14 @@ function wrap(text, width) {
   });
 }
 
+function getQueryString(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+
 
 var ROW_HEIGHT = 54;
 var ROW_EXPAND = 35;
@@ -37,12 +45,12 @@ var GET_TABLE_WIDTH = function(){
 }
 
 var POPULATION = function(number){
-	// return d3.format(",.0f")(number/1000) + " k"
+	return (Math.abs(number) < 50) ? "-50&ndash;50" : d3.format(",.0f")(Math.round(number/100)*100);
 
 
 	// return (Math.abs(number) < 500) ? "<500" : d3.format(",.0f")(number/1000) + ",000"
 
-	return (Math.abs(number) < 50) ? "<50" : d3.format(",.0f")(number)
+	// return (Math.abs(number) < 50) ? "<50" : d3.format(",.0f")(number)
 
 	// return d3.format(",.0f")(number)
 }
@@ -50,7 +58,7 @@ var PERCENT = function(number){
 	return d3.format(".0%")(number)
 }
 var PERCENT_LONG = function(number){
-	return d3.format(".1%")(number)
+	return d3.format(".2%")(number)
 }
 
 var PERCENT_MIN = -.07;
