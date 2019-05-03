@@ -194,7 +194,19 @@ for state in data:
 	obj = data[state]
 	obj["state"] = state
 	dataOut.append(obj)
+
+# def checkSame(o, dem):
+# 	a = [ round(o[dem + "NumberHigh"],-2), round(o[dem + "NumberMedium"],-2), round(o[dem + "NumberLow"],-2)]
+
+# 	if(len(set(a)) == 2):
+# 		print dem
+# 		print o["state"]
+# 		print ""
 	
+# for o in dataOut:
+# 	checkSame(o, "age50")
+
+
 
 
 #write a pretty printed json for human readability

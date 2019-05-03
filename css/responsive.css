@@ -87,7 +87,7 @@
 
 
 
-#breakpoint1200, #breakpoint1000, #breakpoint900, #isMobile, #isPhone, #isSmallPhone, #isVerySmallPhone{
+#breakpoint1200, #breakpoint1000, #breakpoint900, #isMobile, #isPhone, #isSmallPhone, #isVerySmallPhone, #locker{
 	position: fixed;
 	width: 0px;
 	height: 0px;
