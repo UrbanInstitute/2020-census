@@ -628,6 +628,14 @@ a{
 .table-tt-row.high .table-tt-risk{
     border-bottom: 2px solid #E25552;
 }
+.table-tt-disclaimer{
+    font-size: 12px;
+    font-style: italic;
+    display: none;
+}
+.table-tt-disclaimer.show{
+    display: block;
+}
 
 
 /*********************************************************************************/

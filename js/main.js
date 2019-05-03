@@ -1,20 +1,21 @@
-//max low -0.058338011 -> 0.021959728
-//med -0.070874654 -> 0.019168451
-//high -0.078255265 -> 0.017126543
-
-//range -8% -> +3%
-
-function getActiveSection(){
-
-}
 function getActiveState(){
 	return d3.select(".state.row.active").attr("data-state")
-
+}
+function lockTables(){
+	d3.select("#locker").classed("locked", true)
+}
+function unlockTables(){
+	d3.select("#locker").classed("locked", false)	
+}
+function tablesAreLocked(){
+	return d3.select("#locker").classed("locked")
 }
 function getActiveDemographic(){
 	return ( d3.select(".demographic.row.active").node() == null) ? "total" : d3.select(".demographic.row.active").attr("data-demographic")
 }
 function setActiveDemographic(demographic, isInit, isClick){
+	if(tablesAreLocked()) return false
+
 	expandRow("demographic", demographic, isInit)
 
 
@@ -49,6 +50,8 @@ function setActiveDemographic(demographic, isInit, isClick){
 	
 }
 function setActiveState(state, isInit, isClick){
+	if(tablesAreLocked()) return false
+
 	expandRow("state", state, isInit)
 
 	d3.selectAll(".barBg.active").classed("active", false)
@@ -617,7 +620,6 @@ function getYScale(){
 }
 
 function buildTableTooltip(section, container, data){
-	console.log(data)
 	var tt = container.append("div")
 		.attr("class", "tableTooltip " + section)
 		.datum(data)
@@ -646,6 +648,9 @@ function buildTableTooltip(section, container, data){
 	row.append("span")
 		.attr("class", "table-tt-number")
 		
+	tt.append("div")
+		.attr("class", "table-tt-disclaimer")
+		.html("* These values are the same because we rounded the projections to the nearest hundred.")
 
 
 
@@ -663,7 +668,6 @@ function updateTableTooltips(state, demographic){
 	var demographicRow = d3.select(".demographic" + "." + demographic + ".row")
 
 	var stateRow = d3.select(".state" + ".fips_" + state + ".row")
-// console.log(state, demographic)
 	var demographicY = getTransformY(demographicRow)
 	var stateY = getTransformY(stateRow)
 
@@ -685,9 +689,30 @@ function updateTableTooltips(state, demographic){
 	d3.selectAll(".table-tt-row.medium .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentMedium"] ))
 	d3.selectAll(".table-tt-row.high .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentHigh"] ))
 
-	d3.selectAll(".table-tt-row.low .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)")
-	d3.selectAll(".table-tt-row.medium .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)")
-	d3.selectAll(".table-tt-row.high .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)")
+
+	var showDisclaimer = false;
+	var lowStar = "",
+		medStar = "",
+		highStar = "";
+	var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]
+	if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"]))){
+		lowStar = "*"
+		showDisclaimer = true
+	}
+	if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"]))){
+		medStar = "*"
+		showDisclaimer = true
+	}
+	if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"]))){
+		highStar = "*"
+		showDisclaimer = true
+	}
+
+	d3.selectAll(".table-tt-row.low .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberLow"] ) + " people" + lowStar + ")")
+	d3.selectAll(".table-tt-row.medium .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people" + medStar + ")")
+	d3.selectAll(".table-tt-row.high .table-tt-number").html(" (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people" + highStar + ")")
+
+	d3.selectAll(".table-tt-disclaimer").classed("show", showDisclaimer)
 
 }
 
@@ -907,7 +932,7 @@ function updateDemographicTable(state){
 
 }
 
-function buildDemographicTable(data, defaultDemographic){
+function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 	var container = d3.select("#stateContainer")
 	buildDemographicsTableHeaders(container)
 	buildTableTooltip("demographic", container, data)
@@ -1065,17 +1090,23 @@ function buildDemographicTable(data, defaultDemographic){
 
 	}
 	svg.on("mouseleave", function(d){
-		console.log("DANCE")
 		setActiveDemographic(d3.select(".demographic.row.clicked").attr("data-demographic"), false, false)
 	})
-	console.log("default", defaultDemographic)
 	setActiveDemographic(defaultDemographic, true, true)
 	d3.select(".demographic.row.total").moveToFront()
+
+	if(sort != ""){
+		if(sortOrder == ""){
+			sortDemographicTable(sort, false)
+		}else{
+			sortDemographicTable(sort, false, sortOrder)
+		}
+	}
 
 
 }
 
-function buildStateTable(data, state){
+function buildStateTable(data, state, sort, sortOrder){
 	
 
 	var container = d3.select("#demographicsContainer")
@@ -1139,7 +1170,13 @@ function buildStateTable(data, state){
 	setActiveState(state, true, true)
 	d3.select(".state.row.fips_99").moveToFront()
 
-
+	if(sort != ""){
+		if(sortOrder == ""){
+			sortStateTable(sort, false)
+		}else{
+			sortStateTable(sort, false, sortOrder)
+		}
+	}
 
 
 
@@ -1196,7 +1233,7 @@ function updateStateTable(demographic){
 
 }
 
-function sortStateTable(sorting, isClick){
+function sortStateTable(sorting, isClick, order){
 	var demographic = getActiveDemographic()
 	var data = d3.selectAll(".state.row").data()
 
@@ -1206,13 +1243,19 @@ function sortStateTable(sorting, isClick){
 
 	header.classed("active", true)
 
-	if(header.classed("ascending")){
-		sortOrder = (isClick) ? "descending" : "ascending";
-	}
-	else if(header.classed("descending")){
-		sortOrder = (isClick) ? "ascending" : "descending";
+
+
+	if(typeof(order) == "undefined"){
+		if(header.classed("ascending")){
+			sortOrder = (isClick) ? "descending" : "ascending";
+		}
+		else if(header.classed("descending")){
+			sortOrder = (isClick) ? "ascending" : "descending";
+		}else{
+			sortOrder = (isClick) ? "ascending" : "descending";
+		}
 	}else{
-		sortOrder = (isClick) ? "ascending" : "descending";
+		sortOrder = (order == "ascending") ? "descending" : "ascending";
 	}
 
 	d3.selectAll(".state.tableHeader.ascending").classed("ascending", false)
@@ -1265,32 +1308,41 @@ function sortStateTable(sorting, isClick){
 	for(var i = 0; i < fips.length; i++){
 		var bump = (i > activeIndex) ? ROW_EXPAND : 0
 		d3.select(".state.row.fips_" + fips[i])
+			.attr("data-order", i)
 			.transition()
-			.duration(DURATION)
+			.duration(DURATION )
 			.delay(i * 20)
 			.attr("transform", "translate(0," + (bump + 4+ i * ROW_HEIGHT) + ")")
+			.on("start", lockTables)
 			.on("end", function(){
-				updateTableTooltips(getActiveState(), getActiveDemographic())
+				if(d3.select(this).attr("data-order") == fips.length -1){
+					unlockTables()
+					updateTableTooltips(getActiveState(), getActiveDemographic())
+				}
 			})
 	}
 
 }
 
 
-function sortDemographicTable(sorting, isClick){
+function sortDemographicTable(sorting, isClick, order){
 	d3.selectAll(".demographic.tableHeader.active").classed("active", false);
 	var header = d3.select(".demographic.tableHeader." + sorting)
 	var sortOrder;
 
 	header.classed("active", true)
 
-	if(header.classed("ascending")){
-		sortOrder = (isClick) ? "descending" : "ascending";
-	}
-	else if(header.classed("descending")){
-		sortOrder = (isClick) ? "ascending" : "descending"
+	if(typeof(order) == "undefined"){
+		if(header.classed("ascending")){
+			sortOrder = (isClick) ? "descending" : "ascending";
+		}
+		else if(header.classed("descending")){
+			sortOrder = (isClick) ? "ascending" : "descending"
+		}else{
+			sortOrder = (isClick) ? "ascending" : "descending"
+		}
 	}else{
-		sortOrder = (isClick) ? "ascending" : "descending"
+		sortOrder = (order == "ascending") ? "descending" : "ascending";
 	}
 
 	d3.selectAll(".demographic.tableHeader.ascending").classed("ascending", false)
@@ -1347,10 +1399,18 @@ function sortDemographicTable(sorting, isClick){
 				var key = sortedKeys[j]
 				var toMove = d3.select(".demographic.row." + key)
 
-				toMove.transition()
+				toMove
+					// .attr("data-order", function(){
+					// 	return (j == sortedKeys.lengh -1 )
+					// })
+					.transition()
 					.attr("transform", "translate(0," + (moveY) + ")")
+					// .on("start", lockTables)
 					.on("end", function(){
-						updateTableTooltips(getActiveState(), getActiveDemographic())
+						// if(d3.select(this).attr("data-order")){
+							// unlockTables()
+							updateTableTooltips(getActiveState(), getActiveDemographic())
+						// }
 					})
 
 				if ( toMove.classed("active") && key != "asian") moveY += ROW_EXPAND
@@ -1429,14 +1489,16 @@ d3.json("data/data.json", function(data){
 	    return (textA < textB ) ? -1 : (textA > textB) ? 1 : 0;
 	});
 
-	var section = (getQueryString("section") == "") ? "state" : getQueryString("section"),
+	var section = (getQueryString("filter") == "") ? "state" : getQueryString("filter"),
 		state = (getQueryString("state") == "") ? "99" : getQueryString("state"),
-		demographic = (getQueryString("demographic") == "") ? "total" : getQueryString("demographic");
+		demographic = (getQueryString("demographic") == "") ? "total" : getQueryString("demographic"),
+		sort = getQueryString("sort"),
+		sortOrder = getQueryString("sortOrder");
 
 	buildDemographicMenu();
-	buildStateTable(data, state);
+	buildStateTable(data, state, sort, sortOrder);
 	buildMap(data)
-	buildDemographicTable(data, demographic)
+	buildDemographicTable(data, demographic, sort, sortOrder)
 	updateTableTooltips(state,demographic)
 	bindListeners();
 	showSection(section)

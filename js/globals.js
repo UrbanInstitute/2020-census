@@ -36,6 +36,11 @@ function getQueryString(name) {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
+function containsDuplicate(array, val){
+	return array.indexOf(val) !== array.lastIndexOf(val)
+}
+
+
 
 
 var ROW_HEIGHT = 54;
