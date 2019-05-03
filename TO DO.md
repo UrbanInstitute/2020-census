@@ -1,1 +1,1 @@
-On update both tables, update the population #
+tooltip text

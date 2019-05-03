@@ -2,6 +2,9 @@ import xlrd
 import csv
 import json
 
+
+FIPS = { "02": "AK",  "28": "MS",  "01": "AL",  "30": "MT",  "05": "AR",  "37": "NC",  "60": "AS",  "38": "ND",  "04": "AZ",  "31": "NE",  "06": "CA",  "33": "NH",  "08": "CO",  "34": "NJ",  "09": "CT",  "35": "NM",  "11": "DC",  "32": "NV",  "10": "DE",  "36": "NY",  "12": "FL",  "39": "OH",  "13": "GA",  "40": "OK",  "66": "GU",  "41": "OR",  "15": "HI",  "42": "PA",  "19": "IA",  "72": "PR",  "16": "ID",  "44": "RI",  "17": "IL",  "45": "SC",  "18": "IN",  "46": "SD",  "20": "KS",  "47": "TN",  "21": "KY",  "48": "TX",  "22": "LA",  "49": "UT",  "25": "MA",  "51": "VA",  "24": "MD",  "78": "VI",  "23": "ME",  "50": "VT",  "26": "MI",  "53": "WA",  "27": "MN",  "55": "WI",  "29": "MO",  "54": "WV",  "56": "WY",  "99": "US"}
+
 source = xlrd.open_workbook('data/source/summary undercounts.xlsx')
 lowSheet = source.sheet_by_name('low risk')
 mediumSheet = source.sheet_by_name('medium risk')
@@ -46,6 +49,7 @@ for row in lowReader:
 		break
 	state = row[0]
 	fips = "99" if (row[3] == "") else format(int(float(row[3])), "02")
+	abbr = FIPS[fips]
 	whitePop = float(row[4])
 	blackPop = float(row[5])
 	nativePop = float(row[6])
@@ -82,7 +86,7 @@ for row in lowReader:
 	age50Percent = -float(row[36])
 	totalPercent = -float(row[37])
 
-	data[state] = {"fips": fips, "whitePop": whitePop, "blackPop": blackPop, "nativePop": nativePop, "asianPop": asianPop, "latinxPop": latinxPop, "age0Pop": age0Pop, "age5Pop": age5Pop, "age18Pop": age18Pop, "age30Pop": age30Pop, "age50Pop": age50Pop, "totalPop": totalPop, "whiteNumberLow": whiteNumber, "blackNumberLow": blackNumber, "nativeNumberLow": nativeNumber, "asianNumberLow": asianNumber, "latinxNumberLow": latinxNumber, "age0NumberLow": age0Number, "age5NumberLow": age5Number, "age18NumberLow": age18Number, "age30NumberLow": age30Number, "age50NumberLow": age50Number, "totalNumberLow": totalNumber, "whitePercentLow": whitePercent, "blackPercentLow": blackPercent, "nativePercentLow": nativePercent, "asianPercentLow": asianPercent, "latinxPercentLow": latinxPercent, "age0PercentLow": age0Percent, "age5PercentLow": age5Percent, "age18PercentLow": age18Percent, "age30PercentLow": age30Percent, "age50PercentLow": age50Percent, "totalPercentLow": totalPercent}
+	data[state] = {"fips": fips, "abbr": abbr, "whitePop": whitePop, "blackPop": blackPop, "nativePop": nativePop, "asianPop": asianPop, "latinxPop": latinxPop, "age0Pop": age0Pop, "age5Pop": age5Pop, "age18Pop": age18Pop, "age30Pop": age30Pop, "age50Pop": age50Pop, "totalPop": totalPop, "whiteNumberLow": whiteNumber, "blackNumberLow": blackNumber, "nativeNumberLow": nativeNumber, "asianNumberLow": asianNumber, "latinxNumberLow": latinxNumber, "age0NumberLow": age0Number, "age5NumberLow": age5Number, "age18NumberLow": age18Number, "age30NumberLow": age30Number, "age50NumberLow": age50Number, "totalNumberLow": totalNumber, "whitePercentLow": whitePercent, "blackPercentLow": blackPercent, "nativePercentLow": nativePercent, "asianPercentLow": asianPercent, "latinxPercentLow": latinxPercent, "age0PercentLow": age0Percent, "age5PercentLow": age5Percent, "age18PercentLow": age18Percent, "age30PercentLow": age30Percent, "age50PercentLow": age50Percent, "totalPercentLow": totalPercent}
 
 
 for row in mediumReader:

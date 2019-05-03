@@ -1,5 +1,6 @@
 [
     {
+        "abbr": "MS",
         "age0NumberHigh": -12423.0,
         "age0NumberLow": -9326.0,
         "age0NumberMedium": -11474.0,
@@ -81,6 +82,7 @@
         "whitePop": 1698476.0
     },
     {
+        "abbr": "OK",
         "age0NumberHigh": -16123.0,
         "age0NumberLow": -11609.0,
         "age0NumberMedium": -14502.0,
@@ -162,6 +164,7 @@
         "whitePop": 2709948.0
     },
     {
+        "abbr": "DE",
         "age0NumberHigh": -3580.0,
         "age0NumberLow": -2595.0,
         "age0NumberMedium": -3253.0,
@@ -243,6 +246,7 @@
         "whitePop": 614899.0
     },
     {
+        "abbr": "MN",
         "age0NumberHigh": -20121.0,
         "age0NumberLow": -13978.0,
         "age0NumberMedium": -17951.0,
@@ -324,6 +328,7 @@
         "whitePop": 4581501.0
     },
     {
+        "abbr": "IL",
         "age0NumberHigh": -48338.0,
         "age0NumberLow": -34811.0,
         "age0NumberMedium": -43622.0,
@@ -405,6 +410,7 @@
         "whitePop": 7800762.0
     },
     {
+        "abbr": "AR",
         "age0NumberHigh": -11998.0,
         "age0NumberLow": -8848.0,
         "age0NumberMedium": -10909.0,
@@ -486,6 +492,7 @@
         "whitePop": 2226347.0
     },
     {
+        "abbr": "NM",
         "age0NumberHigh": -8820.0,
         "age0NumberLow": -6185.0,
         "age0NumberMedium": -7837.0,
@@ -567,6 +574,7 @@
         "whitePop": 784486.0
     },
     {
+        "abbr": "IN",
         "age0NumberHigh": -24106.0,
         "age0NumberLow": -17246.0,
         "age0NumberMedium": -21878.0,
@@ -648,6 +656,7 @@
         "whitePop": 5366273.0
     },
     {
+        "abbr": "MD",
         "age0NumberHigh": -24699.0,
         "age0NumberLow": -18072.0,
         "age0NumberMedium": -22415.0,
@@ -729,6 +738,7 @@
         "whitePop": 3096669.0
     },
     {
+        "abbr": "LA",
         "age0NumberHigh": -20628.0,
         "age0NumberLow": -15428.0,
         "age0NumberMedium": -18959.0,
@@ -810,6 +820,7 @@
         "whitePop": 2760080.0
     },
     {
+        "abbr": "ID",
         "age0NumberHigh": -6933.0,
         "age0NumberLow": -4782.0,
         "age0NumberMedium": -6063.0,
@@ -891,6 +902,7 @@
         "whitePop": 1509014.0
     },
     {
+        "abbr": "WY",
         "age0NumberHigh": -1958.0,
         "age0NumberLow": -1392.0,
         "age0NumberMedium": -1773.0,
@@ -972,6 +984,7 @@
         "whitePop": 479011.0
     },
     {
+        "abbr": "TN",
         "age0NumberHigh": -25425.0,
         "age0NumberLow": -18788.0,
         "age0NumberMedium": -23215.0,
@@ -1053,6 +1066,7 @@
         "whitePop": 5140798.0
     },
     {
+        "abbr": "AZ",
         "age0NumberHigh": -29646.0,
         "age0NumberLow": -21340.0,
         "age0NumberMedium": -26430.0,
@@ -1134,6 +1148,7 @@
         "whitePop": 4019478.0
     },
     {
+        "abbr": "IA",
         "age0NumberHigh": -10922.0,
         "age0NumberLow": -7581.0,
         "age0NumberMedium": -9740.0,
@@ -1215,6 +1230,7 @@
         "whitePop": 2736272.0
     },
     {
+        "abbr": "MI",
         "age0NumberHigh": -33278.0,
         "age0NumberLow": -23987.0,
         "age0NumberMedium": -30420.0,
@@ -1296,6 +1312,7 @@
         "whitePop": 7630968.0
     },
     {
+        "abbr": "KS",
         "age0NumberHigh": -11248.0,
         "age0NumberLow": -8066.0,
         "age0NumberMedium": -10143.0,
@@ -1377,6 +1394,7 @@
         "whitePop": 2245495.0
     },
     {
+        "abbr": "UT",
         "age0NumberHigh": -14672.0,
         "age0NumberLow": -10035.0,
         "age0NumberMedium": -12851.0,
@@ -1458,6 +1476,7 @@
         "whitePop": 2581240.0
     },
     {
+        "abbr": "VA",
         "age0NumberHigh": -32524.0,
         "age0NumberLow": -23812.0,
         "age0NumberMedium": -29623.0,
@@ -1539,6 +1558,7 @@
         "whitePop": 5357512.0
     },
     {
+        "abbr": "OR",
         "age0NumberHigh": -14460.0,
         "age0NumberLow": -10357.0,
         "age0NumberMedium": -12865.0,
@@ -1620,6 +1640,7 @@
         "whitePop": 3305784.0
     },
     {
+        "abbr": "CT",
         "age0NumberHigh": -11497.0,
         "age0NumberLow": -8322.0,
         "age0NumberMedium": -10307.0,
@@ -1701,6 +1722,7 @@
         "whitePop": 2380102.0
     },
     {
+        "abbr": "MT",
         "age0NumberHigh": -3505.0,
         "age0NumberLow": -2435.0,
         "age0NumberMedium": -3107.0,
@@ -1782,6 +1804,7 @@
         "whitePop": 950590.0
     },
     {
+        "abbr": "CA",
         "age0NumberHigh": -174595.0,
         "age0NumberLow": -130222.0,
         "age0NumberMedium": -156040.0,
@@ -1863,6 +1886,7 @@
         "whitePop": 15033317.0
     },
     {
+        "abbr": "MA",
         "age0NumberHigh": -22405.0,
         "age0NumberLow": -16090.0,
         "age0NumberMedium": -19862.0,
@@ -1944,6 +1968,7 @@
         "whitePop": 4991959.0
     },
     {
+        "abbr": "WV",
         "age0NumberHigh": -4931.0,
         "age0NumberLow": -3533.0,
         "age0NumberMedium": -4489.0,
@@ -2025,6 +2050,7 @@
         "whitePop": 1660913.0
     },
     {
+        "abbr": "SC",
         "age0NumberHigh": -19161.0,
         "age0NumberLow": -14116.0,
         "age0NumberMedium": -17530.0,
@@ -2106,6 +2132,7 @@
         "whitePop": 3363455.0
     },
     {
+        "abbr": "NH",
         "age0NumberHigh": -3477.0,
         "age0NumberLow": -2388.0,
         "age0NumberMedium": -3070.0,
@@ -2187,6 +2214,7 @@
         "whitePop": 1240460.0
     },
     {
+        "abbr": "WI",
         "age0NumberHigh": -19034.0,
         "age0NumberLow": -13770.0,
         "age0NumberMedium": -17319.0,
@@ -2268,6 +2296,7 @@
         "whitePop": 4797521.0
     },
     {
+        "abbr": "VT",
         "age0NumberHigh": -1483.0,
         "age0NumberLow": -1051.0,
         "age0NumberMedium": -1358.0,
@@ -2349,6 +2378,7 @@
         "whitePop": 585456.0
     },
     {
+        "abbr": "GA",
         "age0NumberHigh": -46447.0,
         "age0NumberLow": -34403.0,
         "age0NumberMedium": -41985.0,
@@ -2430,6 +2460,7 @@
         "whitePop": 5643260.0
     },
     {
+        "abbr": "ND",
         "age0NumberHigh": -3007.0,
         "age0NumberLow": -2082.0,
         "age0NumberMedium": -2650.0,
@@ -2511,6 +2542,7 @@
         "whitePop": 644856.0
     },
     {
+        "abbr": "PA",
         "age0NumberHigh": -41557.0,
         "age0NumberLow": -29843.0,
         "age0NumberMedium": -37583.0,
@@ -2592,6 +2624,7 @@
         "whitePop": 9810406.0
     },
     {
+        "abbr": "FL",
         "age0NumberHigh": -80107.0,
         "age0NumberLow": -58849.0,
         "age0NumberMedium": -71973.0,
@@ -2673,6 +2706,7 @@
         "whitePop": 11738003.0
     },
     {
+        "abbr": "AK",
         "age0NumberHigh": -3160.0,
         "age0NumberLow": -2232.0,
         "age0NumberMedium": -2824.0,
@@ -2754,6 +2788,7 @@
         "whitePop": 470919.0
     },
     {
+        "abbr": "KY",
         "age0NumberHigh": -15670.0,
         "age0NumberLow": -11364.0,
         "age0NumberMedium": -14174.0,
@@ -2835,6 +2870,7 @@
         "whitePop": 3833427.0
     },
     {
+        "abbr": "HI",
         "age0NumberHigh": -5842.0,
         "age0NumberLow": -4320.0,
         "age0NumberMedium": -5289.0,
@@ -2916,6 +2952,7 @@
         "whitePop": 426813.0
     },
     {
+        "abbr": "NE",
         "age0NumberHigh": -7773.0,
         "age0NumberLow": -5519.0,
         "age0NumberMedium": -6951.0,
@@ -2997,6 +3034,7 @@
         "whitePop": 1547452.0
     },
     {
+        "abbr": "MO",
         "age0NumberHigh": -21301.0,
         "age0NumberLow": -15449.0,
         "age0NumberMedium": -19449.0,
@@ -3078,6 +3116,7 @@
         "whitePop": 4962540.0
     },
     {
+        "abbr": "OH",
         "age0NumberHigh": -41107.0,
         "age0NumberLow": -30146.0,
         "age0NumberMedium": -37438.0,
@@ -3159,6 +3198,7 @@
         "whitePop": 9350215.0
     },
     {
+        "abbr": "AL",
         "age0NumberHigh": -18852.0,
         "age0NumberLow": -13890.0,
         "age0NumberMedium": -17243.0,
@@ -3240,6 +3280,7 @@
         "whitePop": 3245949.0
     },
     {
+        "abbr": "NY",
         "age0NumberHigh": -79023.0,
         "age0NumberLow": -59731.0,
         "age0NumberMedium": -70940.0,
@@ -3321,6 +3362,7 @@
         "whitePop": 10969364.0
     },
     {
+        "abbr": "SD",
         "age0NumberHigh": -3433.0,
         "age0NumberLow": -2335.0,
         "age0NumberMedium": -3015.0,
@@ -3402,6 +3444,7 @@
         "whitePop": 742865.0
     },
     {
+        "abbr": "CO",
         "age0NumberHigh": -20875.0,
         "age0NumberLow": -14816.0,
         "age0NumberMedium": -18657.0,
@@ -3483,6 +3526,7 @@
         "whitePop": 4019381.0
     },
     {
+        "abbr": "US",
         "age0NumberHigh": -1292445.0,
         "age0NumberLow": -943047.0,
         "age0NumberMedium": -1163681.0,
@@ -3564,6 +3608,7 @@
         "whitePop": 202182875.0
     },
     {
+        "abbr": "NJ",
         "age0NumberHigh": -34411.0,
         "age0NumberLow": -25279.0,
         "age0NumberMedium": -30928.0,
@@ -3645,6 +3690,7 @@
         "whitePop": 4929728.0
     },
     {
+        "abbr": "WA",
         "age0NumberHigh": -28748.0,
         "age0NumberLow": -20657.0,
         "age0NumberMedium": -25643.0,
@@ -3726,6 +3772,7 @@
         "whitePop": 5398885.0
     },
     {
+        "abbr": "NC",
         "age0NumberHigh": -40320.0,
         "age0NumberLow": -29823.0,
         "age0NumberMedium": -36728.0,
@@ -3807,6 +3854,7 @@
         "whitePop": 6715370.0
     },
     {
+        "abbr": "DC",
         "age0NumberHigh": -3453.0,
         "age0NumberLow": -2660.0,
         "age0NumberMedium": -3155.0,
@@ -3888,6 +3936,7 @@
         "whitePop": 281117.0
     },
     {
+        "abbr": "TX",
         "age0NumberHigh": -145251.0,
         "age0NumberLow": -104815.0,
         "age0NumberMedium": -130080.0,
@@ -3969,6 +4018,7 @@
         "whitePop": 12218162.0
     },
     {
+        "abbr": "NV",
         "age0NumberHigh": -13233.0,
         "age0NumberLow": -9844.0,
         "age0NumberMedium": -11883.0,
@@ -4050,6 +4100,7 @@
         "whitePop": 1542097.0
     },
     {
+        "abbr": "ME",
         "age0NumberHigh": -3321.0,
         "age0NumberLow": -2228.0,
         "age0NumberMedium": -2915.0,
@@ -4131,6 +4182,7 @@
         "whitePop": 1276012.0
     },
     {
+        "abbr": "RI",
         "age0NumberHigh": -3564.0,
         "age0NumberLow": -2597.0,
         "age0NumberMedium": -3173.0,

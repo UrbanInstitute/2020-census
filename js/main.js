@@ -242,7 +242,7 @@ function updateMap(demographic){
 		})
 }
 
-function buildMap(data){
+function buildMap(data, state){
 	var svg = d3.select("#stateContainer")
 		.data(data)
 		.append("svg")
@@ -284,7 +284,7 @@ function buildMap(data){
 		.attr("x",CHART_MARGIN - 4)
 		.attr("y",CHART_MARGIN - 4)
 		.attr("class", function(d){
-			var active = (d.fips == 99) ? " active clicked" : ""
+			var active = (d.fips == +state) ? " active clicked" : ""
 			return "barBg" + active
 		})
 
@@ -347,8 +347,7 @@ function buildMap(data){
 		.attr("y", 40)
 		.attr("text-anchor", "middle")
 		.text(function(d){
-			var tmp = stateData.features.filter(function(o) { return o.properties.name == d.state} )
-			return tmp[0].properties.abbr
+			return d.abbr
 		})
 
 	map.on("click", function(d){
@@ -748,7 +747,7 @@ function updateTableTooltips(state, demographic){
 
 	d3.select(".state.tableTooltip")
 		.transition()
-		.style("top", (stateY+ 310) + "px")
+		.style("top", (stateY+ 236) + "px")
 
 	d3.selectAll(".table-tt-row.low .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentLow"] ))
 	d3.selectAll(".table-tt-row.medium .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentMedium"] ))
@@ -1547,6 +1546,7 @@ function bindListeners(){
 
 
 d3.json("data/data.json", function(data){
+	console.log(data)
 	data.sort(function(a, b) {
 	    var textA = (a.state == "US total") ? "AAA" : a.state.toUpperCase();
 	    var textB = (b.state == "US total") ? "AAA" : b.state.toUpperCase();
@@ -1554,15 +1554,25 @@ d3.json("data/data.json", function(data){
 	    return (textA < textB ) ? -1 : (textA > textB) ? 1 : 0;
 	});
 
+
+
 	var section = (getQueryString("filter") == "") ? "state" : getQueryString("filter"),
-		state = (getQueryString("state") == "") ? "99" : getQueryString("state"),
+		stateAbbr = (getQueryString("state") == "") ? "US" : getQueryString("state"),
 		demographic = (getQueryString("demographic") == "") ? "total" : getQueryString("demographic"),
 		sort = getQueryString("sort"),
 		sortOrder = getQueryString("sortOrder");
+	
+	var state = data.filter(function(o){ return o.abbr == stateAbbr })[0].fips
+
+	console.log(state)
+
+
+
+
 
 	buildDemographicMenu();
 	buildStateTable(data, state, sort, sortOrder);
-	buildMap(data)
+	buildMap(data, state)
 	buildDemographicTable(data, demographic, sort, sortOrder)
 	updateTableTooltips(state,demographic)
 	bindListeners();
