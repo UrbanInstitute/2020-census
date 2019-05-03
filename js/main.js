@@ -386,7 +386,47 @@ function getColumnWidth(section, colNum){
 	}
 }
 
+function hoverDemographic(key){
+	if(key !== "dudeOut" && key != "menuOut"){
+		if(key != "total" && key != "latinx"){
+			d3.selectAll(".demographicSubmenuContainer").classed("active", false)
+			if(key.search("age") != -1){
+				d3.selectAll(".demographicSubmenuContainer.age").classed("active", true)
+			}else{
+				d3.selectAll(".demographicSubmenuContainer.race").classed("active", true)
+			}
+		}else{
+			d3.selectAll(".demographicMenu").classed("hover", false)
+			d3.selectAll(".demographicSubmenuContainer").classed("active", false)
+			d3.selectAll(".menuItem").classed("hover", false)
+
+		}
+		d3.selectAll(".demographicMenu." + key).classed("hover", true)
+		d3.selectAll(".top.menuItem." + key).classed("hover", true)
+
+	}else{
+		if(key == "dudeOut"){
+			if(d3.selectAll(".demographicSubmenuContainer.active").nodes().length == 0){
+				d3.selectAll(".demographicMenu").classed("hover", false)
+				d3.selectAll(".menuItem").classed("hover", false)
+			}
+		}else{
+			d3.selectAll(".demographicMenu").classed("hover", false)
+			d3.selectAll(".menuItem").classed("hover", false)
+			d3.selectAll(".demographicSubmenuContainer").classed("active", false)
+		}
+
+
+	}
+}
+
 function buildDemographicMenu(){
+	var newCategories = categories.slice()
+	var catIndex = categories.findIndex(function(o){
+		return o.key == "ethnicity"
+	})
+	newCategories[catIndex] = { "top" : categories[catIndex]["sub"][0]["label"], "key": categories[catIndex]["sub"][0]["key"] }
+
 	var container = d3.select("#demographicsContainer")
 	
 	var svg = container.append("svg")
@@ -394,7 +434,7 @@ function buildDemographicMenu(){
 		.attr("height", 150)
 
 	svg.selectAll(".head")
-		.data(temp_categories)
+		.data(newCategories)
 		.enter()
 		.append("circle")
 		.attr("cx", function(d,i){ return (BODY_RADIUS + 3) + i*(BODY_RADIUS*2 + 3 + 69) })
@@ -409,11 +449,16 @@ function buildDemographicMenu(){
 				setActiveDemographic(d.key, false, true)
 			}
 		})
-		// .on("mouseover")
+		.on("mouseover", function(d){
+			hoverDemographic(d.key)
+		})
+		.on("mouseout", function(d){
+			hoverDemographic("dudeOut")
+		})
 
 
 	svg.selectAll(".body")
-		.data(temp_categories)
+		.data(newCategories)
 		.enter()
 		.append("circle")
 		.attr("cx", function(d,i){ return (BODY_RADIUS + 3) + i*(BODY_RADIUS*2 + 3 + 69) })
@@ -428,12 +473,18 @@ function buildDemographicMenu(){
 				setActiveDemographic(d.key, false, true)
 			}
 		})
+		.on("mouseover", function(d){
+			hoverDemographic(d.key)
+		})
+		.on("mouseout", function(d){
+			hoverDemographic("dudeOut")
+		})
 
 	var topMenu = container.append("div")
 		.attr("class", "demographicMenuContainer")
 
 	topMenu.selectAll(".top.state.menuItem")
-		.data(temp_categories)
+		.data(newCategories)
 		.enter()
 		.append("div")
 		.attr("class", function(d){
@@ -448,37 +499,45 @@ function buildDemographicMenu(){
 			}
 		})
 		.on("mouseover", function(d){
-			d3.selectAll(".demographicSubmenuContainer").classed("active", false)
-			if(d.key != "total" && d.key != "latinx"){
-				if(d.key.search("age") != -1){
-					d3.selectAll(".demographicSubmenuContainer.age").classed("active", true)
-				}else{
-					d3.selectAll(".demographicSubmenuContainer.race").classed("active", true)
-				}
-			}
+			hoverDemographic(d.key)
+		})
+		.on("mouseout", function(d){
+			hoverDemographic("dudeOut")
 		})
 
 	var raceMenu = topMenu.append("div")
 		.attr("class", "demographicSubmenuContainer race")
+		.on("mouseleave", function(d){
+			hoverDemographic("menuOut")
+		})
 
 	raceMenu.selectAll(".sub.state.menuItem")
-		.data(temp_categories[1]["sub"])
+		.data(newCategories[1]["sub"])
 		.enter()
 		.append("div")
 		.attr("class", function(d){
 			return "sub state race menuItem " + d.key
 		})
-		.text(function(d){ return d.label })
+		.html(function(d){ return d.label.replace(/\//g,"/<br/>") })
 		.on("click", function(d){
 			setActiveDemographic(d.key, false, true)
+		})
+		.on("mouseover", function(d){
+			d3.select(this).classed("hover", true)
+		})
+		.on("mouseout", function(d){
+			d3.select(this).classed("hover", false)
 		})
 
 	var ageMenu = topMenu.append("div")
 		.attr("class", "demographicSubmenuContainer age")
+		.on("mouseleave", function(d){
+			hoverDemographic("menuOut")
+		})
 
 
 	ageMenu.selectAll(".sub.state.menuItem")
-		.data(temp_categories[3]["sub"])
+		.data(newCategories[3]["sub"])
 		.enter()
 		.append("div")
 		.attr("class", function(d){
@@ -487,6 +546,12 @@ function buildDemographicMenu(){
 		.html(function(d){ return d.label })
 		.on("click", function(d){
 			setActiveDemographic(d.key, false, true)
+		})
+		.on("mouseover", function(d){
+			d3.select(this).classed("hover", true)
+		})
+		.on("mouseout", function(d){
+			d3.select(this).classed("hover", false)
 		})
 
 

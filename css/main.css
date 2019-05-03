@@ -345,16 +345,16 @@ a{
 .demographicMenu{
     stroke: #c4c4c4;  
 }
-.demographicMenu.active.total{
+.demographicMenu.active.total, .demographicMenu.hover.total{
     stroke: #FDD870;
 }
-.demographicMenu.active.race{
+.demographicMenu.active.race, .demographicMenu.hover.race{
     stroke: #EC8B88;
 }
-.demographicMenu.active.latinx{
+.demographicMenu.active.latinx, .demographicMenu.hover.latinx{
     stroke: #1696d2;
 }
-.demographicMenu.active.age{
+.demographicMenu.active.age, .demographicMenu.hover.age{
     stroke: #98CF90;
 }
 
@@ -364,12 +364,69 @@ a{
 }
 .demographicSubmenuContainer{
     position: absolute;
-    top: 13px;
-    opacity: 0;
+    top: -177px;
+    display: none;
     z-index: 1;
+    background: white;
+    border: 2px solid #D2D2D2;
+    padding-left: 26px;
+    padding-top: 14px;
 }
+.demographicSubmenuContainer.race{
+    width: 200px;
+    left: 298px;
+    height: 237px;
+}
+.demographicSubmenuContainer.age{
+    left: 500px;
+    height: 198px;
+    width: 71px;
+    top: -150px;
+}
+
+.demographicSubmenuContainer:after, .demographicSubmenuContainer:before {
+    top: 75%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.demographicSubmenuContainer.race:after, .demographicSubmenuContainer.race:before{
+    right: 100%;
+}
+.demographicSubmenuContainer.age:after, .demographicSubmenuContainer.age:before{
+    left: 100%;
+}
+
+.demographicSubmenuContainer:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-width: 14px;
+    margin-top: -14px;
+}
+.demographicSubmenuContainer.race:after{
+    border-right-color: #ffffff;
+}
+.demographicSubmenuContainer.age:after{
+    border-left-color: #ffffff;
+}
+
+.demographicSubmenuContainer:before {
+    border-color: rgba(210, 210, 210, 0);
+    border-width: 17px;
+    margin-top: -17px;
+}
+.demographicSubmenuContainer.race:before{
+    border-right-color: #D2D2D2;
+}
+.demographicSubmenuContainer.age:before{
+    border-left-color: #D2D2D2;
+}
+
+
 .demographicSubmenuContainer.active{
-    opacity: 1;
+    display: block;
     z-index: 1;
 }
 .demographicSubmenuContainer.age{
@@ -387,38 +444,39 @@ a{
     margin-right: 68.5px;
     text-align: center;
 }
+.top.state.menuItem.latinx{
+    margin-left: -14px;
+    margin-right: 82.5px;
+}
 .sub.state.race.menuItem{
-    max-width: 195px;
-    margin-right: 21px;
+    max-width: 305px;
     font-size: 16px;
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: 20px;
-    margin-bottom: -40px;
+    display: block;
+    margin-top: 15px;
 }
 .sub.state.age.menuItem{
-    max-width: 195px;
+    max-width: 305px;
     margin-right: 21px;
     font-size: 16px;
-    display: inline-block;
+    display: block;
     vertical-align: middle;
-    margin-top: 20px;
-    margin-bottom: -40px;
+    margin-top: 15px;
 }
 
 .active.menuItem, .bolded.menuItem{
     font-weight: bold;
 }
-.active.menuItem.total{
+
+.active.menuItem.total, .hover.menuItem.total{
     color: #FDD870;
 }
-.active.menuItem.race, .bolded.menuItem.race{
+.active.menuItem.race, .bolded.menuItem.race, .hover.menuItem.race{
     color: #EC8B88;
 }
-.active.menuItem.latinx{
+.active.menuItem.latinx, .hover.menuItem.latinx{
     color: #1696d2;
 }
-.active.menuItem.age, .bolded.menuItem.age{
+.active.menuItem.age, .bolded.menuItem.age, .hover.menuItem.age{
     color: #98CF90;
 }
 
@@ -434,6 +492,9 @@ a{
     margin-top: 97px;
     cursor: pointer;
     position: relative;
+}
+.state.tableHeader{
+    margin-top: 37px
 }
 .tableHeader.projection span, .tableHeader.miscount span{
     padding-bottom: 4px;
