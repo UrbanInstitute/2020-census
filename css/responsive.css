@@ -84,4 +84,15 @@
 	#breakpoint768{
 		display: block;
 	}
+	.tableTooltip{
+		display: none;
+	}
+	#mainContent {
+	    width: calc(100% - 30px);
+	    margin-left: 15px;
+	    margin-right: 15px;
+	}
+	svg{
+		pointer-events: none;
+	}
 }
