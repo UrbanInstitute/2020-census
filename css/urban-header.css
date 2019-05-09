@@ -331,3 +331,56 @@ ul{
 /*end css for header*/
 
  
+/*********************************************/
+/************ CUSTOM SHARE ******************/
+/*******************************************/
+.customShareLink{
+    display: inline;
+    float: right;
+    font-size: 15px;
+    margin-right: 10px;
+    font-style: italic;
+    color: #1696d2 !important;
+    cursor: pointer;
+}
+.customShareBox{
+    width: 325px;
+    height: 57px;
+    position: absolute;
+    background: #fff;
+    right: 57px;
+    top: 51px;
+    display: none;
+}
+.customShareBox.visible{
+    display: block;
+}
+#shareURL{
+    height: 20px;
+    margin-top: 11px;
+    margin-left: 11px;
+    width: 229px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#copyUrlButton{
+    display: inline-block;
+    background: #1696d2;
+    margin-left: 10px;
+    font-size: 14px;
+    padding: 3px 10px 3px 10px;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+#copyUrlButton:hover{
+    background: #353535;
+}
+#copyUrlNote{
+    font-size: 12px;
+    font-style: italic;
+    margin-left: 11px;
+    margin-top: 2px;
+    opacity: 0;
+}

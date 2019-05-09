@@ -1,6 +1,4 @@
-function getActiveState(){
-	return d3.select(".state.row.active").attr("data-state")
-}
+
 function lockTables(){
 	d3.select("#locker").classed("locked", true)
 }
@@ -10,11 +8,30 @@ function unlockTables(){
 function tablesAreLocked(){
 	return d3.select("#locker").classed("locked")
 }
+function getActiveState(){
+	return d3.select(".state.row.active").attr("data-state")
+}
 function getActiveDemographic(){
 	return ( d3.select(".demographic.row.active").node() == null) ? "total" : d3.select(".demographic.row.active").attr("data-demographic")
 }
+function getActiveFilter(){
+	return (d3.select(".customRadio.demographics").classed("active")) ? "demographic" : "state"
+}
+function getActiveSort(){
+	var section = (getActiveFilter() == "demographic") ? "state" : "demographic"
+	return d3.select("." + section + ".tableHeader.active").datum()
+}
+function getSortOrder(){
+	var section = (getActiveFilter() == "demographic") ? "state" : "demographic"
+	var sort = getActiveSort()
+	if(section == "demographic"){
+		return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "descending" : "ascending";
+	}else{
+		return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "ascending" : "descending";
+	}
+}
 function setActiveDemographic(demographic, isInit, isClick){
-	if(tablesAreLocked()) return false
+	// if(tablesAreLocked()) return false
 
 	expandRow("demographic", demographic, isInit)
 
@@ -88,11 +105,15 @@ function showSection(section){
 		d3.select("#demographicsContainer").classed("active", false)
 		d3.select(".customRadio.state").classed("active", true)
 		d3.select(".customRadio.demographics").classed("active", false)
+		d3.select(".customRadioLabel.state").classed("active", true)
+		d3.select(".customRadioLabel.demographics").classed("active", false)
 	}else{
 		d3.select("#stateContainer").classed("active", false)
 		d3.select("#demographicsContainer").classed("active", true)
 		d3.select(".customRadio.state").classed("active", false)
 		d3.select(".customRadio.demographics").classed("active", true)
+		d3.select(".customRadioLabel.state").classed("active", false)
+		d3.select(".customRadioLabel.demographics").classed("active", true)
 	}
 
 }
@@ -123,7 +144,7 @@ function expandRow(table, selector, isInit){
 
 
 
-	var shortTable = prevSelection.classed("asian")
+	var shortTable = prevSelection.classed("asian") && !IS_SMALL_DESKTOP()
 	var asianBump = (shortTable) ? ROW_EXPAND : 0
 
 
@@ -169,11 +190,11 @@ function expandRow(table, selector, isInit){
 				}else{
 					if(sY <= oldY){
 						
-						if(selector == "asian") return "translate(0," + (sY ) + ")"		 
+						if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY ) + ")"		 
 						else return "translate(0," + (sY + ROW_EXPAND ) + ")"	
 					}else{
 						if (shortTable) return "translate(0," + (sY + asianBump) + ")"		
-						else if(selector == "asian") return "translate(0," + (sY - ROW_EXPAND ) + ")"	
+						else if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY - ROW_EXPAND ) + ")"	
 						else return "translate(0," + (sY + asianBump ) + ")"		
 					}
 				}
@@ -246,21 +267,23 @@ function buildMap(data, state){
 	var svg = d3.select("#stateContainer")
 		.data(data)
 		.append("svg")
-			.attr("width", 700)
-			.attr("height", 450)
+			.attr("id", "mapContainer")
+			.attr("class", "resizeRemove")
+			.attr("width", GET_MAP_WIDTH() )
+			.attr("height",  GET_MAP_HEIGHT() )
 			.append("g")
 
 	svg.append("rect")
 		.attr("x",0)
 		.attr("y",0)
-		.attr("width", 700)
-		.attr("height", 450)
+		.attr("width", GET_MAP_WIDTH())
+		.attr("height", GET_MAP_HEIGHT())
 		.attr("id", "mapBg")
 
 	var projection = d3.geoEquirectangular()
-		.scale(2750)
+		.scale( GET_MAP_SCALE() )
 		.center([-96.03542,41.69553])
-		.translate([325,176]);
+		.translate(GET_MAP_TRANSLATE() );
 
 	var geoPath = d3.geoPath()
 		.projection(projection);
@@ -279,8 +302,8 @@ function buildMap(data, state){
 			})
 
 	map.append("rect")
-		.attr("width",CHART_WIDTH-2*CHART_MARGIN + 8)
-		.attr("height",CHART_WIDTH-2*CHART_MARGIN + 8)
+		.attr("width",CHART_WIDTH()-2*CHART_MARGIN + 8)
+		.attr("height",CHART_WIDTH()-2*CHART_MARGIN + 8)
 		.attr("x",CHART_MARGIN - 4)
 		.attr("y",CHART_MARGIN - 4)
 		.attr("class", function(d){
@@ -293,7 +316,6 @@ function buildMap(data, state){
 
 	map.append("rect")
 		.attr("class", "bar low")
-		.attr("width", 2)
 		.attr("x", 5)
 		.attr("y", function(d){
 			var val = d["totalPercentLow"]
@@ -303,12 +325,11 @@ function buildMap(data, state){
 			var val = d["totalPercentLow"]
 			return (val > 0) ? y(0) - y(val) : y(val) - y(0)
 		})
-		.attr("width", 14)
+		.attr("width", BAR_WIDTH())
 
 	map.append("rect")
 		.attr("class", "bar medium")
-		.attr("width", 2)
-		.attr("x", 19)
+		.attr("x", 5 + BAR_WIDTH())
 		.attr("y", function(d){
 			var val = d["totalPercentMedium"]
 			return (val > 0) ? y(val) : y(0)
@@ -317,13 +338,12 @@ function buildMap(data, state){
 			var val = d["totalPercentMedium"]
 			return (val > 0) ? y(0) - y(val) : y(val) - y(0)
 		})
-		.attr("width", 14)
+		.attr("width", BAR_WIDTH())
 
 
 	map.append("rect")
 		.attr("class", "bar high")
-		.attr("width", 2)
-		.attr("x", 33)
+		.attr("x", 5 + 2*BAR_WIDTH())
 		.attr("y", function(d){
 			var val = d["totalPercentHigh"]
 			return (val > 0) ? y(val) : y(0)
@@ -332,18 +352,18 @@ function buildMap(data, state){
 			var val = d["totalPercentHigh"]
 			return (val > 0) ? y(0) - y(val) : y(val) - y(0)
 		})
-		.attr("width", 14)
+		.attr("width", BAR_WIDTH())
 
 	map.append("line")
 		.attr("class", "smallAxis")
 		.attr("x1", CHART_MARGIN-4 + 2)
-		.attr("x2", CHART_WIDTH - CHART_MARGIN +2)
+		.attr("x2", CHART_WIDTH() - CHART_MARGIN +2)
 		.attr("y1", y(0))
 		.attr("y2", y(0))
 
 	map.append("text")
 		.attr("class", "mapLabel")
-		.attr("x", .5*(CHART_WIDTH-2*CHART_MARGIN + 8))
+		.attr("x", .5*(CHART_WIDTH()-2*CHART_MARGIN + 8))
 		.attr("y", 40)
 		.attr("text-anchor", "middle")
 		.text(function(d){
@@ -362,7 +382,7 @@ function buildMap(data, state){
 	})
 
 	map.append("text")
-		.attr("x", CHART_WIDTH + 5)
+		.attr("x", CHART_WIDTH() + 5)
 		.attr("y", y(.02))
 		.text(PERCENT(.02))
 		.attr("class", "mapAxisLabel")
@@ -371,7 +391,7 @@ function buildMap(data, state){
 		})
 
 	map.append("text")
-		.attr("x", CHART_WIDTH + 5)
+		.attr("x", CHART_WIDTH() + 5)
 		.attr("y", y(-.07))
 		.text(PERCENT(-.07))
 		.attr("class", "mapAxisLabel")
@@ -383,7 +403,16 @@ function buildMap(data, state){
 
 function getColumnWidth(section, colNum){
 	if(section == "state"){
-		widths = [false, 295, 150, 220]
+		var W = GET_TABLE_WIDTH()
+		if(IS_SMALL_DESKTOP()){
+			widths = [false, 450, 220, W - 450 - 220 -35]
+		}
+		else if(IS_TABLET()){
+			widths = [false, 330, 170, W-330-170-40]	
+		}
+		else{
+			widths = [false, 295, 150, 220]
+		}
 		return widths[colNum]
 	}
 }
@@ -432,7 +461,9 @@ function buildDemographicMenu(){
 	var container = d3.select("#demographicsContainer")
 	
 	var svg = container.append("svg")
-	svg.attr("width", GET_TABLE_WIDTH())
+	svg.attr("width", GET_MEEPLE_WIDTH())
+		.attr("class", "resizeRemove")
+		.attr("id", "meepleMenu")
 		.attr("height", 150)
 
 	svg.selectAll(".head")
@@ -483,7 +514,7 @@ function buildDemographicMenu(){
 		})
 
 	var topMenu = container.append("div")
-		.attr("class", "demographicMenuContainer")
+		.attr("class", "demographicMenuContainer resizeRemove")
 
 	topMenu.selectAll(".top.state.menuItem")
 		.data(newCategories)
@@ -559,9 +590,9 @@ function buildDemographicMenu(){
 
 }
 
-function buildStateTableHeaders(container){
+function buildStateTableHeaders(container, sortOrder){
 	var c1 = container.append("div")
-		.attr("class", "state tableHeader tableText active alphabetical ascending")
+		.attr("class", "resizeRemove state tableHeader tableText active alphabetical " + sortOrder)
 		.style("width", getColumnWidth("state",1) + "px")
 		.on("click", function(){ sortStateTable("alphabetical", true) })
 		.datum("alphabetical")
@@ -574,7 +605,7 @@ function buildStateTableHeaders(container){
 		.attr("src", "images/sort_asc.png")
 
 	var c2 = container.append("div")
-		.attr("class", "state tableHeader tableText projection")
+		.attr("class", "resizeRemove state tableHeader tableText projection")
 		.style("width", getColumnWidth("state",2) + "px")
 		.on("click", function(){ sortStateTable("projection", true) })
 		.datum("projection")
@@ -587,7 +618,7 @@ function buildStateTableHeaders(container){
 		.attr("src", "images/sort.png")
 
 	var c3 = container.append("div")
-		.attr("class", "state tableHeader tableText miscount")
+		.attr("class", "resizeRemove state tableHeader tableText miscount")
 		.style("width", getColumnWidth("state",3) + "px")
 		.on("click", function(){ sortStateTable("miscount", true) })
 		.datum("miscount")
@@ -610,11 +641,11 @@ function buildStateTableHeaders(container){
 
 
 }
-function buildDemographicsTableHeaders(container){
+function buildDemographicsTableHeaders(container, sortOrder){
 
 
 	var c1 = container.append("div")
-		.attr("class", "demographic tableHeader tableText active alphabetical ascending")
+		.attr("class", "resizeRemove demographic tableHeader tableText active alphabetical " + sortOrder)
 		.style("width", getColumnWidth("state",1) + "px")
 		.on("click", function(){ sortDemographicTable("alphabetical", true) })
 		.datum("alphabetical")
@@ -627,7 +658,7 @@ function buildDemographicsTableHeaders(container){
 		.attr("src", "images/sort_asc.png")
 
 	var c2 = container.append("div")
-		.attr("class", "demographic tableHeader tableText projection")
+		.attr("class", "resizeRemove demographic tableHeader tableText projection")
 		.style("width", getColumnWidth("state",2) + "px")
 		.on("click", function(){ sortDemographicTable("projection", true) })
 		.datum("projection")
@@ -640,7 +671,7 @@ function buildDemographicsTableHeaders(container){
 		.attr("src", "images/sort.png")
 
 	var c3 = container.append("div")
-		.attr("class", "demographic tableHeader tableText miscount")
+		.attr("class", "resizeRemove demographic tableHeader tableText miscount")
 		.style("width", getColumnWidth("state",3) + "px")
 		.on("click", function(){ sortDemographicTable("miscount", true) })
 		.datum("miscount")
@@ -678,18 +709,18 @@ function getXScale(){
 }
 function getYScale(){
 	var y = d3.scaleLinear()
-		.range([CHART_MARGIN-4, CHART_WIDTH-CHART_MARGIN + 3])
+		.range([CHART_MARGIN-4, CHART_WIDTH()-CHART_MARGIN + 3])
 		.domain([PERCENT_MAX, PERCENT_MIN])
 	return y;
 }
 
 function buildTableTooltip(section, container, data){
 	var tt = container.append("div")
-		.attr("class", "tableTooltip " + section)
+		.attr("class", "resizeRemove tableTooltip " + section)
 		.datum(data)
 
 	tt.append("div")
-		.html("In <span class = \"table-tt-state\"></span>, the <span class = \"table-tt-demographic\"></span> population could be miscounted by:")
+		.html("In <span class = \"table-tt-state\"></span>, <span class = \"table-tt-demographic\"></span> could be miscounted by:")
 		.attr("class", "table-tt-header")
 
 	var risks = ["low", "medium", "high"]
@@ -732,22 +763,40 @@ function updateTableTooltips(state, demographic){
 	var demographicRow = d3.select(".demographic" + "." + demographic + ".row")
 
 	var stateRow = d3.select(".state" + ".fips_" + state + ".row")
+
 	var demographicY = getTransformY(demographicRow)
 	var stateY = getTransformY(stateRow)
 
 	var stateLabel = data.filter(function(d){ return d.fips == state })[0].state,
 		demographicLabel = getDemographicLabel(demographic)
 
+	if(stateLabel == "US total") stateLabel = "the US"
+	if(stateLabel == "District of Columbia") stateLabel = "the District of Columbia"
+	demographicLabel = demographicLabel.replace("White","white").replace("Black","black")
+	if(demographic.search("age") != -1) demographicLabel = "people ages " + demographicLabel
+	else demographicLabel = "the " + demographicLabel + " population"
+
+	var demographicScootch =0,
+		stateScootch =0;
+	if(IS_SMALL_DESKTOP()){
+		if(demographic == "asian") demographicScootch = -125
+		else demographicScootch = -105
+	}
+	
+	else{
+		demographicScootch = 0;
+	}
+
+
 	d3.selectAll(".table-tt-state").html(stateLabel)
 	d3.selectAll(".table-tt-demographic").html(demographicLabel)
 
 	d3.select(".demographic.tableTooltip")
 		.transition()
-		.style("top", (demographicY+ 590) + "px")
-
+		.style("top", (demographicY+ 590 + demographicScootch) + "px")
 	d3.select(".state.tableTooltip")
 		.transition()
-		.style("top", (stateY+ 236) + "px")
+		.style("top", (stateY + 236 + stateScootch) + "px")
 
 	d3.selectAll(".table-tt-row.low .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentLow"] ))
 	d3.selectAll(".table-tt-row.medium .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentMedium"] ))
@@ -953,7 +1002,7 @@ function updateDemographicTable(state){
 
 	d3.selectAll(".demographic.tableText.population")
 		.text(function(d){
-			return POPULATION(datum[getDemographic(this) + "Pop"])
+			return POPULATION_NO_SIGN(datum[getDemographic(this) + "Pop"])
 		})
 
 
@@ -998,7 +1047,7 @@ function updateDemographicTable(state){
 
 function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 	var container = d3.select("#stateContainer")
-	buildDemographicsTableHeaders(container)
+	buildDemographicsTableHeaders(container, sortOrder)
 	buildTableTooltip("demographic", container, data)
 
 	var usDatum = data.filter(function(o){
@@ -1006,6 +1055,8 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 	})
 
 	var svg = container.append("svg").attr("id", "demographicTable")
+		.attr("class", "resizeRemove")
+
 	svg.attr("width", GET_TABLE_WIDTH())
 		.attr("height", 14 * ROW_HEIGHT + ROW_EXPAND + ROW_EXPAND)
 		.data(usDatum)
@@ -1042,8 +1093,8 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 				var sub = category["sub"][j]
 				var subDemographic = sub.key
 
-				var big = (subDemographic == "asian")
-				var active = (subDemographic == defaultDemographic) ? " active" : ""
+				var big = (subDemographic == "asian"  && !IS_SMALL_DESKTOP())
+				var active = (subDemographic == defaultDemographic) ? " active clicked" : ""
 				var rowSub = svg
 					.append("g")
 					.attr("class", "demographic rowSub row " + subDemographic + " " + category.key + active)
@@ -1088,7 +1139,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 					.attr("y", 6 + ROW_HEIGHT/2)
 					.attr("x", getColumnWidth("state", 1))
 					.text(function(d){
-						return POPULATION(d[subDemographic + "Pop"])
+						return POPULATION_NO_SIGN(d[subDemographic + "Pop"])
 					})
 
 				buildDotPlot(rowSub, subDemographic, "demographic")
@@ -1108,7 +1159,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 
 		}else{
 			var demographic = category.key
-			var active = (demographic == defaultDemographic) ? " active" : ""
+			var active = (demographic == defaultDemographic) ? " active clicked" : ""
 			var row = svg
 				.append("g")
 				.attr("class", "demographic row " + demographic + active + " " + category.key)
@@ -1138,7 +1189,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 				.attr("y", 6 + ROW_HEIGHT/2)
 				.attr("x", getColumnWidth("state", 1))
 				.text(function(d){
-					return POPULATION(d[demographic + "Pop"])
+					return POPULATION_NO_SIGN(d[demographic + "Pop"])
 				})
 
 			buildDotPlot(row, demographic, "demographic")
@@ -1174,12 +1225,14 @@ function buildStateTable(data, state, sort, sortOrder){
 	
 
 	var container = d3.select("#demographicsContainer")
-	buildStateTableHeaders(container);
+	buildStateTableHeaders(container, sortOrder);
 	buildTableTooltip("state", container, data)
 
 	var rowCount = data.length
 
 	var svg = container.append("svg").attr("id", "stateTable")
+		.attr("class", "resizeRemove")
+
 	svg.attr("width", GET_TABLE_WIDTH())
 		.attr("height", rowCount * ROW_HEIGHT + ROW_EXPAND + ROW_EXPAND)
 
@@ -1188,7 +1241,7 @@ function buildStateTable(data, state, sort, sortOrder){
 		.enter()
 		.append("g")
 		.attr("class", function(d){
-			var active = (d.fips == +state) ? " active" : "";
+			var active = (d.fips == +state) ? " active clicked" : "";
 			return "state row fips_" + d.fips + active;
 		})
 		.attr("data-state", function(d){ return d.fips })
@@ -1222,7 +1275,7 @@ function buildStateTable(data, state, sort, sortOrder){
 		.attr("x", getColumnWidth("state", 1))
 		.text(function(d){
 			var demographic = getActiveDemographic();
-			return POPULATION(d[demographic + "Pop"])
+			return POPULATION_NO_SIGN(d[demographic + "Pop"])
 		})
 
 	buildDotPlot(row, getActiveDemographic(), "state")
@@ -1253,7 +1306,7 @@ function updateStateTable(demographic){
 
 	d3.selectAll(".state.tableText.population")
 		.text(function(d){
-			return POPULATION(d[demographic + "Pop"])
+			return POPULATION_NO_SIGN(d[demographic + "Pop"])
 		})
 
 	d3.selectAll(".state.low.dot")
@@ -1340,7 +1393,7 @@ function sortStateTable(sorting, isClick, order){
 
 	if(sorting == "miscount"){
 		data.sort(function(a, b) {
-		    return(sortOrder == "ascending") ? a[demographic + "PercentHigh"] - b[demographic + "PercentHigh"] : b[demographic + "PercentHigh"] - a[demographic + "PercentHigh"];
+		    return(sortOrder == "descending") ? a[demographic + "PercentHigh"] - b[demographic + "PercentHigh"] : b[demographic + "PercentHigh"] - a[demographic + "PercentHigh"];
 		});
 	}
 	else if(sorting == "alphabetical"){
@@ -1348,7 +1401,7 @@ function sortStateTable(sorting, isClick, order){
 		    var textA = (a.state == "US total") ? "AAA" : a.state.toUpperCase();
 		    var textB = (b.state == "US total") ? "AAA" : b.state.toUpperCase();
 
-		    if(sortOrder == "ascending"){
+		    if(sortOrder == "descending"){
 		    	return (textA < textB || textA == "US TOTAL") ? -1 : (textA > textB) ? 1 : 0;	
 		    }else{
 		    	return (textA > textB ) ? -1 : (textA < textB ) ? 1 : 0;	
@@ -1396,6 +1449,8 @@ function sortDemographicTable(sorting, isClick, order){
 
 	header.classed("active", true)
 
+	console.log(order, isClick, header.classed("ascending"), header.classed("descending"))
+
 	if(typeof(order) == "undefined"){
 		if(header.classed("ascending")){
 			sortOrder = (isClick) ? "descending" : "ascending";
@@ -1406,7 +1461,7 @@ function sortDemographicTable(sorting, isClick, order){
 			sortOrder = (isClick) ? "ascending" : "descending"
 		}
 	}else{
-		sortOrder = (order == "ascending") ? "descending" : "ascending";
+		sortOrder = order;
 	}
 
 	d3.selectAll(".demographic.tableHeader.ascending").classed("ascending", false)
@@ -1540,13 +1595,53 @@ function bindListeners(){
 
 		})
 
+	d3.select(".customShareLink")
+		.on("click", function(){
+			if(d3.select(".customShareBox").classed("visible")){
+				d3.select(".customShareBox").classed("visible", false)
+			}else{
+				d3.select(".customShareBox").classed("visible", true)
+			}
+			d3.select("#shareURL").attr("value", getShareURL())
+		})
+	d3.select("#copyUrlButton").on("click", function(){
+		copyTextToClipboard(getShareURL())
+		d3.select("#copyUrlNote")
+			.style("opacity",1)
+			.transition()
+			.delay(1500)
+			.duration(1000)
+			.style("opacity", 0)
+	})
+
+}
+
+function getShareURL(){
+	var url = [location.protocol, '//', location.host, location.pathname].join('');
+	var queryParams = []
+	if(getActiveState() != "99") queryParams.push( "state=" + d3.select("g.state.fips_" + getActiveState()).datum().abbr )
+	if(getActiveDemographic() != "total") queryParams.push("demographic=" + getActiveDemographic() )
+	if(getActiveFilter() != "state") queryParams.push("filter=" + getActiveFilter() )
+	if(getActiveSort() == "alphabetical"){
+		if(getSortOrder() == "descending"){
+			queryParams.push("sort=alphabetical")
+			queryParams.push("sortOrder=descending")
+		}
+	}else{
+			queryParams.push("sort=" + getActiveSort())
+			queryParams.push("sortOrder=" + getSortOrder())
+	}
+
+	if (queryParams.length > 0){
+		return url + "?" + queryParams.join("&")
+	}else{
+		return url
+	}
+
 }
 
 
-
-
-d3.json("data/data.json", function(data){
-	console.log(data)
+function init(data, isInit){
 	data.sort(function(a, b) {
 	    var textA = (a.state == "US total") ? "AAA" : a.state.toUpperCase();
 	    var textB = (b.state == "US total") ? "AAA" : b.state.toUpperCase();
@@ -1556,31 +1651,52 @@ d3.json("data/data.json", function(data){
 
 
 
-	var section = (getQueryString("filter") == "") ? "state" : getQueryString("filter"),
-		stateAbbr = (getQueryString("state") == "") ? "US" : getQueryString("state"),
-		demographic = (getQueryString("demographic") == "") ? "total" : getQueryString("demographic"),
-		sort = getQueryString("sort"),
-		sortOrder = getQueryString("sortOrder");
-	
-	var state = data.filter(function(o){ return o.abbr == stateAbbr })[0].fips
+	if(isInit){
+		var section = (getQueryString("filter") == "") ? "state" : getQueryString("filter"),
+			stateAbbr = (getQueryString("state") == "") ? "US" : getQueryString("state"),
+			demographic = (getQueryString("demographic") == "") ? "total" : getQueryString("demographic"),
+			sort = getQueryString("sort"),
+			sortOrder = (getQueryString("sortOrder") == "") ? "ascending" : getQueryString("sortOrder");
+		
+		var state = data.filter(function(o){ return o.abbr == stateAbbr })[0].fips
+	}else{
+		var section = getActiveFilter(),
+			state = getActiveState(),
+			demographic = getActiveDemographic(),
+			sort = getActiveSort(),
+			sortOrder = getSortOrder()
 
-	console.log(state)
+		d3.selectAll(".resizeRemove").remove()
+	}
 
 
-
-
-
-	buildDemographicMenu();
+	if(! IS_PHONE()) buildDemographicMenu();
 	buildStateTable(data, state, sort, sortOrder);
-	buildMap(data, state)
+	if(! IS_PHONE()) buildMap(data, state)
 	buildDemographicTable(data, demographic, sort, sortOrder)
 	updateTableTooltips(state,demographic)
 	bindListeners();
 	showSection(section)
+}
 
+d3.json("data/data.json", function(data){
+
+	init(data, true)
 
 
 })
 
 
+var resizeTimer;
 
+$(window).on('resize', function(e) {
+
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+
+	var data = d3.selectAll("#demographicsContainer .row").data()
+	init(data, false)
+            
+  }, 250);
+
+});

@@ -53,12 +53,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-MKBD2W');</script> -->
 <!-- End Google Tag Manager -->
 <div id = "breakpoint1200"></div>
-<div id = "breakpoint1000"></div>
-<div id = "breakpoint900"></div>
-<div id = "isMobile"></div>
-<div id = "isPhone"></div>
-<div id = "isSmallPhone"></div>
-<div id = "isVerySmallPhone"></div>
+<div id = "breakpoint768"></div>
+<div id = "breakpoint1010"></div>
 
 <div id = "locker"></div>
 
@@ -66,7 +62,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <!-- START HEADER -->
     <div id="header-pinned" class="no-touch">
        <a target="_blank" href="http://www.urban.org" title="Home" rel="home" class="site-logo"></a>
-    <div class="title"><span class="feature-link"><a href="http://www.urban.org/features" class="title-linkback" alt="Urban Institute logo">Features</a></div>
+    <div class="title"><span class="feature-link"><a href="http://www.urban.org/features" class="title-linkback" alt="Urban Institute logo">Features</a>
+        <div class = "customShareLink">Share this view</div>
+
+    </div>
+    <div class = "customShareBox">
+      <input type="text" id="shareURL" name="shareURL" readonly> <div id = "copyUrlButton">Copy</div>
+      <div id = "copyUrlNote">Copied to clipboard</div>
+    </div>
+
     <div class="share-icons">
         <div class="shareThisP">
             <span onclick="toggle_visibility('shareBox');">
@@ -124,7 +128,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <div class = "customRadioRow state">
       <div class = "customRadio state active"><span></span></div>
-      <div class = "customRadioLabel state">State</div>
+      <div class = "customRadioLabel state active">State</div>
     </div>
 
     <div class = "customRadioRow demographics">
