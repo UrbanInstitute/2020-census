@@ -1030,7 +1030,7 @@ function updateDemographicTable(state){
 
 	d3.selectAll(".demographic.dotLabel.low")
 		.text(function(d){
-			return PERCENT_LONG(d[getDemographic(this) + "Percent" + "Low"])
+			return PERCENT_LONG(datum[getDemographic(this) + "Percent" + "Low"])
 		})
 
 	d3.selectAll(".demographic.dotLabel.medium")
