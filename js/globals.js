@@ -81,10 +81,14 @@ function IS_PHONE(){
 	return ( d3.select("#breakpoint768").style("display") == "block")
 }
 
-var ROW_HEIGHT = (IS_PHONE()) ? 200 : 54;
+var ROW_HEIGHT = (IS_PHONE()) ? 240 : 54;
+var CARD_HEIGHT = 200;
 var ROW_EXPAND = 35;
 var GET_TABLE_WIDTH = function(){
 	return (IS_SMALL_DESKTOP() || IS_TABLET() || IS_PHONE()) ? d3.select("#mainContent").node().getBoundingClientRect().width: 700;
+}
+var GET_CARD_WIDTH = function(){
+	return GET_TABLE_WIDTH()
 }
 var GET_MAP_WIDTH = function(){
 	return d3.min([900, GET_TABLE_WIDTH()])
