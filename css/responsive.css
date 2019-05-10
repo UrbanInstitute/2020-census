@@ -104,6 +104,10 @@
 	#breakpoint768{
 		display: block;
 	}
+	#demographicTable, #stateTable{
+    	margin: 0 auto;
+    	display: block;
+	}
 	.headerimage{
 		height: 355px;
 	}
@@ -153,9 +157,6 @@
 	}
 	#footerContent {
 	    width: 100%;
-	}
-	svg{
-		/*pointer-events: none;*/
 	}
 	.rowBgMobileBackground{
 		fill: #CFE8F3;
@@ -237,6 +238,17 @@
 	    margin-left: 10px;
 	    margin-right: 10px;
 	}
+	.mobileInfoCircle{
+	    fill: #fff;
+	    stroke: #ADABAC;
+	    stroke-width: 1px;
+	}
+	.mobileInfoText{
+	    fill: #ADABAC;
+	    font-size: 11px;
+	    pointer-events: none;
+	}
+
 
 }
 @media(max-width: 500px){

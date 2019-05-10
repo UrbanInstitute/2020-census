@@ -233,6 +233,15 @@ a{
     overflow: hidden;
     height: 0px;
 }
+.mobileInfoCircle{
+    fill: #fff;
+    stroke: #ADABAC;
+    stroke-width: 1px;
+}
+.mobileInfoText{
+    fill: #ADABAC;
+    pointer-events: none;
+}
 
 
 /*********************************************************************************/

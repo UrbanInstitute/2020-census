@@ -1134,6 +1134,8 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 		var tooltipContainer = d3.select("body")
 			.append("div")
 			.attr("id", "mobileTooltipContainer")
+			.style("display", "none")
+
 		var tooltip = tooltipContainer.append("div")
 			.attr("id", "mobileTooltip")
 
@@ -1143,7 +1145,6 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 
 		tooltip.append("span")
 			.attr("id", "mobileTooltipText")
-		showMobileTooltip("miscount")
 	}
 
 	var svg = container.append("svg").attr("id", "demographicTable")
@@ -1163,6 +1164,8 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 		categoryY = (IS_PHONE()) ? 36 : 6 + ROW_HEIGHT/2,
 		populationX = (IS_PHONE()) ? categoryX + 93 : getColumnWidth("state", 1),
 		populationY = (IS_PHONE()) ? 62 : 6 + ROW_HEIGHT/2,
+		popInfoX = categoryX + 170,
+		miscountInfoX = categoryX + 115,
 		parentCategoryX = categoryX,
 		parentCategoryY = 20,
 		stateX = GET_TABLE_WIDTH() - 35,
@@ -1270,6 +1273,32 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 						.text(function(d){
 							return d.abbr
 						})
+
+					rowSub.append("circle")
+						.attr("class", "mobileInfoCircle")
+						.attr("cx", popInfoX)
+						.attr("cy", populationY - 4)
+						.attr("r", 7)
+						.on("click", function(){ showMobileTooltip("projection") })
+					rowSub.append("text")
+						.attr("class", "mobileInfoText")
+						.attr("x", popInfoX - 2)
+						.attr("y", populationY )
+						.text("?")
+
+					rowSub.append("circle")
+						.attr("class", "mobileInfoCircle")
+						.attr("cx", miscountInfoX)
+						.attr("cy", miscountY - 4)
+						.attr("r", 7)
+						.on("click", function(){ showMobileTooltip("miscount") })
+					rowSub.append("text")
+						.attr("class", "mobileInfoText")
+						.attr("x", miscountInfoX - 2)
+						.attr("y", miscountY )
+						.text("?")
+
+						
 
 
 
@@ -1385,6 +1414,31 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 						.text(function(d){
 							return d.abbr
 						})
+
+					row.append("circle")
+						.attr("class", "mobileInfoCircle")
+						.attr("cx", popInfoX)
+						.attr("cy", populationY - 4- overallScootch)
+						.attr("r", 7)
+						.on("click", function(){ showMobileTooltip("projection") })
+					row.append("text")
+						.attr("class", "mobileInfoText")
+						.attr("x", popInfoX - 2)
+						.attr("y", populationY - overallScootch)
+						.text("?")
+
+					row.append("circle")
+						.attr("class", "mobileInfoCircle")
+						.attr("cx", miscountInfoX)
+						.attr("cy", miscountY - 4- overallScootch)
+						.attr("r", 7)
+						.on("click", function(){ showMobileTooltip("miscount") })
+					row.append("text")
+						.attr("class", "mobileInfoText")
+						.attr("x", miscountInfoX - 2)
+						.attr("y", miscountY - overallScootch)
+						.text("?")
+
 
 
 				}else{
