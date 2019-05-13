@@ -64,6 +64,12 @@ function setActiveDemographic(demographic, isInit, isClick){
 
 	updateStateTable(demographic)
 	updateMap(demographic)
+	if(IS_PHONE()){
+		d3.select(".mobileMenu.demographic option[value=\"" + demographic + "\"]").property("selected", true)
+		if(Object.keys($(".mobileMenu.demographic").data()).length != 0){
+			$(".mobileMenu.demographic").selectmenu("refresh")
+		}
+	}
 	
 }
 function setActiveState(state, isInit, isClick){
@@ -85,6 +91,13 @@ function setActiveState(state, isInit, isClick){
 	}
 
 	if(!isInit) updateDemographicTable(state)
+
+	if(IS_PHONE()){
+		d3.select(".mobileMenu.state option[value=\"" + state + "\"]").property("selected", true)
+		if(Object.keys($(".mobileMenu.state").data()).length != 0){
+			$(".mobileMenu.state").selectmenu("refresh")
+		}
+	}
 
 
 
@@ -114,6 +127,19 @@ function showSection(section){
 		d3.select(".customRadio.demographics").classed("active", true)
 		d3.select(".customRadioLabel.state").classed("active", false)
 		d3.select(".customRadioLabel.demographics").classed("active", true)
+	}
+	if(IS_PHONE()){
+		if(section == "demographic"){
+			d3.select(".mobileMenuRow.state").style("display","none")
+			d3.select(".mobileMenuRow.demographic").style("display","block")
+			d3.select("#mobileSortMenuOption").text("State")
+			$(".mobileMenu.sort" ).selectmenu("refresh")
+		}else{
+			d3.select(".mobileMenuRow.state").style("display","block")
+			d3.select(".mobileMenuRow.demographic").style("display","none")
+			d3.select("#mobileSortMenuOption").text("Demographic")
+			$(".mobileMenu.sort" ).selectmenu("refresh")
+		}
 	}
 
 }
@@ -1068,6 +1094,8 @@ function updateDemographicTable(state){
 	})[0]
 	var x = getXScale()
 
+	d3.selectAll(".demographic.row .mobileCornerLabel")
+		.text(datum.abbr)
 
 	d3.selectAll(".demographic.tableText.population")
 		.text(function(d){
@@ -1098,18 +1126,60 @@ function updateDemographicTable(state){
 
 
 	d3.selectAll(".demographic.dotLabel.low")
-		.text(function(d){
-			return PERCENT_LONG(datum[getDemographic(this) + "Percent" + "Low"])
+		.html(function(d){
+			var demographic = getDemographic(this)
+			if(IS_PHONE()){
+				var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]	
+				if( containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"])) ||
+					containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"])) ||
+					containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"])) 
+					){
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+				}else{
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+				}
+
+
+				if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"]))){
+					return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people*)"
+				}else{
+					return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)"
+				}
+			}else{
+				return PERCENT_LONG(datum[demographic + "Percent" + "Low"])
+			}
 		})
 
 	d3.selectAll(".demographic.dotLabel.medium")
-		.text(function(d){
-			return PERCENT_LONG(datum[getDemographic(this) + "Percent" + "Medium"])
+		.html(function(d){
+			var demographic = getDemographic(this)
+			if(IS_PHONE()){
+				var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
+				if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"]))){
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people*)"
+				}else{
+					return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)"
+				}
+			}else{
+				return PERCENT_LONG(datum[demographic + "Percent" + "Medium"])
+			}
 		})
 
 	d3.selectAll(".demographic.dotLabel.high")
-		.text(function(d){
-			return PERCENT_LONG(datum[getDemographic(this) + "Percent" + "High"])
+		.html(function(d){
+			var demographic = getDemographic(this)
+			if(IS_PHONE()){
+				var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
+				if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"]))){
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people*)"
+				}else{
+					return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)"
+				}
+			}else{
+				return PERCENT_LONG(datum[demographic + "Percent" + "High"])
+			}
 		})
 
 }
@@ -1724,8 +1794,6 @@ function sortDemographicTable(sorting, isClick, order){
 
 	header.classed("active", true)
 
-	console.log(order, isClick, header.classed("ascending"), header.classed("descending"))
-
 	if(typeof(order) == "undefined"){
 		if(header.classed("ascending")){
 			sortOrder = (isClick) ? "descending" : "ascending";
@@ -1794,7 +1862,6 @@ function sortDemographicTable(sorting, isClick, order){
 			var moveY = startY;
 			
 
-			console.log(startY)
 			for(var j = 0; j<sortedKeys.length; j++){
 				var key = sortedKeys[j]
 				var toMove = d3.select(".demographic.row." + key)
@@ -1894,6 +1961,36 @@ function bindListeners(){
 			.duration(1000)
 			.style("opacity", 0)
 	})
+	if(IS_PHONE()){
+		$(".mobileMenu.filter" ).selectmenu({
+			change: function(event, d){
+				showSection(d.item.value)
+			}
+		})
+		$(".mobileMenu.state" ).selectmenu({
+			change: function(event, d){
+				setActiveState(d.item.value, false, true)
+			}
+		})
+		$(".mobileMenu.demographic" ).selectmenu({
+			change: function(event, d){
+				setActiveDemographic(d.item.value, false, true)
+			}
+		})
+		$(".mobileMenu.sort" ).selectmenu({
+			change: function(event, d){
+				var filter = getActiveFilter(),
+					sortOrder = getSortOrder()
+
+				if(filter == "state"){
+					sortDemographicTable(d.item.value, true, sortOrder)
+				}else{
+					sortStateTable(d.item.value, true, sortOrder)
+				}
+			}
+		})
+	}
+
 
 }
 
@@ -1952,10 +2049,8 @@ function init(data, isInit){
 
 
 	if(! IS_PHONE()) buildDemographicMenu();
-	// buildDemographicMenu()
 	buildStateTable(data, state, sort, sortOrder);
 	if(! IS_PHONE()) buildMap(data, state)
-	// buildMap(data, state);
 	buildDemographicTable(data, demographic, sort, sortOrder)
 	updateTableTooltips(state,demographic)
 	bindListeners();

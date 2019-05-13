@@ -138,6 +138,107 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   </div>
 
+  <div id = "mobileMenuContainer">
+    <div class = "mobileMenuRow filter">
+      <div class = "mobileMenuLabel"><span>1</span>Filter by</div>
+      <select class = "mobileMenu filter">
+        <option value = "state">State</option>
+        <option value = "demographic">Demographic</option>
+      </select>
+
+    </div>
+
+    <div class = "mobileMenuRow state">
+      <div class = "mobileMenuLabel"><span>2</span>Choose a state</div>
+      <select class = "mobileMenu state">
+        <option value = "99">US total</option>
+        <option value = "01">Alabama</option>
+        <option value = "02">Alaska</option>
+        <option value = "04">Arizona</option>
+        <option value = "05">Arkansas</option>
+        <option value = "06">California</option>
+        <option value = "08">Colorado</option>
+        <option value = "09">Connecticut</option>
+        <option value = "10">Delaware</option>
+        <option value = "11">District of Columbia</option>
+        <option value = "12">Florida</option>
+        <option value = "13">Georgia</option>
+        <option value = "15">Hawaii</option>
+        <option value = "16">Idaho</option>
+        <option value = "17">Illinois</option>
+        <option value = "18">Indiana</option>
+        <option value = "19">Iowa</option>
+        <option value = "20">Kansas</option>
+        <option value = "21">Kentucky</option>
+        <option value = "22">Louisiana</option>
+        <option value = "23">Maine</option>
+        <option value = "24">Maryland</option>
+        <option value = "25">Massachusetts</option>
+        <option value = "26">Michigan</option>
+        <option value = "27">Minnesota</option>
+        <option value = "28">Mississippi</option>
+        <option value = "29">Missouri</option>
+        <option value = "30">Montana</option>
+        <option value = "31">Nebraska</option>
+        <option value = "32">Nevada</option>
+        <option value = "33">New Hampshire</option>
+        <option value = "34">New Jersey</option>
+        <option value = "35">New Mexico</option>
+        <option value = "36">New York</option>
+        <option value = "37">North Carolina</option>
+        <option value = "38">North Dakota</option>
+        <option value = "39">Ohio</option>
+        <option value = "40">Oklahoma</option>
+        <option value = "41">Oregon</option>
+        <option value = "42">Pennsylvania</option>
+        <option value = "44">Rhode Island</option>
+        <option value = "45">South Carolina</option>
+        <option value = "46">South Dakota</option>
+        <option value = "47">Tennessee</option>
+        <option value = "48">Texas</option>
+        <option value = "49">Utah</option>
+        <option value = "50">Vermont</option>
+        <option value = "51">Virginia</option>
+        <option value = "53">Washington</option>
+        <option value = "54">West Virginia</option>
+        <option value = "55">Wisconsin</option>
+        <option value = "56">Wyoming</option>
+      </select>
+    </div>
+
+    <div class = "mobileMenuRow demographic">
+      <div class = "mobileMenuLabel"><span>2</span>Choose a demographic</div>
+      <select class = "mobileMenu demographic">
+        <option value = "total">Overall</option>
+        <option value = "white">White, non-Hispanic/Latinx</option>
+        <option value = "black">Black</option>
+        <option value = "native">American Indian/Alaska Native</option>
+        <option value = "asian">Asian American/Native Hawaiian/Pacific Islander</option>
+        <option value = "latinx">Hispanic/Latinx</option>
+        <option value = "age0">Ages 0&ndash;4</option>
+        <option value = "age5">Ages 5&ndash;17</option>
+        <option value = "age18">Ages 18&ndash;29</option>
+        <option value = "age30">Ages 30&ndash;49</option>
+        <option value = "age50">Ages 50+</option>
+      </select>
+
+    </div>
+
+    <div class = "mobileMenuRow sort">
+      <div class = "mobileMenuLabel"><span>3</span>Sort by</div>
+      <select class = "mobileMenu sort">
+        <option value = "alphabetical" id = "mobileSortMenuOption">Demographic</option>
+        <option value = "projection">2020 projection</option>
+        <option value = "miscount">Potential miscount</option>
+      </select>
+    </div>
+
+    <div class = "mobileSortorderContainer">
+      <div class = "mobileSortorder ascending active">Ascending</div>
+      <div class = "mobileSortorder descending">Descending</div>
+    </div>
+
+  </div>
 
   <div id = "legendContainer">
     <div class = "colHeader legend">Potential miscounts</div>

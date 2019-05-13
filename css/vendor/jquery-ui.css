@@ -723,11 +723,10 @@ button.ui-button::-moz-focus-inner {
     white-space: nowrap;
     width: 100%;
     height: 44px;
-    background: url(../../img/dropdown-bg-active.png) no-repeat right #ffffff;
+    background: url(../../images/dropdown-bg-active.png) no-repeat right #ffffff;
     background-size: 44px 44px;
     border: 1px solid #D2D2D2;
     max-width: 300px;
-    margin: 0 auto;
     display: block;
     margin-bottom: 30px;
 }
@@ -1000,7 +999,7 @@ a.ui-button:active,
 	color: #ffffff;
 }
 .ui-button:active, .ui-button.active{
-   	background: url(../../img/dropdown-bg-active.png) no-repeat right #ffffff;
+   	background: url(../../images/dropdown-bg-active.png) no-repeat right #ffffff;
    	background-size: 44px 44px;
 }
 .ui-icon-background,

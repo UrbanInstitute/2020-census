@@ -108,6 +108,9 @@
     	margin: 0 auto;
     	display: block;
 	}
+	#mobileMenuContainer{
+		display: block;
+	}
 	.headerimage{
 		height: 355px;
 	}
@@ -127,6 +130,9 @@
 	#filterContainer, .tableHeader {
 		display: none;
 	}
+	.mobileMenuRow.demographic{
+		display: none;
+	}
 	.legendItemContainer{
 		width: 100%;
 	}
@@ -138,6 +144,36 @@
 		font-size: 14px;
     	line-height: 19px;
 	}
+	.mobileMenuLabel{
+		font-size: 16px;
+	    margin-bottom: 5px;
+	    color: #000;
+	    margin-left: 5px;
+	}
+	.mobileMenuLabel span{
+	    color: #1696d2;
+    	font-weight: bold;
+    	margin-right: 7px;
+    }
+    .mobileSortorder{
+    	font-size: 14px;
+    	font-style: italic;
+    	font-weight: normal;
+    	color: #ADABAC;
+    	display: inline-block;
+    	top: -24px;
+    	position: relative;
+    	cursor: pointer;
+    }
+    .mobileSortorder.active{
+    	font-weight: bold;
+    	font-style: normal;
+    	color: #1696d2;
+
+    }
+    .mobileSortorder.ascending{
+    	margin-right: 20px;
+    }
 	.colHeader {
     	font-size: 16px;
     	font-weight: bold;
