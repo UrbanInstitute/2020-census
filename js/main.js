@@ -17,17 +17,27 @@ function getActiveDemographic(){
 function getActiveFilter(){
 	return (d3.select(".customRadio.demographics").classed("active")) ? "demographic" : "state"
 }
+
 function getActiveSort(){
 	var section = (getActiveFilter() == "demographic") ? "state" : "demographic"
-	return d3.select("." + section + ".tableHeader.active").datum()
+	if(IS_PHONE()){
+		return $(".mobileMenu.sort").val()
+	}else{
+		return d3.select("." + section + ".tableHeader.active").datum()	
+	}
+	
 }
 function getSortOrder(){
 	var section = (getActiveFilter() == "demographic") ? "state" : "demographic"
 	var sort = getActiveSort()
-	if(section == "demographic"){
-		return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "descending" : "ascending";
+	if(IS_PHONE()){
+		return ( d3.select(".mobileSortorder.active").classed("ascending") ) ? "ascending" : "descending"
 	}else{
-		return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "ascending" : "descending";
+		if(section == "demographic"){
+			return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "descending" : "ascending";
+		}else{
+			return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "ascending" : "descending";
+		}
 	}
 }
 function setActiveDemographic(demographic, isInit, isClick){
@@ -132,13 +142,20 @@ function showSection(section){
 		if(section == "demographic"){
 			d3.select(".mobileMenuRow.state").style("display","none")
 			d3.select(".mobileMenuRow.demographic").style("display","block")
+			
 			d3.select("#mobileSortMenuOption").text("State")
 			$(".mobileMenu.sort" ).selectmenu("refresh")
+
+			sortStateTable(getActiveSort(), false, getSortOrder())
+
 		}else{
 			d3.select(".mobileMenuRow.state").style("display","block")
 			d3.select(".mobileMenuRow.demographic").style("display","none")
+
 			d3.select("#mobileSortMenuOption").text("Demographic")
 			$(".mobileMenu.sort" ).selectmenu("refresh")
+
+			sortDemographicTable(getActiveSort(), false, getSortOrder())
 		}
 	}
 
@@ -1988,6 +2005,16 @@ function bindListeners(){
 					sortStateTable(d.item.value, true, sortOrder)
 				}
 			}
+		})
+		d3.selectAll(".mobileSortorder").on("click", function(){
+			var section = getActiveFilter()
+			var order = (d3.select(this).classed("ascending")) ? "ascending" : "descending"
+
+			d3.selectAll(".mobileSortorder").classed("active", false)
+			d3.select(this).classed("active", true)
+
+			if(section == "state") sortDemographicTable(getActiveSort(), true, order)
+			else sortStateTable(getActiveSort(), true, order)
 		})
 	}
 

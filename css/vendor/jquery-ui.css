@@ -726,7 +726,6 @@ button.ui-button::-moz-focus-inner {
     background: url(../../images/dropdown-bg-active.png) no-repeat right #ffffff;
     background-size: 44px 44px;
     border: 1px solid #D2D2D2;
-    max-width: 300px;
     display: block;
     margin-bottom: 30px;
 }
