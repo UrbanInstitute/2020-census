@@ -232,7 +232,7 @@
     	font-size: 11px;
     	font-weight: bold;
 	}
-	.demographic.row.total .tableText.population{
+	.demographic.row.total .tableText.population, .state.row.fips_99 .tableText.population{
 		fill: #353535;
 	}
 	.row.active .dot{
@@ -309,7 +309,7 @@
     }
 }
 @media(max-width: 370px){
-	.demographic.row .tableText.category{
+	.demographic.row .tableText.category, .state.row .tableText.category{
 		font-size: 12px;
 	}
 	.row.active .rowBg{

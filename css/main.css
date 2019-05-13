@@ -257,6 +257,16 @@ a{
 /*********************************************************************************/
 /********************************      MAP      **********************************/
 /*********************************************************************************/
+#mapCategoryLabel{
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+#mapDemographicLabel{
+    font-size: 16px;
+    font-weight: normal;
+}
+
 #mapBg{
     fill: #fff;
     stroke: none;

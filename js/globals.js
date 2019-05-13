@@ -36,6 +36,8 @@ function copyTextToClipboard(text) {
 
 
 function wrap(text, width) {
+
+  
   text.each(function() {
     var text = d3.select(this),
         words = text.text().split(/\s+/).reverse(),
@@ -44,16 +46,18 @@ function wrap(text, width) {
         lineNumber = 0,
         lineHeight = 1.1, // ems
         y = text.attr("y"),
+        x = text.attr("x"),
         dy = parseFloat(text.attr("dy")),
-        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+        tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
     while (word = words.pop()) {
       line.push(word);
       tspan.text(line.join(" "));
+
       if (tspan.node().getComputedTextLength() > width) {
         line.pop();
         tspan.text(line.join(" "));
         line = [word];
-        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
       }
     }
   });
@@ -99,13 +103,13 @@ var GET_MAP_WIDTH = function(){
 	return d3.min([900, GET_TABLE_WIDTH()])
 }
 var GET_MAP_HEIGHT = function(){
-	return (450 / 700) * GET_MAP_WIDTH()
+	return (450 / 700) * GET_MAP_WIDTH() + 70
 }
 var GET_MAP_SCALE = function(){
 	return (2750/700) * GET_MAP_WIDTH()
 }
 var GET_MAP_TRANSLATE = function(){
-	return [ (325/700)*GET_MAP_WIDTH() , (176/450)*GET_MAP_HEIGHT() ]
+	return [ (325/700)*GET_MAP_WIDTH() , (176/450)*GET_MAP_HEIGHT() + 35 ]
 }
 
 var CHART_WIDTH = function(){
@@ -189,38 +193,3 @@ var categories = [
 
 ]
 
-
-
-var temp_categories = [
-	{
-		"top": "Overall",
-		"key": "total"
-	},
-	{
-		"top" : "Race",
-		"key" : "race",
-		"sub": [
-			{"label": "White, non-Hispanic/Latinx", "key": "white"},
-			{"label": "Black", "key": "black"},
-			{"label": "American Indian/Alaska Native", "key": "native"},
-			{"label": "Asian American/Native Hawaiian/Pacific Islander", "key": "asian"}
-		]
-	},
-	{
-		"top": "Hispanic/Latinx",
-		"key": "latinx",
-
-	},
-	{
-		"top" : "Age",
-		"key" : "age",
-		"sub": [
-			{"label": "0&ndash;4", "key": "age0"},
-			{"label": "5&ndash;17", "key": "age5"},
-			{"label": "18&ndash;29", "key": "age18"},
-			{"label": "30&ndash;49", "key": "age30"},
-			{"label": "50+", "key": "age50"}
-		]
-	},
-
-]

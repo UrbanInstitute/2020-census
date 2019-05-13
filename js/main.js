@@ -12,7 +12,13 @@ function getActiveState(){
 	return d3.select(".state.row.active").attr("data-state")
 }
 function getActiveDemographic(){
-	return ( d3.select(".demographic.row.active").node() == null) ? "total" : d3.select(".demographic.row.active").attr("data-demographic")
+	// console.log(d3.select(".demographic.row.active").node())
+	if(d3.select(".demographic.row.active").node() == null){
+		if(getQueryString("demographic") != "") return getQueryString("demographic")
+		else return "total"
+	}else{
+		return d3.select(".demographic.row.active").attr("data-demographic")
+	}
 }
 function getActiveFilter(){
 	return (d3.select(".customRadio.demographics").classed("active")) ? "demographic" : "state"
@@ -307,6 +313,14 @@ function updateMap(demographic){
 			var val = d[demographic + "PercentHigh"]
 			return (val > 0) ? y(0) - y(val) : y(val) - y(0)
 		})
+
+
+	d3.select("#mapCategoryLabel")
+		.html(getCategoryLabel(demographic))
+
+	var dLabel = (demographic == "total") ? "" : getDemographicLabel(demographic)
+	d3.select("#mapDemographicLabel")
+		.html(dLabel)
 }
 
 function buildMap(data, state){
@@ -444,6 +458,20 @@ function buildMap(data, state){
 		.style("display", function(d){
 			return (d.fips == "99") ? "block" : "none"
 		})
+
+	svg.append("text")
+		.attr("id", "mapCategoryLabel")
+		.attr("text-anchor","end")
+		.attr("x", GET_MAP_WIDTH() - 15)
+		.attr("y", 20)
+		.html("Overall")
+
+	svg.append("text")
+		.attr("id", "mapDemographicLabel")
+		.attr("text-anchor","end")
+		.attr("x", GET_MAP_WIDTH() - 15)
+		.attr("y", 45)
+		.html("")
 }
 
 
@@ -845,7 +873,7 @@ function updateTableTooltips(state, demographic){
 
 	d3.select(".demographic.tableTooltip")
 		.transition()
-		.style("top", (demographicY+ 590 + demographicScootch) + "px")
+		.style("top", (demographicY+ 640 + demographicScootch) + "px")
 	d3.select(".state.tableTooltip")
 		.transition()
 		.style("top", (stateY + 236 + stateScootch) + "px")
@@ -1100,6 +1128,22 @@ function getDemographicLabel(demographic){
 		
 	}
 
+}
+function getCategoryLabel(demographic){
+	var demographicLabel = categories.filter(function(d){ return d.key == demographic });
+	if(demographicLabel.length == 1){
+		return demographicLabel[0].top
+	}else{
+		if(demographic.search("age") != -1){
+			return categories.filter(function(d){ return d.key == "age" })[0].top
+		}
+		else if(demographic == "latinx"){
+			return categories.filter(function(d){ return d.key == "ethnicity" })[0].top
+		}else{
+			return categories.filter(function(d){ return d.key == "race" })[0].top	
+		}
+		
+	}
 
 }
 
@@ -1255,7 +1299,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 		miscountInfoX = categoryX + 115,
 		parentCategoryX = categoryX,
 		parentCategoryY = 20,
-		stateX = GET_TABLE_WIDTH() - 35,
+		stateX = GET_TABLE_WIDTH() - 15,
 		stateY = parentCategoryY,
 		disclaimerX = categoryX,
 		disclaimerY = 222,
@@ -1356,7 +1400,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 						.attr("class", "mobileCornerLabel")
 						.attr("x", stateX)
 						.attr("y", stateY)
-						.attr("text-anchor", "right")
+						.attr("text-anchor", "end")
 						.text(function(d){
 							return d.abbr
 						})
@@ -1497,7 +1541,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 						.attr("class", "mobileCornerLabel")
 						.attr("x", stateX)
 						.attr("y", stateY )
-						.attr("text-anchor", "right")
+						.attr("text-anchor", "end")
 						.text(function(d){
 							return d.abbr
 						})
@@ -1610,41 +1654,142 @@ function buildStateTable(data, state, sort, sortOrder){
 		.attr("transform", function(d,i){
 			return "translate(0," + (4+ i * ROW_HEIGHT) + ")"
 		})
-		.on("click", function(d){
-			setActiveState(d.fips, false, true)
+	if(!IS_PHONE()){
+		row.on("click", function(d){
+				setActiveState(d.fips, false, true)
+			})
+			.on("mouseover", function(d){
+				setActiveState(d.fips, false, false)	
+			})
+	}
+
+
+	var overallScootch = (IS_PHONE()) ? 16 : 0,
+		categoryX = (IS_PHONE()) ? 10 : 30,
+		categoryY = (IS_PHONE()) ? 36 : 6 + ROW_HEIGHT/2,
+		populationX = (IS_PHONE()) ? categoryX + 93 : getColumnWidth("state", 1),
+		populationY = (IS_PHONE()) ? 62 : 6 + ROW_HEIGHT/2,
+		popInfoX = categoryX + 170,
+		miscountInfoX = categoryX + 115,
+		parentCategoryX = categoryX,
+		parentCategoryY = 20,
+		stateX = GET_TABLE_WIDTH() - 15,
+		stateY = parentCategoryY,
+		disclaimerX = categoryX,
+		disclaimerY = 222,
+		miscountX = categoryX,
+		miscountY = 87;
+
+
+		if(IS_PHONE()){
+				row.append("rect")
+					.attr("class", "rowBgMobileBackground")
+					.attr("x",8)
+					.attr("y",8)
+					.attr("width", GET_TABLE_WIDTH() - 10)
+					.attr("height", CARD_HEIGHT - overallScootch)
+
+				row.append("rect")
+					.attr("class", "rowBgMobile")
+					.attr("x",2)
+					.attr("y",2)
+					.attr("width", GET_TABLE_WIDTH() - 10)
+					.attr("height", CARD_HEIGHT - overallScootch)
+
+				row.append("text")
+					.attr("class", "mobileDisclaimer")
+					.attr("x", disclaimerX)
+					.attr("y", disclaimerY - overallScootch)
+					.text("* These values are the same because we rounded the")
+				row.append("text")
+					.attr("class", "mobileDisclaimer")
+					.attr("x", disclaimerX + 5)
+					.attr("y", disclaimerY + 12 - overallScootch)
+					.text("projections to the nearest hundred.")
+
+				row.append("text")
+					.attr("class", "mobileHeader population")
+					.attr("x", miscountX)
+					.attr("y", populationY - overallScootch)
+					.text("2020 Projection:")
+				row.append("text")
+					.attr("class", "mobileHeader miscount")
+					.attr("x", miscountX)
+					.attr("y", miscountY - overallScootch)
+					.text("Potential miscount:")
+
+				var stateNameWidth = (GET_TABLE_WIDTH() >= 400) ? 140 : 120;
+				var cornerLabel = row.append("text")
+					.attr("class", "mobileCornerLabel")
+					.attr("x", stateX)
+					.attr("y", stateY )
+					.attr("dy",0)
+					.attr("text-anchor", "end")
+					.text( getDemographicLabel(getActiveDemographic()) )
+					.call(wrap, GET_TABLE_WIDTH() - stateNameWidth)
+					
+				row.append("circle")
+					.attr("class", "mobileInfoCircle")
+					.attr("cx", popInfoX)
+					.attr("cy", populationY - 4- overallScootch)
+					.attr("r", 7)
+					.on("click", function(){ showMobileTooltip("projection") })
+				row.append("text")
+					.attr("class", "mobileInfoText")
+					.attr("x", popInfoX - 2)
+					.attr("y", populationY - overallScootch)
+					.text("?")
+
+				row.append("circle")
+					.attr("class", "mobileInfoCircle")
+					.attr("cx", miscountInfoX)
+					.attr("cy", miscountY - 4- overallScootch)
+					.attr("r", 7)
+					.on("click", function(){ showMobileTooltip("miscount") })
+				row.append("text")
+					.attr("class", "mobileInfoText")
+					.attr("x", miscountInfoX - 2)
+					.attr("y", miscountY - overallScootch)
+					.text("?")
+
+
+
+			}else{
+
+				row.append("rect")
+					.attr("class", "rowBg")
+					.attr("x",-10)
+					.attr("y",0)
+					.attr("width", GET_TABLE_WIDTH()+20)
+					.attr("height", ROW_HEIGHT)
+			}
+
+
+
+
+
+			row.append("text")
+				.attr("class", "state header tableText category")
+				.attr("x", categoryX)
+				.attr("y", categoryY - overallScootch)
+				.text(function(d){ return d.state })
+
+			row.append("text")
+				.attr("class", "state standard tableText population")
+				.attr("y", populationY - overallScootch)
+				.attr("x", populationX)
+				.text(function(d){
+					var demographic = getActiveDemographic();
+					return POPULATION_NO_SIGN(+d[demographic + "Pop"])
+				})
+
+	buildDotPlot(row, getActiveDemographic(), "state", overallScootch)
+
+	if(!IS_PHONE()){
+		svg.on("mouseleave", function(d){
+			setActiveState(d3.select(".state.row.clicked").datum().fips, false, false)
 		})
-		.on("mouseover", function(d){
-			setActiveState(d.fips, false, false)	
-		})
-
-
-	row.append("rect")
-		.attr("class", "rowBg")
-		.attr("x",-10)
-		.attr("y",0)
-		.attr("width", GET_TABLE_WIDTH()+20)
-		.attr("height", ROW_HEIGHT)
-
-	row.append("text")
-		.attr("class", "state standard tableText category")
-		.attr("x", 10)
-		.attr("y", 6 + ROW_HEIGHT/2)
-		.text(function(d){ return d.state })
-
-	row.append("text")
-		.attr("class", "state standard tableText population")
-		.attr("y", 6 + ROW_HEIGHT/2)
-		.attr("x", getColumnWidth("state", 1))
-		.text(function(d){
-			var demographic = getActiveDemographic();
-			return POPULATION_NO_SIGN(d[demographic + "Pop"])
-		})
-
-	buildDotPlot(row, getActiveDemographic(), "state")
-
-	svg.on("mouseleave", function(d){
-		setActiveState(d3.select(".state.row.clicked").datum().fips, false, false)
-	})
+	}
 
 	setActiveState(state, true, true)
 	d3.select(".state.row.fips_99").moveToFront()
@@ -1692,22 +1837,86 @@ function updateStateTable(demographic){
 			sortStateTable(sorting, false)
 		})
 
-	d3.selectAll(".state.dotLabel.low")
-		.text(function(d){
-			return PERCENT_LONG(d[demographic + "Percent" + "Low"])
-		})
+	var stateNameWidth = (GET_TABLE_WIDTH() >= 400) ? 140 : 120;
+	d3.selectAll(".state.row .mobileCornerLabel")
+		.text(getDemographicLabel(demographic))
+		.call(wrap, GET_TABLE_WIDTH() - stateNameWidth)
 
+
+	d3.selectAll(".state.dotLabel.low")
+		.html(function(d){
+			if(IS_PHONE()){
+				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]	
+				if( containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"])) ||
+					containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"])) ||
+					containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"])) 
+					){
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+				}else{
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+				}
+
+
+				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
+					return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+				}
+			}else{
+				return PERCENT_LONG(d[demographic + "Percent" + "Low"])
+			}
+		})
 
 	d3.selectAll(".state.dotLabel.medium")
-		.text(function(d){
-			return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
+		.html(function(d){
+			if(IS_PHONE()){
+				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+				}
+			}else{
+				return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
+			}
 		})
-
 
 	d3.selectAll(".state.dotLabel.high")
-		.text(function(d){
-			return PERCENT_LONG(d[demographic + "Percent" + "High"])
+		.html(function(d){
+			if(IS_PHONE()){
+				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
+					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+				}
+			}else{
+				return PERCENT_LONG(d[demographic + "Percent" + "High"])
+			}
 		})
+
+
+
+
+
+	// d3.selectAll(".state.dotLabel.low")
+	// 	.text(function(d){
+	// 		return PERCENT_LONG(d[demographic + "Percent" + "Low"])
+	// 	})
+
+
+	// d3.selectAll(".state.dotLabel.medium")
+	// 	.text(function(d){
+	// 		return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
+	// 	})
+
+
+	// d3.selectAll(".state.dotLabel.high")
+	// 	.text(function(d){
+	// 		return PERCENT_LONG(d[demographic + "Percent" + "High"])
+	// 	})
 
 
 }
@@ -1785,7 +1994,7 @@ function sortStateTable(sorting, isClick, order){
 	
 
 	for(var i = 0; i < fips.length; i++){
-		var bump = (i > activeIndex) ? ROW_EXPAND : 0
+		var bump = (i > activeIndex && !IS_PHONE()) ? ROW_EXPAND : 0
 		d3.select(".state.row.fips_" + fips[i])
 			.attr("data-order", i)
 			.transition()
@@ -2075,6 +2284,9 @@ function init(data, isInit){
 	}
 
 
+
+
+
 	if(! IS_PHONE()) buildDemographicMenu();
 	buildStateTable(data, state, sort, sortOrder);
 	if(! IS_PHONE()) buildMap(data, state)
@@ -2082,6 +2294,12 @@ function init(data, isInit){
 	updateTableTooltips(state,demographic)
 	bindListeners();
 	showSection(section)
+
+	var stateNameWidth = (GET_TABLE_WIDTH() >= 400) ? 140 : 120;
+	d3.selectAll(".state.row .mobileCornerLabel")
+		.text(getDemographicLabel(demographic))
+		.call(wrap, GET_TABLE_WIDTH() - stateNameWidth)
+
 }
 
 d3.json("data/data.json", function(data){
