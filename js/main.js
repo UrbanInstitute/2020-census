@@ -307,7 +307,7 @@ function updateMap(demographic){
 			.html(dLabel)
 	}else{
 		d3.select("#mapDemographicLabel")
-			.html(dLabel.replace("&ndash;","-"))
+			.text(dLabel.replace("&ndash;","-"))
 	}
 }
 
