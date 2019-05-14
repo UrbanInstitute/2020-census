@@ -180,11 +180,6 @@ function expandRow(table, selector, isInit){
 	if(IS_PHONE()){
 		return false;
 	}
-	if(IS_IE()){
-// activeShow axisLabel
-
-		return false
-	}
 
 	if(table == "state") selector = "fips_" +  selector
 
