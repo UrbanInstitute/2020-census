@@ -170,8 +170,9 @@ function showSection(section){
 
 // }
 function getTransformY(selection){
-	console.log(selection.attr("transform"), +selection.attr("transform").replace("translate(0,","").replace(")",""), selection.attr("transform").replace("translate(0,","").replace(")",""))
-	return +selection.attr("transform").replace("translate(0,","").replace(")","")
+	// console.log(selection.attr("transform"), +selection.attr("transform").replace("translate(0,","").replace(")",""), selection.attr("transform").replace("translate(0,","").replace(")",""))
+	if(IS_IE()) return +selection.attr("transform").replace("translate(0 ","").replace(")","")
+	else return +selection.attr("transform").replace("translate(0,","").replace(")","")
 }
 
 var count = 0
