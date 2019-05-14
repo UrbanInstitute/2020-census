@@ -170,7 +170,7 @@ function showSection(section){
 
 // }
 function getTransformY(selection){
-	console.log(+selection.attr("transform").replace("translate(0,","").replace(")",""))
+	console.log(selection.attr("transform"), +selection.attr("transform").replace("translate(0,","").replace(")",""), selection.attr("transform").replace("translate(0,","").replace(")",""))
 	return +selection.attr("transform").replace("translate(0,","").replace(")","")
 }
 
@@ -1492,7 +1492,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 					rowSub.on("click", function(d){
 						setActiveDemographic(d3.select(this).attr("data-demographic"), false, true)
 					})
-					.on("mouseover", function(d){
+					.on("mouseenter", function(d){
 						setActiveDemographic(d3.select(this).attr("data-demographic"), false, false)	
 					})
 				}
