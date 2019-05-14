@@ -875,7 +875,7 @@ function updateTableTooltips(state, demographic){
 	d3.selectAll(".table-tt-demographic").html(demographicLabel)
 
 
-	IF(!IS_IE()){
+	if( !IS_IE() ){
 		d3.select(".demographic.tableTooltip")
 			.transition()
 			.style("top", (demographicY+ 640 + demographicScootch) + "px")
