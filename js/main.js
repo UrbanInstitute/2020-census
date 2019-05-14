@@ -874,12 +874,20 @@ function updateTableTooltips(state, demographic){
 	d3.selectAll(".table-tt-state").html(stateLabel)
 	d3.selectAll(".table-tt-demographic").html(demographicLabel)
 
-	d3.select(".demographic.tableTooltip")
-		.transition()
-		.style("top", (demographicY+ 640 + demographicScootch) + "px")
-	d3.select(".state.tableTooltip")
-		.transition()
-		.style("top", (stateY + 236 + stateScootch) + "px")
+
+	IF(!IS_IE()){
+		d3.select(".demographic.tableTooltip")
+			.transition()
+			.style("top", (demographicY+ 640 + demographicScootch) + "px")
+		d3.select(".state.tableTooltip")
+			.transition()
+			.style("top", (stateY + 236 + stateScootch) + "px")
+	}else{
+		d3.select(".demographic.tableTooltip")
+			.style("top", (demographicY+ 640 + demographicScootch) + "px")
+		d3.select(".state.tableTooltip")
+			.style("top", (stateY + 236 + stateScootch) + "px")
+	}
 
 	d3.selectAll(".table-tt-row.low .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentLow"] ))
 	d3.selectAll(".table-tt-row.medium .table-tt-percent").text(PERCENT_LONG(datum[demographic + "PercentMedium"] ))
