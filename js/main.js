@@ -181,13 +181,6 @@ function expandRow(table, selector, isInit){
 	if(table == "state") selector = "fips_" +  selector
 
 
-	// if (d3.selectAll(".transitioning").nodes().length != 0){
-	// 	return false;
-	// }
-	// if(d3.select("." + table + "." + selector + ".row").classed("active")){
-	// 	return false;
-	// }
-
 
 	var selection = d3.select("." + table + "." + selector + ".row")
 	var prevSelection = d3.select("." +  table + ".active.row")
@@ -2008,19 +2001,29 @@ function sortStateTable(sorting, isClick, order){
 
 	for(var i = 0; i < fips.length; i++){
 		var bump = (i > activeIndex && !IS_PHONE()) ? ROW_EXPAND : 0
-		d3.select(".state.row.fips_" + fips[i])
-			.attr("data-order", i)
-			.transition()
-			.duration(DURATION )
-			.delay(i * 20)
-			.attr("transform", "translate(0," + (bump + 4+ i * ROW_HEIGHT) + ")")
-			.on("start", lockTables)
-			.on("end", function(){
-				if(d3.select(this).attr("data-order") == fips.length -1){
-					unlockTables()
-					updateTableTooltips(getActiveState(), getActiveDemographic())
-				}
-			})
+
+		if(!IS_IE()){
+			d3.select(".state.row.fips_" + fips[i])
+				.attr("data-order", i)
+				.transition()
+				.duration(DURATION )
+				.delay(i * 20)
+				.attr("transform", "translate(0," + (bump + 4+ i * ROW_HEIGHT) + ")")
+				.on("start", lockTables)
+				.on("end", function(){
+					if(d3.select(this).attr("data-order") == fips.length -1){
+						unlockTables()
+						updateTableTooltips(getActiveState(), getActiveDemographic())
+					}
+				})
+		}else{
+			d3.select(".state.row.fips_" + fips[i])
+				.attr("data-order", i)
+				.attr("transform", "translate(0," + (bump + 4+ i * ROW_HEIGHT) + ")")
+
+			// updateTableTooltips(getActiveState(), getActiveDemographic())
+
+		}
 	}
 
 }
@@ -2105,19 +2108,23 @@ function sortDemographicTable(sorting, isClick, order){
 				var key = sortedKeys[j]
 				var toMove = d3.select(".demographic.row." + key)
 
-				toMove
-					// .attr("data-order", function(){
-					// 	return (j == sortedKeys.lengh -1 )
-					// })
-					.transition()
-					.attr("transform", "translate(0," + (moveY) + ")")
-					// .on("start", lockTables)
-					.on("end", function(){
-						// if(d3.select(this).attr("data-order")){
-							// unlockTables()
-							updateTableTooltips(getActiveState(), getActiveDemographic())
-						// }
-					})
+				if(!IS_IE()){
+					toMove
+						.transition()
+						.attr("transform", "translate(0," + (moveY) + ")")
+						.on("end", function(){
+								updateTableTooltips(getActiveState(), getActiveDemographic())
+						})
+				}else{
+
+					toMove
+						.attr("transform", "translate(0," + (moveY) + ")")
+
+					// updateTableTooltips(getActiveState(), getActiveDemographic())
+
+				}
+
+
 
 				if ( toMove.classed("active") && key != "asian" && !IS_PHONE()) moveY += ROW_EXPAND
 				else if(key == "asian" && !IS_PHONE()) moveY += ROW_EXPAND

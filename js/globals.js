@@ -4,6 +4,31 @@ d3.selection.prototype.moveToFront = function() {
   }); 
 };
 
+
+
+function msieversion() {
+
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
+    {
+        return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
+    }
+    else  // If another browser, return 0
+    {
+        return 0;
+    }
+
+    return false;
+}
+
+function IS_IE(){
+	return (msieversion() != 0 && msieversion() != false)
+	// return true
+}
+
+
 //clipboard functions from https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
