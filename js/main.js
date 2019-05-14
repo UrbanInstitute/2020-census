@@ -479,6 +479,19 @@ function getColumnWidth(section, colNum){
 	if(section == "state"){
 		var W = GET_TABLE_WIDTH()
 		if(IS_SMALL_DESKTOP()){
+			widths = [false, 300, 300, W - 600 -28]
+		}
+		else if(IS_TABLET()){
+			widths = [false, 300, 200, W-330-170-28]	
+		}
+		else{
+			widths = [false, 255, 190, 220]
+		}
+		return widths[colNum]
+	}
+	else if(section == "demographic"){
+		var W = GET_TABLE_WIDTH()
+		if(IS_SMALL_DESKTOP()){
 			widths = [false, 450, 220, W - 450 - 220 -35]
 		}
 		else if(IS_TABLET()){
@@ -720,7 +733,7 @@ function buildDemographicsTableHeaders(container, sortOrder){
 
 	var c1 = container.append("div")
 		.attr("class", "resizeRemove demographic tableHeader tableText active alphabetical " + sortOrder)
-		.style("width", getColumnWidth("state",1) + "px")
+		.style("width", getColumnWidth("demographic",1) + "px")
 		.on("click", function(){ sortDemographicTable("alphabetical", true) })
 		.datum("alphabetical")
 
@@ -733,7 +746,7 @@ function buildDemographicsTableHeaders(container, sortOrder){
 
 	var c2 = container.append("div")
 		.attr("class", "resizeRemove demographic tableHeader tableText projection")
-		.style("width", getColumnWidth("state",2) + "px")
+		.style("width", getColumnWidth("demographic",2) + "px")
 		.on("click", function(){ sortDemographicTable("projection", true) })
 		.datum("projection")
 
@@ -746,7 +759,7 @@ function buildDemographicsTableHeaders(container, sortOrder){
 
 	var c3 = container.append("div")
 		.attr("class", "resizeRemove demographic tableHeader tableText miscount")
-		.style("width", getColumnWidth("state",3) + "px")
+		.style("width", getColumnWidth("demographic",3) + "px")
 		.on("click", function(){ sortDemographicTable("miscount", true) })
 		.datum("miscount")
 
@@ -858,15 +871,15 @@ function updateTableTooltips(state, demographic){
 
 	var demographicScootch =0,
 		stateScootch =0;
-	if(IS_SMALL_DESKTOP()){
-		if(demographic == "asian") demographicScootch = -125
-		else demographicScootch = -105
+	if(IS_SMALL_DESKTOP() || IS_TABLET()){
+		if(demographic == "asian") demographicScootch = GET_MAP_HEIGHT() - 737 - 20
+		else demographicScootch = GET_MAP_HEIGHT() - 737
+
+		stateScootch = -222
 	}
-	
 	else{
 		demographicScootch = 0;
 	}
-
 
 	d3.selectAll(".table-tt-state").html(stateLabel)
 	d3.selectAll(".table-tt-demographic").html(demographicLabel)
@@ -1293,7 +1306,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 	var overallScootch = (IS_PHONE()) ? 16 : 0,
 		categoryX = (IS_PHONE()) ? 10 : 30,
 		categoryY = (IS_PHONE()) ? 36 : 6 + ROW_HEIGHT/2,
-		populationX = (IS_PHONE()) ? categoryX + 93 : getColumnWidth("state", 1),
+		populationX = (IS_PHONE()) ? categoryX + 93 : getColumnWidth("demographic", 1),
 		populationY = (IS_PHONE()) ? 62 : 6 + ROW_HEIGHT/2,
 		popInfoX = categoryX + 170,
 		miscountInfoX = categoryX + 115,
