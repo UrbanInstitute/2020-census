@@ -173,11 +173,16 @@ function getTransformY(selection){
 	return +selection.attr("transform").replace("translate(0,","").replace(")","")
 }
 
+var count = 0
 function expandRow(table, selector, isInit){
+	console.log(count)
+	count += 1;	
 	if(IS_PHONE()){
 		return false;
 	}
 	if(IS_IE()){
+// activeShow axisLabel
+
 		return false
 	}
 
@@ -199,74 +204,68 @@ function expandRow(table, selector, isInit){
 
 	if(shortTable && selector == "asian") return false
 	
-	if(!shortTable){
+	if(!shortTable && !IS_IE()){
 		prevSelection.select(".rowBg")
 			// .transition()
 			.attr("height", ROW_HEIGHT)
 	}
 
-	selection.select(".rowBg")
-		// .transition()
-		.attr("height", ROW_HEIGHT + ROW_EXPAND)
+	if(!IS_IE()){
+		selection.select(".rowBg")
+			.attr("height", ROW_HEIGHT + ROW_EXPAND)
+	}
 	
 	d3.selectAll("." + table + ".toolTip.active")
-		// .transition()
 		.style("opacity",0)
 
 	if(!isInit){
 		prevSelection.selectAll(".activeShow")
-			// .transition()
 			.style("opacity", 0)
 	}
 
-	selection.selectAll(".activeShow")
-		// .transition()
-		.style("opacity", 1)
+	if(!IS_IE()){
+		selection.selectAll(".activeShow")
+			.style("opacity", 1)
+	}else{
+		selection.selectAll(".activeShow.axisLabel")
+			.style("opacity", 1)
+	}
 	d3.selectAll("." + table + "." + selector + ".toolTip")
-		// .transition()
 		.style("opacity", 1)			
 
+	if(!IS_IE()){
+		d3.selectAll("." + table + ".row")
+			// .transition()
+			.attr("transform", function(d, i){
+				var sY = getTransformY(d3.select(this))
 
-	d3.selectAll("." + table + ".row")
-		// .transition()
-		.attr("transform", function(d){
-			var sY = getTransformY(d3.select(this))
-
-			if( (sY > nodeY )){
-				if(isInit){
-					return "translate(0," + (sY + ROW_EXPAND) + ")"
-				}else{
-					if(sY <= oldY){
-						
-						if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY ) + ")"		 
-						else return "translate(0," + (sY + ROW_EXPAND ) + ")"	
+				if( (sY > nodeY )){
+					if(isInit){
+						return "translate(0," + (sY + ROW_EXPAND) + ")"
 					}else{
-						if (shortTable) return "translate(0," + (sY + asianBump) + ")"		
-						else if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY - ROW_EXPAND ) + ")"	
-						else return "translate(0," + (sY + asianBump ) + ")"		
+						if(sY <= oldY){
+							
+							if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY ) + ")"		 
+							else return "translate(0," + (sY + ROW_EXPAND ) + ")"	
+						}else{
+							if (shortTable) return "translate(0," + (sY + asianBump) + ")"		
+							else if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY - ROW_EXPAND ) + ")"	
+							else return "translate(0," + (sY + asianBump ) + ")"		
+						}
+					}
+				}else{
+					if(isInit){
+						return "translate(0," + (sY) + ")"
+					}else{
+						if(sY <= nodeY && sY > oldY){
+							return "translate(0," + (sY - ROW_EXPAND + asianBump) + ")"	
+						}else{
+							return "translate(0," + (sY ) + ")"		
+						}
 					}
 				}
-			}else{
-				if(isInit){
-					return "translate(0," + (sY) + ")"
-				}else{
-					if(sY <= nodeY && sY > oldY){
-						return "translate(0," + (sY - ROW_EXPAND + asianBump) + ")"	
-					}else{
-						return "translate(0," + (sY ) + ")"		
-					}
-				}
-			}
-		})
-		// .on("start", function(){
-		// 	d3.select(this).classed("transitioning", true)
-		// })
-		// .on("end", function(){
-
-		// })
-
-
-			// d3.select(this).classed("transitioning", false)
+			})
+	}
 			if(!isInit){
 				if(table == "state"){
 					updateTableTooltips(selector, getActiveDemographic())
