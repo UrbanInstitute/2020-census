@@ -170,6 +170,7 @@ function showSection(section){
 
 // }
 function getTransformY(selection){
+	console.log(+selection.attr("transform").replace("translate(0,","").replace(")",""))
 	return +selection.attr("transform").replace("translate(0,","").replace(")","")
 }
 
