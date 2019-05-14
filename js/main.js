@@ -455,7 +455,7 @@ function buildMap(data, state){
 		.attr("y", 20)
 		.text("Overall")
 
-	IF(!IS_IE()){
+	if(!IS_IE()){
 		svg.append("text")
 			.attr("id", "mapDemographicLabel")
 			.attr("text-anchor","end")
