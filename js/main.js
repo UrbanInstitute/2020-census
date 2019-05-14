@@ -177,6 +177,9 @@ function expandRow(table, selector, isInit){
 	if(IS_PHONE()){
 		return false;
 	}
+	if(IS_IE()){
+		return false
+	}
 
 	if(table == "state") selector = "fips_" +  selector
 
