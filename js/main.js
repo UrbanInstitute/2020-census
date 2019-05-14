@@ -177,7 +177,6 @@ function getTransformY(selection){
 
 var count = 0
 function expandRow(table, selector, isInit){
-	console.log(count)
 	count += 1;	
 	if(IS_PHONE()){
 		return false;
@@ -201,13 +200,15 @@ function expandRow(table, selector, isInit){
 
 	if(shortTable && selector == "asian") return false
 	
-	if(!shortTable && !IS_IE()){
+	// if(!shortTable && !IS_IE()){
+	if(!shortTable){
 		prevSelection.select(".rowBg")
 			// .transition()
 			.attr("height", ROW_HEIGHT)
 	}
 
-	if(!IS_IE()){
+	// if(!IS_IE()){
+	if(true){
 		selection.select(".rowBg")
 			.attr("height", ROW_HEIGHT + ROW_EXPAND)
 	}
@@ -230,7 +231,8 @@ function expandRow(table, selector, isInit){
 	d3.selectAll("." + table + "." + selector + ".toolTip")
 		.style("opacity", 1)			
 
-	if(!IS_IE()){
+	// if(!IS_IE()){
+	if(true){
 		d3.selectAll("." + table + ".row")
 			// .transition()
 			.attr("transform", function(d, i){
