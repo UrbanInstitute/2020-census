@@ -207,11 +207,8 @@ function expandRow(table, selector, isInit){
 			.attr("height", ROW_HEIGHT)
 	}
 
-	// if(!IS_IE()){
-	if(true){
-		selection.select(".rowBg")
-			.attr("height", ROW_HEIGHT + ROW_EXPAND)
-	}
+	selection.select(".rowBg")
+		.attr("height", ROW_HEIGHT + ROW_EXPAND)
 	
 	d3.selectAll("." + table + ".toolTip.active")
 		.style("opacity",0)
@@ -221,57 +218,49 @@ function expandRow(table, selector, isInit){
 			.style("opacity", 0)
 	}
 
-	if(!IS_IE()){
-		selection.selectAll(".activeShow")
-			.style("opacity", 1)
-	}else{
-		selection.selectAll(".activeShow.axisLabel")
-			.style("opacity", 1)
-	}
+	selection.selectAll(".activeShow")
+		.style("opacity", 1)
 	d3.selectAll("." + table + "." + selector + ".toolTip")
 		.style("opacity", 1)			
 
-	// if(!IS_IE()){
-	if(true){
-		d3.selectAll("." + table + ".row")
-			// .transition()
-			.attr("transform", function(d, i){
-				var sY = getTransformY(d3.select(this))
+	d3.selectAll("." + table + ".row")
+		// .transition()
+		.attr("transform", function(d, i){
+			var sY = getTransformY(d3.select(this))
 
-				if( (sY > nodeY )){
-					if(isInit){
-						return "translate(0," + (sY + ROW_EXPAND) + ")"
-					}else{
-						if(sY <= oldY){
-							
-							if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY ) + ")"		 
-							else return "translate(0," + (sY + ROW_EXPAND ) + ")"	
-						}else{
-							if (shortTable) return "translate(0," + (sY + asianBump) + ")"		
-							else if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY - ROW_EXPAND ) + ")"	
-							else return "translate(0," + (sY + asianBump ) + ")"		
-						}
-					}
+			if( (sY > nodeY )){
+				if(isInit){
+					return "translate(0," + (sY + ROW_EXPAND) + ")"
 				}else{
-					if(isInit){
-						return "translate(0," + (sY) + ")"
+					if(sY <= oldY){
+						
+						if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY ) + ")"		 
+						else return "translate(0," + (sY + ROW_EXPAND ) + ")"	
 					}else{
-						if(sY <= nodeY && sY > oldY){
-							return "translate(0," + (sY - ROW_EXPAND + asianBump) + ")"	
-						}else{
-							return "translate(0," + (sY ) + ")"		
-						}
+						if (shortTable) return "translate(0," + (sY + asianBump) + ")"		
+						else if(selector == "asian" && !IS_SMALL_DESKTOP()) return "translate(0," + (sY - ROW_EXPAND ) + ")"	
+						else return "translate(0," + (sY + asianBump ) + ")"		
 					}
 				}
-			})
-	}
-			if(!isInit){
-				if(table == "state"){
-					updateTableTooltips(selector, getActiveDemographic())
+			}else{
+				if(isInit){
+					return "translate(0," + (sY) + ")"
 				}else{
-					updateTableTooltips(getActiveState(), selector)
+					if(sY <= nodeY && sY > oldY){
+						return "translate(0," + (sY - ROW_EXPAND + asianBump) + ")"	
+					}else{
+						return "translate(0," + (sY ) + ")"		
+					}
 				}
 			}
+		})
+		if(!isInit){
+			if(table == "state"){
+				updateTableTooltips(selector, getActiveDemographic())
+			}else{
+				updateTableTooltips(getActiveState(), selector)
+			}
+		}
 }
 
 function updateMap(demographic){
