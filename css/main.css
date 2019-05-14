@@ -97,7 +97,7 @@ a{
 }
 
 #heroimage{
-  background-image: url(../images/header.jpg);
+  background-image: url(../images/header_embargo.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
@@ -264,7 +264,7 @@ a{
 }
 #mapDemographicLabel{
     font-size: 16px;
-    font-weight: normal;
+    font-weight: normal;    
 }
 
 #mapBg{

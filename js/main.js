@@ -803,7 +803,7 @@ function buildTableTooltip(section, container, data){
 		.html("In <span class = \"table-tt-state\"></span>, <span class = \"table-tt-demographic\"></span> could be miscounted by:")
 		.attr("class", "table-tt-header")
 
-	var risks = ["low", "medium", "high"]
+	var risks = ["high", "medium", "low"]
 	var row = tt.selectAll(".table-tt-row")
 		.data(risks)
 		.enter()	
@@ -916,12 +916,12 @@ function buildDotPlot(row, demographic, section, scootch){
 	var scootchY = (typeof(scootch) == "undefined") ? 0 : scootch;
 
 	var plotY = (IS_PHONE()) ? 100 - scootchY : ROW_HEIGHT/2,
-		lowY = (IS_PHONE()) ? 145 - scootchY : 20 + ROW_HEIGHT,
-		medY = (IS_PHONE()) ? 165 - scootchY : lowY,
-		highY = (IS_PHONE()) ? 185 - scootchY : lowY,
-		lowX = (IS_PHONE()) ? 10 : x(PERCENT_MIN) - 7,
-		medX = (IS_PHONE()) ? lowX : x(PERCENT_MIN) + 70,
-		highX = (IS_PHONE()) ? lowX : x(PERCENT_MIN) + 170
+		highY = (IS_PHONE()) ? 145 - scootchY : 20 + ROW_HEIGHT,
+		medY = (IS_PHONE()) ? 165 - scootchY : highY,
+		lowY = (IS_PHONE()) ? 185 - scootchY : highY,
+		highX = (IS_PHONE()) ? 10 : x(PERCENT_MIN) - 7,
+		medX = (IS_PHONE()) ? highX : x(PERCENT_MIN) + 76,
+		lowX = (IS_PHONE()) ? highX : x(PERCENT_MIN) + 175
 
 	row.append("line")
 		.attr("class", "x axis")
