@@ -202,7 +202,8 @@ var POPULATION_NO_SIGN= function(number){
 }
 
 var POPULATION = function(number){
-	var pop = (Math.abs(number) < 50) ? "-50&ndash;50" : d3.format(",.0f")(Math.round(number/100)*100);
+	var small = (IS_IE()) ? "-50-50" : "-50&ndash;50";
+	var pop = (Math.abs(number) < 50) ? small : d3.format(",.0f")(Math.round(number/100)*100);
 	return (number < 0) ? pop : "+" + pop;
 }
 var PERCENT = function(number){

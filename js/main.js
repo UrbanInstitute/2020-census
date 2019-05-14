@@ -299,11 +299,16 @@ function updateMap(demographic){
 
 
 	d3.select("#mapCategoryLabel")
-		.html(getCategoryLabel(demographic))
+		.text(getCategoryLabel(demographic))
 
 	var dLabel = (demographic == "total") ? "" : getDemographicLabel(demographic)
-	d3.select("#mapDemographicLabel")
-		.html(dLabel)
+	if(!IS_IE()){
+		d3.select("#mapDemographicLabel")
+			.html(dLabel)
+	}else{
+		d3.select("#mapDemographicLabel")
+			.html(dLabel.replace("&ndash;","-"))
+	}
 }
 
 function buildMap(data, state){
@@ -442,19 +447,29 @@ function buildMap(data, state){
 			return (d.fips == "99") ? "block" : "none"
 		})
 
+
 	svg.append("text")
 		.attr("id", "mapCategoryLabel")
 		.attr("text-anchor","end")
 		.attr("x", GET_MAP_WIDTH() - 15)
 		.attr("y", 20)
-		.html("Overall")
+		.text("Overall")
 
-	svg.append("text")
-		.attr("id", "mapDemographicLabel")
-		.attr("text-anchor","end")
-		.attr("x", GET_MAP_WIDTH() - 15)
-		.attr("y", 45)
-		.html("")
+	IF(!IS_IE()){
+		svg.append("text")
+			.attr("id", "mapDemographicLabel")
+			.attr("text-anchor","end")
+			.attr("x", GET_MAP_WIDTH() - 15)
+			.attr("y", 45)
+			.html("")
+	}else{
+		svg.append("text")
+			.attr("id", "mapDemographicLabel")
+			.attr("text-anchor","end")
+			.attr("x", GET_MAP_WIDTH() - 15)
+			.attr("y", 45)
+			.text("")
+	}
 }
 
 
@@ -1032,82 +1047,122 @@ function buildDotPlot(row, demographic, section, scootch){
 		.attr("y2", highY + 4)
 		.style("opacity", inactiveOpacity)
 
-	// var showDisclaimer = false;
-	// var lowStar = "",
-	// 	medStar = "",
-	// 	highStar = "";
-	// var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]
-	// if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"]))){
-	// 	lowStar = "*"
-	// 	showDisclaimer = true
-	// }
-	// if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"]))){
-	// 	medStar = "*"
-	// 	showDisclaimer = true
-	// }
-	// if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"]))){
-	// 	highStar = "*"
-	// 	showDisclaimer = true
-	// }
-
-
-
-	row.append("text")
-		.attr("class", "activeShow dotLabel low " + section)
-		.attr("x", lowX + 29 )
-		.attr("y", lowY)
-		.html(function(d){
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+	if(!IS_IE()){
+		row.append("text")
+			.attr("class", "activeShow dotLabel low " + section)
+			.attr("x", lowX + 29 )
+			.attr("y", lowY)
+			.html(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+					return PERCENT_LONG(d[demographic + "Percent" + "Low"])
 				}
-			}else{
-				return PERCENT_LONG(d[demographic + "Percent" + "Low"])
-			}
-		})
-		.style("opacity", inactiveOpacity)
+			})
+			.style("opacity", inactiveOpacity)
 
-	row.append("text")
-		.attr("class", "activeShow dotLabel medium " + section)
-		.attr("x", medX + 50)
-		.attr("y", medY)
-		.html(function(d){
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+		row.append("text")
+			.attr("class", "activeShow dotLabel medium " + section)
+			.attr("x", medX + 50)
+			.attr("y", medY)
+			.html(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+					return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
 				}
-			}else{
-				return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
-			}
-		})
-		.style("opacity", inactiveOpacity)
+			})
+			.style("opacity", inactiveOpacity)
 
-	row.append("text")
-		.attr("class", "activeShow dotLabel high " + section)
-		.attr("x", highX + 32)
-		.attr("y", highY)
-		.html(function(d){
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+		row.append("text")
+			.attr("class", "activeShow dotLabel high " + section)
+			.attr("x", highX + 32)
+			.attr("y", highY)
+			.html(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+					return PERCENT_LONG(d[demographic + "Percent" + "High"])
 				}
-			}else{
-				return PERCENT_LONG(d[demographic + "Percent" + "High"])
-			}
-		})
-		.style("opacity", inactiveOpacity)
+			})
+			.style("opacity", inactiveOpacity)
+	}else{
+		row.append("text")
+			.attr("class", "activeShow dotLabel low " + section)
+			.attr("x", lowX + 29 )
+			.attr("y", lowY)
+			.text(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "Low"])
+				}
+			})
+			.style("opacity", inactiveOpacity)
+
+		row.append("text")
+			.attr("class", "activeShow dotLabel medium " + section)
+			.attr("x", medX + 50)
+			.attr("y", medY)
+			.text(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
+				}
+			})
+			.style("opacity", inactiveOpacity)
+
+		row.append("text")
+			.attr("class", "activeShow dotLabel high " + section)
+			.attr("x", highX + 32)
+			.attr("y", highY)
+			.text(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "High"])
+				}
+			})
+			.style("opacity", inactiveOpacity)
+
+	}
 }
 
 function getDemographic(el){
@@ -1189,63 +1244,122 @@ function updateDemographicTable(state){
 			sortDemographicTable(sorting, false)
 		})
 
+	if(!IS_IE()){
+		d3.selectAll(".demographic.dotLabel.low")
+			.html(function(d){
+				var demographic = getDemographic(this)
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]	
+					if( containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"])) ||
+						containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"])) ||
+						containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"])) 
+						){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					}else{
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+					}
 
+
+					if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"]))){
+						return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(datum[demographic + "Percent" + "Low"])
+				}
+			})
+
+		d3.selectAll(".demographic.dotLabel.medium")
+			.html(function(d){
+				var demographic = getDemographic(this)
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(datum[demographic + "Percent" + "Medium"])
+				}
+			})
+
+		d3.selectAll(".demographic.dotLabel.high")
+			.html(function(d){
+				var demographic = getDemographic(this)
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(datum[demographic + "Percent" + "High"])
+				}
+			})
+	}else{
 	d3.selectAll(".demographic.dotLabel.low")
-		.html(function(d){
-			var demographic = getDemographic(this)
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]	
-				if( containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"])) ||
-					containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"])) ||
-					containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"])) 
-					){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-				}else{
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
-				}
+			.text(function(d){
+				var demographic = getDemographic(this)
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]	
+					if( containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"])) ||
+						containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"])) ||
+						containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"])) 
+						){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					}else{
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+					}
 
 
-				if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"]))){
-					return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people*)"
+					if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberLow"]))){
+						return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(datum[demographic + "Percent" + "Low"]) + " (" + POPULATION(datum[demographic + "NumberLow"] ) + " people)"
+					return PERCENT_LONG(datum[demographic + "Percent" + "Low"])
 				}
-			}else{
-				return PERCENT_LONG(datum[demographic + "Percent" + "Low"])
-			}
-		})
+			})
 
-	d3.selectAll(".demographic.dotLabel.medium")
-		.html(function(d){
-			var demographic = getDemographic(this)
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people*)"
+		d3.selectAll(".demographic.dotLabel.medium")
+			.text(function(d){
+				var demographic = getDemographic(this)
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberMedium"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(datum[demographic + "Percent" + "Medium"]) + " (" + POPULATION(datum[demographic + "NumberMedium"] ) + " people)"
+					return PERCENT_LONG(datum[demographic + "Percent" + "Medium"])
 				}
-			}else{
-				return PERCENT_LONG(datum[demographic + "Percent" + "Medium"])
-			}
-		})
+			})
 
-	d3.selectAll(".demographic.dotLabel.high")
-		.html(function(d){
-			var demographic = getDemographic(this)
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people*)"
+		d3.selectAll(".demographic.dotLabel.high")
+			.text(function(d){
+				var demographic = getDemographic(this)
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(datum[demographic + "NumberLow"]), POPULATION(datum[demographic + "NumberMedium"]), POPULATION(datum[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(datum[demographic + "NumberHigh"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(datum[demographic + "Percent" + "High"]) + " (" + POPULATION(datum[demographic + "NumberHigh"] ) + " people)"
+					return PERCENT_LONG(datum[demographic + "Percent" + "High"])
 				}
-			}else{
-				return PERCENT_LONG(datum[demographic + "Percent" + "High"])
-			}
-		})
+			})
+
+	}
 
 }
 
@@ -1371,12 +1485,19 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 						.attr("y",2)
 						.attr("width", GET_TABLE_WIDTH() - 10)
 						.attr("height", CARD_HEIGHT)
-
-					rowSub.append("text")
-						.attr("class", "demographic standard tableText parentCategory")
-						.attr("x", parentCategoryX)
-						.attr("y", parentCategoryY)
-						.html(category.key.toUpperCase())
+					if(!IS_IE()){
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText parentCategory")
+							.attr("x", parentCategoryX)
+							.attr("y", parentCategoryY)
+							.html(category.key.toUpperCase())
+					}else{
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText parentCategory")
+							.attr("x", parentCategoryX)
+							.attr("y", parentCategoryY)
+							.text(category.key.replace("&ndash;","-").toUpperCase())
+					}
 
 					rowSub.append("text")
 						.attr("class", "mobileDisclaimer")
@@ -1450,23 +1571,44 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 				}
 
 				if(big){
-					rowSub.append("text")
-						.attr("class", "demographic standard tableText category")
-						.attr("y", categoryY)
-						.attr("x", categoryX)
-						.html(sub.label.split("/P")[0] + "/")
-					rowSub.append("text")
-						.attr("class", "demographic standard tableText category")
-						.attr("y", categoryY + 22)
-						.attr("x", categoryX)
-						.html("P" + sub.label.split("/P")[1] + "/")
+					if(!IS_IE()){
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText category")
+							.attr("y", categoryY)
+							.attr("x", categoryX)
+							.html(sub.label.split("/P")[0] + "/")
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText category")
+							.attr("y", categoryY + 22)
+							.attr("x", categoryX)
+							.html("P" + sub.label.split("/P")[1] + "/")
+					}else{
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText category")
+							.attr("y", categoryY)
+							.attr("x", categoryX)
+							.text(sub.label.split("/P")[0].replace("&ndash;","-") + "/")
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText category")
+							.attr("y", categoryY + 22)
+							.attr("x", categoryX)
+							.text("P" + sub.label.split("/P")[1].replace("&ndash;","-") + "/")
+					}
 
 				}else{
-					rowSub.append("text")
-						.attr("class", "demographic standard tableText category")
-						.attr("y", categoryY)
-						.attr("x", categoryX)
-						.html(sub.label)
+					if(!IS_IE()){
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText category")
+							.attr("y", categoryY)
+							.attr("x", categoryX)
+							.html(sub.label)
+					}else{
+						rowSub.append("text")
+							.attr("class", "demographic standard tableText category")
+							.attr("y", categoryY)
+							.attr("x", categoryX)
+							.text(sub.label.replace("&ndash;","-"))
+					}
 				}
 
 				rowSub.append("text")
@@ -1846,82 +1988,116 @@ function updateStateTable(demographic){
 		.text(getDemographicLabel(demographic))
 		.call(wrap, GET_TABLE_WIDTH() - stateNameWidth)
 
+	if(!IS_IE()){
+		d3.selectAll(".state.dotLabel.low")
+			.html(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]	
+					if( containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"])) ||
+						containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"])) ||
+						containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"])) 
+						){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					}else{
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+					}
 
-	d3.selectAll(".state.dotLabel.low")
-		.html(function(d){
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]	
-				if( containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"])) ||
-					containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"])) ||
-					containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"])) 
-					){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+					}
 				}else{
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+					return PERCENT_LONG(d[demographic + "Percent" + "Low"])
 				}
+			})
 
-
-				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
-					return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+		d3.selectAll(".state.dotLabel.medium")
+			.html(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+					return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
 				}
-			}else{
-				return PERCENT_LONG(d[demographic + "Percent" + "Low"])
-			}
-		})
+			})
 
-	d3.selectAll(".state.dotLabel.medium")
-		.html(function(d){
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+		d3.selectAll(".state.dotLabel.high")
+			.html(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+					return PERCENT_LONG(d[demographic + "Percent" + "High"])
 				}
-			}else{
-				return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
-			}
-		})
+			})
 
-	d3.selectAll(".state.dotLabel.high")
-		.html(function(d){
-			if(IS_PHONE()){
-				var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
-				if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
-					d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
-					return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+	}else{
+		d3.selectAll(".state.dotLabel.low")
+			.text(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]	
+					if( containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"])) ||
+						containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"])) ||
+						containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"])) 
+						){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+					}else{
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", false)
+					}
+
+
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberLow"]))){
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Low"]) + " (" + POPULATION(d[demographic + "NumberLow"] ) + " people)"
+					}
 				}else{
-					return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+					return PERCENT_LONG(d[demographic + "Percent" + "Low"])
 				}
-			}else{
-				return PERCENT_LONG(d[demographic + "Percent" + "High"])
-			}
-		})
+			})
 
+		d3.selectAll(".state.dotLabel.medium")
+			.text(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberMedium"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "Medium"]) + " (" + POPULATION(d[demographic + "NumberMedium"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
+				}
+			})
 
-
-
-
-	// d3.selectAll(".state.dotLabel.low")
-	// 	.text(function(d){
-	// 		return PERCENT_LONG(d[demographic + "Percent" + "Low"])
-	// 	})
-
-
-	// d3.selectAll(".state.dotLabel.medium")
-	// 	.text(function(d){
-	// 		return PERCENT_LONG(d[demographic + "Percent" + "Medium"])
-	// 	})
-
-
-	// d3.selectAll(".state.dotLabel.high")
-	// 	.text(function(d){
-	// 		return PERCENT_LONG(d[demographic + "Percent" + "High"])
-	// 	})
-
+		d3.selectAll(".state.dotLabel.high")
+			.text(function(d){
+				if(IS_PHONE()){
+					var allPops = [ POPULATION(d[demographic + "NumberLow"]), POPULATION(d[demographic + "NumberMedium"]), POPULATION(d[demographic + "NumberHigh"]) ]				
+					if(containsDuplicate(allPops, POPULATION(d[demographic + "NumberHigh"]))){
+						d3.select(this.parentNode).selectAll(".mobileDisclaimer").classed("show", true)
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people*)"
+					}else{
+						return PERCENT_LONG(d[demographic + "Percent" + "High"]) + " (" + POPULATION(d[demographic + "NumberHigh"] ) + " people)"
+					}
+				}else{
+					return PERCENT_LONG(d[demographic + "Percent" + "High"])
+				}
+			})
+	}
 
 }
 
