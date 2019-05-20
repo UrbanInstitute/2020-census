@@ -7,6 +7,7 @@ function unlockTables(){
 }
 function tablesAreLocked(){
 	return d3.select("#locker").classed("locked")
+	// return false
 }
 function getActiveState(){
 	return d3.select(".state.row.active").attr("data-state")
@@ -89,7 +90,7 @@ function setActiveDemographic(demographic, isInit, isClick){
 	
 }
 function setActiveState(state, isInit, isClick){
-	if(tablesAreLocked()) return false
+	if(tablesAreLocked() && getActiveFilter() != "state") return false
 
 	expandRow("state", state, isInit)
 
@@ -850,6 +851,8 @@ function updateTableTooltips(state, demographic){
 	var data = d3.select(".tableTooltip.demographic").datum()
 
 	var datum = data.filter(function(d){ return d.fips == state })[0]
+
+	console.log(datum)
 
 	var demographicRow = d3.select(".demographic" + "." + demographic + ".row")
 
@@ -2148,7 +2151,7 @@ function sortStateTable(sorting, isClick, order){
 		});
 	}
 	else if(sorting == "alphabetical"){
-		data.sort(function(a, b) {
+		data.sort(function(b, a) {
 		    var textA = (a.state == "US total") ? "AAA" : a.state.toUpperCase();
 		    var textB = (b.state == "US total") ? "AAA" : b.state.toUpperCase();
 
