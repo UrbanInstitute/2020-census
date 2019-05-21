@@ -1760,7 +1760,10 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 
 	}
 	svg.on("mouseleave", function(d){
-		setActiveDemographic(d3.select(".demographic.row.clicked").attr("data-demographic"), false, false)
+		d3.selectAll(".tableTooltip").style("display", "none")
+	})
+	.on("mouseenter", function(d){
+		d3.selectAll(".tableTooltip").style("display", "block")
 	})
 	setActiveDemographic(defaultDemographic, true, true)
 	d3.select(".demographic.row.total").moveToFront()
@@ -1936,7 +1939,10 @@ function buildStateTable(data, state, sort, sortOrder){
 
 	if(!IS_PHONE()){
 		svg.on("mouseleave", function(d){
-			setActiveState(d3.select(".state.row.clicked").datum().fips, false, false)
+			d3.selectAll(".tableTooltip").style("display", "none")
+		})
+		.on("mouseenter", function(d){
+			d3.selectAll(".tableTooltip").style("display", "block")
 		})
 	}
 
