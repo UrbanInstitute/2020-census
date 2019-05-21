@@ -403,10 +403,10 @@ svg{
     height: 237px;
 }
 .demographicSubmenuContainer.age{
-    left: 500px;
+    left: 443px;
     height: 198px;
-    width: 71px;
-    top: -150px;
+    width: 121px;
+    top: -177px;
 }
 
 .demographicSubmenuContainer:after, .demographicSubmenuContainer:before {
@@ -418,6 +418,9 @@ svg{
     position: absolute;
     pointer-events: none;
     left: 100%;
+}
+.demographicSubmenuContainer.age:after, .demographicSubmenuContainer.age:before{
+    top: 88%;
 }
 
 .demographicSubmenuContainer:after {

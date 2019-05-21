@@ -41,8 +41,18 @@ function getSortOrder(){
 		return ( d3.select(".mobileSortorder.active").classed("ascending") ) ? "ascending" : "descending"
 	}else{
 		if(section == "demographic"){
-			return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "descending" : "ascending";
+
+			if(sort == "projection"){
+				//fixing some sortorder jank...
+				return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "ascending" : "descending";
+			}else{
+				return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "descending" : "ascending";
+			}
 		}else{
+			if(sort == "alphabetical"){
+				//fixing some sortorder jank...
+				return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "descending" : "ascending";
+			}
 			return (d3.select("." +  section + "." + sort + ".active").classed("descending")) ? "ascending" : "descending";
 		}
 	}
@@ -662,7 +672,7 @@ function buildDemographicMenu(){
 		.attr("class", function(d){
 			return "sub state age menuItem " + d.key
 		})
-		.html(function(d){ return d.label })
+		.html(function(d){ return "Ages " + d.label })
 		.on("click", function(d){
 			setActiveDemographic(d.key, false, true)
 		})
@@ -1772,6 +1782,10 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 		if(sortOrder == ""){
 			sortDemographicTable(sort, false)
 		}else{
+			if(sort == "projection"){
+			//fixing some sortorder jank...
+				sortOrder = (sortOrder == "ascending") ? "descending" : "ascending"
+			}
 			sortDemographicTable(sort, false, sortOrder)
 		}
 	}
@@ -1953,6 +1967,10 @@ function buildStateTable(data, state, sort, sortOrder){
 		if(sortOrder == ""){
 			sortStateTable(sort, false)
 		}else{
+			if(sort == "alphabetical"){
+				//super janky sort fix....
+				sortOrder = (sortOrder == "ascending") ? "descending" : "ascending"
+			}
 			sortStateTable(sort, false, sortOrder)
 		}
 	}
