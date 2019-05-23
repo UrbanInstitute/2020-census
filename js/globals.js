@@ -185,7 +185,8 @@ var GET_MAP_SCALE = function(){
 	return (2750/700) * GET_MAP_WIDTH()
 }
 var GET_MAP_TRANSLATE = function(){
-	return [ (325/700)*GET_MAP_WIDTH() , (176/450)*GET_MAP_HEIGHT() + 35 ]
+  var shift = (IS_PHONE() || IS_TABLET()) ? 0 : 16;
+	return [ (325/700)*GET_MAP_WIDTH() + shift, (176/450)*GET_MAP_HEIGHT() + 35 ]
 }
 
 var CHART_WIDTH = function(){

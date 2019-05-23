@@ -13,7 +13,6 @@ function getActiveState(){
 	return d3.select(".state.row.active").attr("data-state")
 }
 function getActiveDemographic(){
-	// console.log(d3.select(".demographic.row.active").node())
 	if(d3.select(".demographic.row.active").node() == null){
 		if(getQueryString("demographic") != "") return getQueryString("demographic")
 		else return "total"
@@ -58,7 +57,12 @@ function getSortOrder(){
 	}
 }
 function setActiveDemographic(demographic, isInit, isClick){
-	// if(tablesAreLocked()) return false
+
+	if(d3.select("#oldDemographic").datum() == demographic) return false
+	else d3.select("#oldDemographic").datum(demographic)
+	if(tablesAreLocked()) return false
+
+
 
 	expandRow("demographic", demographic, isInit)
 
@@ -147,6 +151,7 @@ function showSection(section){
 		d3.select(".customRadio.demographics").classed("active", false)
 		d3.select(".customRadioLabel.state").classed("active", true)
 		d3.select(".customRadioLabel.demographics").classed("active", false)
+		updateStateTable(getActiveState())
 	}else{
 		d3.select("#stateContainer").classed("active", false)
 		d3.select("#demographicsContainer").classed("active", true)
@@ -154,6 +159,7 @@ function showSection(section){
 		d3.select(".customRadio.demographics").classed("active", true)
 		d3.select(".customRadioLabel.state").classed("active", false)
 		d3.select(".customRadioLabel.demographics").classed("active", true)
+		updateDemographicTable(getActiveDemographic())
 	}
 	if(IS_PHONE()){
 		if(section == "demographic"){
@@ -177,11 +183,7 @@ function showSection(section){
 	}
 
 }
-// function selectState(state){
-
-// }
 function getTransformY(selection){
-	// console.log(selection.attr("transform"), +selection.attr("transform").replace("translate(0,","").replace(")",""), selection.attr("transform").replace("translate(0,","").replace(")",""))
 	if(IS_IE()) return +selection.attr("transform").replace("translate(0 ","").replace(")","")
 	else return +selection.attr("transform").replace("translate(0,","").replace(")","")
 }
@@ -462,7 +464,7 @@ function buildMap(data, state){
 	svg.append("text")
 		.attr("id", "mapCategoryLabel")
 		.attr("text-anchor","end")
-		.attr("x", GET_MAP_WIDTH() - 15)
+		.attr("x", GET_MAP_WIDTH() )
 		.attr("y", 20)
 		.text("Overall")
 
@@ -470,14 +472,14 @@ function buildMap(data, state){
 		svg.append("text")
 			.attr("id", "mapDemographicLabel")
 			.attr("text-anchor","end")
-			.attr("x", GET_MAP_WIDTH() - 15)
+			.attr("x", GET_MAP_WIDTH() )
 			.attr("y", 45)
 			.html("")
 	}else{
 		svg.append("text")
 			.attr("id", "mapDemographicLabel")
 			.attr("text-anchor","end")
-			.attr("x", GET_MAP_WIDTH() - 15)
+			.attr("x", GET_MAP_WIDTH() )
 			.attr("y", 45)
 			.text("")
 	}
@@ -795,12 +797,13 @@ function buildDemographicsTableHeaders(container, sortOrder){
 
 function getXScale(){
 	var chartStart, chartWidth;
+	var section = (getActiveFilter() == "state") ? "demographic" : "state"
 	if(IS_PHONE()){
 		chartStart = 15;
 		chartWidth = GET_TABLE_WIDTH() - 55
 	}else{
-		chartStart = getColumnWidth("state", 1) + getColumnWidth("state", 2)
-		chartWidth = getColumnWidth("state",3)
+		chartStart = getColumnWidth(section, 1) + getColumnWidth(section, 2)
+		chartWidth = getColumnWidth(section,3)
 	}
 
 	var x = d3.scaleLinear()
@@ -861,8 +864,6 @@ function updateTableTooltips(state, demographic){
 	var data = d3.select(".tableTooltip.demographic").datum()
 
 	var datum = data.filter(function(d){ return d.fips == state })[0]
-
-	console.log(datum)
 
 	var demographicRow = d3.select(".demographic" + "." + demographic + ".row")
 
@@ -1220,6 +1221,7 @@ function getCategoryLabel(demographic){
 }
 
 function updateDemographicTable(state){
+	if(getActiveFilter() == "demographic") return false
 	var sorting = getDemographicSort()
 	var data = d3.selectAll("#demographicsContainer .row").data()
 	var datum = data.filter(function(o){
@@ -1773,7 +1775,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 		d3.selectAll(".tableTooltip").style("display", "none")
 	})
 	.on("mouseenter", function(d){
-		d3.selectAll(".tableTooltip").style("display", "block")
+		if(!IS_PHONE()) d3.selectAll(".tableTooltip").style("display", "block")
 	})
 	setActiveDemographic(defaultDemographic, true, true)
 	d3.select(".demographic.row.total").moveToFront()
@@ -1981,6 +1983,7 @@ function buildStateTable(data, state, sort, sortOrder){
 }
 
 function updateStateTable(demographic){
+	if(getActiveFilter() == "state") return false
 	var sorting = getStateSort()
 	var x = getXScale()
 
@@ -2313,7 +2316,9 @@ function sortDemographicTable(sorting, isClick, order){
 					toMove
 						.transition()
 						.attr("transform", "translate(0," + (moveY) + ")")
+						.on("start", lockTables)
 						.on("end", function(){
+								unlockTables()
 								updateTableTooltips(getActiveState(), getActiveDemographic())
 						})
 				}else{
