@@ -1783,7 +1783,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 
 	}
 	svg.on("mouseleave", function(d){
-		if(d3.mouse(this)[0] > 2) d3.selectAll(".tableTooltip").style("display", "none")
+		if(d3.mouse(this)[0] > 2 || !IS_DESKTOP()) d3.selectAll(".tableTooltip").style("display", "none")
 	})
 	.on("mouseenter", function(d){
 		if(!IS_PHONE()) d3.selectAll(".tableTooltip").style("display", "block")

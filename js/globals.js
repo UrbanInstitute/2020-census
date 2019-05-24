@@ -150,7 +150,9 @@ function containsDuplicate(array, val){
 	return array.indexOf(val) !== array.lastIndexOf(val)
 }
 
-
+function IS_DESKTOP(){
+  return (!IS_SMALL_DESKTOP() && !IS_TABLET() && !IS_PHONE())
+}
 function IS_SMALL_DESKTOP(){
 	return ( d3.select("#breakpoint1200").style("display") == "block" && d3.select("#breakpoint1010").style("display") == "none" )
 }
@@ -160,6 +162,7 @@ function IS_TABLET(){
 function IS_PHONE(){
 	return ( d3.select("#breakpoint768").style("display") == "block")
 }
+
 
 var ROW_HEIGHT = (IS_PHONE()) ? 240 : 54;
 var CARD_HEIGHT = 200;
