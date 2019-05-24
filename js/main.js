@@ -855,6 +855,15 @@ function buildTableTooltip(section, container, data){
 		.html("* These values are the same because we rounded the projections to the nearest hundred.")
 
 
+	tt.append("div")
+		.attr("class", "table-tt-spacer")
+
+	tt.on("mouseleave", function(){
+		// console.log(d3.mouse(this))
+		if(d3.mouse(this)[0] < 400){
+			d3.select(this).style("display", "none")
+		}
+	})
 
 
 
@@ -1774,7 +1783,7 @@ function buildDemographicTable(data, defaultDemographic, sort, sortOrder){
 
 	}
 	svg.on("mouseleave", function(d){
-		d3.selectAll(".tableTooltip").style("display", "none")
+		if(d3.mouse(this)[0] > 2) d3.selectAll(".tableTooltip").style("display", "none")
 	})
 	.on("mouseenter", function(d){
 		if(!IS_PHONE()) d3.selectAll(".tableTooltip").style("display", "block")
@@ -1957,10 +1966,11 @@ function buildStateTable(data, state, sort, sortOrder){
 
 	if(!IS_PHONE()){
 		svg.on("mouseleave", function(d){
-			d3.selectAll(".tableTooltip").style("display", "none")
+			console.log(d3.mouse(this)[0])
+			if(d3.mouse(this)[0] > 2) d3.selectAll(".tableTooltip").style("display", "none")
 		})
 		.on("mouseenter", function(d){
-			d3.selectAll(".tableTooltip").style("display", "block")
+			if(!IS_PHONE()) d3.selectAll(".tableTooltip").style("display", "block")
 		})
 	}
 
