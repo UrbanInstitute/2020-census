@@ -151,7 +151,8 @@ function showSection(section){
 		d3.select(".customRadio.demographics").classed("active", false)
 		d3.select(".customRadioLabel.state").classed("active", true)
 		d3.select(".customRadioLabel.demographics").classed("active", false)
-		updateStateTable(getActiveState())
+		updateDemographicTable(getActiveState())
+		
 	}else{
 		d3.select("#stateContainer").classed("active", false)
 		d3.select("#demographicsContainer").classed("active", true)
@@ -159,7 +160,8 @@ function showSection(section){
 		d3.select(".customRadio.demographics").classed("active", true)
 		d3.select(".customRadioLabel.state").classed("active", false)
 		d3.select(".customRadioLabel.demographics").classed("active", true)
-		updateDemographicTable(getActiveDemographic())
+		updateStateTable(getActiveDemographic())
+		
 	}
 	if(IS_PHONE()){
 		if(section == "demographic"){
@@ -1989,6 +1991,7 @@ function updateStateTable(demographic){
 
 	d3.selectAll(".state.tableText.population")
 		.text(function(d){
+			console.log(d, demographic)
 			return POPULATION_NO_SIGN(d[demographic + "Pop"])
 		})
 
