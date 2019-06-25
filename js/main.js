@@ -58,8 +58,8 @@ function getSortOrder(){
 }
 function setActiveDemographic(demographic, isInit, isClick){
 
-	if(d3.select("#oldDemographic").datum() == demographic) return false
-	else d3.select("#oldDemographic").datum(demographic)
+	// if(d3.select("#demographicsContainer .menuItem.active").data()[0].key == demographic) return false
+	// else d3.select("#oldDemographic").datum(demographic)
 	if(tablesAreLocked()) return false
 
 
